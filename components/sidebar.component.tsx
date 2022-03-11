@@ -51,7 +51,7 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/tasks">
+          <Link href="/Tasks">
             <span className="sidebar__link">Tasks</span>
           </Link>
         </div>
