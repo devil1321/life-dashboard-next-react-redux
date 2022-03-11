@@ -1,11 +1,11 @@
 import React from 'react'
-import Layout from '../components/layout.component'
+import LazyLayout from '../components/lazy-layout.component'
 const Tasks = () => {
   return (
 
-    <Layout title="Tasks">
+    <LazyLayout title="Tasks">
         <div>Tasks</div>
-    </Layout>
+    </LazyLayout>
   )
 }
 

@@ -1,0 +1,7 @@
+.lazy-layout-loader {
+    width: 100vw;
+    height:100vh;
+    background-color: $background;
+    @include createFlex(row,center,center,null);
+   
+}
