@@ -1,0 +1,13 @@
+.small-widget{
+    padding:10px 0px;
+    background-color: $item;
+    width: 200px;
+    border-radius:15px;
+    @include createFlex(row,center,center,null);
+    &__content{
+        margin-right: 20px;
+        h3{
+            margin:3px 0px;
+        }
+    }
+}

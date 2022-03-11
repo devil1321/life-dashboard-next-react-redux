@@ -1,0 +1,162 @@
+.navbar{
+    box-sizing: border-box;
+    position:fixed;
+    top:0px;
+    left:18%;
+    width: 82%;
+    padding:0px 50px;
+    height:70px;
+    z-index: 3;
+    background-color: $item;
+    svg{
+        cursor: pointer;
+        &:hover{
+            opacity:0.8;
+        }
+    }
+    @include createFlex(row,space-between,center,null);
+    &__search{
+        width: 300px;
+    }
+    &__field{
+        padding:0px 10px;
+        border-radius: 25px;
+        border: 1px solid $strong-green;
+        @include createFlex(row,space-between,center,null);
+        input{
+            padding:0px 10px;
+            width: 80%;
+            border:0px;
+            outline:none;
+            background:transparent;
+            color:white;
+            font-family: 'Righteous';
+        }
+    }
+    &__menu{
+        width: 300px;
+        @include createFlex(row,flex-end,center,null);
+        & > div{
+            margin:0px 15px;
+        }
+    }
+    &__languages{
+      @include pos-relative()
+    }
+    &__languages-menu{
+        @include menu();
+        padding:5px;
+        border-radius: 15px;
+        background-color:$item;
+        top:50px;
+        left:-30px;
+    }
+    &__languages-item{
+        cursor: pointer;
+        padding:10px 20px;
+        margin:10px 0px;
+        border-radius: 15px;
+        text-align: center;
+        &:hover{
+            background-color: $light-green !important;
+        }
+    }
+    &__notifications{
+        @include pos-relative()
+    }
+    &__notifications-menu{
+      @include menu();
+        width: 200px;
+    }
+    &__notification{
+        cursor: pointer;
+        margin:10px 0px;
+        background-color: $item;
+        border-radius: 15px;
+        @include createFlex(row, center,center,null);
+        img{
+            width: 20%;
+            margin-right: 15px;
+        }
+        h3,p{
+            margin:3px 0px;
+            font-size: pxToRem(16);
+        }
+        h3:last-of-type,p{
+            font-size:pxToRem(12);
+        }
+        &:hover{
+            background-color: $light-green;
+        }
+    }
+    &__profile{
+        @include pos-relative();
+        img{
+            width: 50%;
+        }
+    }
+    &__profile-info{
+        cursor: pointer;
+        @include createFlex(row,center,center,null);
+        div{
+            margin-left:10px;
+        }
+    }
+    &__profile-menu{
+        @include menu();
+        box-sizing: border-box;
+        top:55px;
+        width: 150px;
+        padding:10px;
+        left:-30px;
+        background-color: $item;
+        border-radius: 15px;
+    }
+    &__profile-menu-item{
+        cursor: pointer;
+        display: block;
+        border-radius: 15px;
+        color:white;
+        text-decoration: none;
+        background-color: $item;
+        padding:10px;
+        margin:10px 0px;
+        p{
+            padding:0px;
+            margin:0px;
+        }
+        &:hover{
+            background-color: $light-green;
+        }
+    }
+    &__connection{
+        cursor: pointer;
+        @include pos-relative();
+    }
+    &__connection-menu{
+        @include menu();
+        left: -30px;
+        top:50px;
+        border-radius: 15px;
+    }
+    &__connection-menu-item{
+        cursor: pointer;
+        border-radius: 15px;
+        background-color: $item;
+        div{
+            padding:0px;
+            margin:0px;
+        }
+        p{
+            padding:10px;
+        }
+        &:hover{
+            background-color: $light-green;
+        }
+    }
+    &__settings{
+        position: relative;
+        left:-20px;
+        top:0px;
+    }
+}
