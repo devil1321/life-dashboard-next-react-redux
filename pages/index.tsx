@@ -1,5 +1,6 @@
 import React from 'react'
 import { NextPage } from 'next'
+import Layout from '../components/layout.component'
 import MonthlyEarning from '../components/monthly-panel.component'
 import ProfilePanel from '../components/profile-panel.component'
 import SmalLWidget from '../components/small-widget.component'
@@ -10,7 +11,6 @@ import error from '../animations/icons-json/1140-error.json'
 import income from '../animations/icons-json/453-savings-pig.json'
 
 import dynamic from "next/dynamic";
-import LazyLayout from '../components/lazy-layout.component'
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface SeriesOptions{
@@ -84,7 +84,7 @@ const Index:NextPage = () => {
 
 
   return (
-    <LazyLayout title="Home">
+    <Layout title="Home">
         <div className="home">
           <div className="home__main-group">
             <div className="home__left-panel">
@@ -109,7 +109,7 @@ const Index:NextPage = () => {
             </div>
           </div>
         </div>
-    </LazyLayout>
+    </Layout>
   )
 }
 

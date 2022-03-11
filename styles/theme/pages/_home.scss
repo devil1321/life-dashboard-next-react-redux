@@ -8,7 +8,6 @@
     left:0px;
     background-color: $background;
     min-height:100vh;
-
     &__main-group{
         @include createFlex(row,flex-start,flex-start,null);
     }

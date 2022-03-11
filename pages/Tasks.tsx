@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
 import React from 'react'
-import LazyLayout from '../components/lazy-layout.component'
+import Layout from '../components/layout.component'
 
 const Tasks:NextPage = () => {
   return (
 
-    <LazyLayout title="Tasks">
+    <Layout title="Tasks">
         <div>Tasks</div>
-    </LazyLayout>
+    </Layout>
   )
 }
 
