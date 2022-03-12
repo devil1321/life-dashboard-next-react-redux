@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import Link from 'next/link'
 import logo from '../animations/icons-json/12-layers.json'
 import dashboard from '../animations/icons-json/153-bar-chart-growth.json'
@@ -11,11 +11,27 @@ import { Player } from '@lottiefiles/react-lottie-player';
 
 const Sidebar:React.FC = () => {
 
+  const logoRef = useRef<HTMLDivElement>()
+  const dashboardRef = useRef<HTMLDivElement>()
+  const tasksRef = useRef<HTMLDivElement>()
+  const invoicesRef = useRef<HTMLDivElement>()
+  const chatRef = useRef<HTMLDivElement>()
+  const emailsRef = useRef<HTMLDivElement>()
+  const contactsRef = useRef<HTMLDivElement>()
+
+  const handleIcon = (ref:MutableRefObject<HTMLDivElement>) => {
+      ref?.current?.play()
+      setTimeout(()=>{
+        ref?.current?.stop()
+      },1500)
+  }
+
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">
+      <div className="sidebar__logo" onMouseEnter={()=>handleIcon(logoRef)}>
         <span className='sidebar__logo-anim'>
         <Player
+            ref={logoRef}
             loop
             hover={true}
             src={logo}
@@ -23,13 +39,15 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-        <h1>DASH</h1>
+          <Link href="/dashboard">
+            <h1>DASH</h1>
+          </Link>
       </div>
       <div className="sidebar__menu">
-        <div className="sidebar__menu-item" 
->
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(dashboardRef)}>
           <span className="sidebar__icon">
           <Player
+           ref={dashboardRef}
             loop
             hover={true}
             src={dashboard}
@@ -37,13 +55,14 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/">
+          <Link href="/dashboard">
             <span className="sidebar__link">Dashboard</span>
           </Link>
         </div>
-        <div className="sidebar__menu-item">
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(tasksRef)}>
           <span className="sidebar__icon">
           <Player
+            ref={tasksRef}
             loop
             hover={true}
             src={tasks}
@@ -51,13 +70,14 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/Tasks">
+          <Link href="/tasks">
             <span className="sidebar__link">Tasks</span>
           </Link>
         </div>
-        <div className="sidebar__menu-item">
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(invoicesRef)}> 
           <span className="sidebar__icon">
           <Player
+            ref={invoicesRef}
             loop
             hover={true}
             src={invoices}
@@ -69,9 +89,10 @@ const Sidebar:React.FC = () => {
             <span className="sidebar__link">Invoices</span>
           </Link>
         </div>
-        <div className="sidebar__menu-item">
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(chatRef)}>
           <span className="sidebar__icon">
           <Player
+            ref={chatRef}
             loop
             hover={true}
             src={chat}
@@ -83,9 +104,10 @@ const Sidebar:React.FC = () => {
             <span className="sidebar__link">Chat</span>
           </Link>
         </div>
-        <div className="sidebar__menu-item">
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(emailsRef)}>
           <span className="sidebar__icon">
           <Player
+            ref={emailsRef}
             loop
             hover={true}
             src={email}
@@ -98,9 +120,10 @@ const Sidebar:React.FC = () => {
           </Link>
         </div>
    
-        <div className="sidebar__menu-item">
+        <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(contactsRef)}>
           <span className="sidebar__icon">
           <Player
+            ref={contactsRef}
             loop
             hover={true}
             src={contacts}

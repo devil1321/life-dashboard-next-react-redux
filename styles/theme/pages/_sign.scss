@@ -1,0 +1,63 @@
+.sign{
+    width: 100vw;
+    height:100vh;
+    padding:20px 0px;
+    @include createFlex(column,center,center,null);
+    fieldset{
+        padding:10px 80px;
+        border-radius: 10px;
+        border:2px solid $strong-green;
+        
+        background-color: $item;
+        box-shadow:3px 3px 8px black , -3px -3px 8px $strong-green ;
+    }
+    legend{
+        margin:0px auto;
+        font-weight: bold;
+        font-size: pxToRem(30);
+        color:$strong-green;
+    }
+    &__img{
+        width: 300px;
+        height:fit-content
+    }
+    &__field{
+        label{
+            display: block;
+            margin-bottom: 5px;
+            font-weight:bold;
+        }
+        input{
+            margin:10px 0px;
+            padding:10px;
+            width: 100%;
+            border: 0px;
+            border-radius:10px;
+            background-color: $neon-green;
+            @include createIsomorphicDual(black,$neon-green);
+            &:focus,&:active{
+                outline: none;
+                background-color: $neon-green-light;
+            }
+        }
+    }
+    button{
+        cursor: pointer;
+        display: block;
+        margin:10px auto;
+        padding:10px;
+        width: 106%;
+        border: 0px;
+        color:$strong-green;
+        font-family: Arial, Helvetica, sans-serif;
+        border-radius:10px;
+        font-weight: bold;
+        background-color: yellowgreen;
+        color:white;
+        @include createIsomorphicConvex(black,$neon-green);
+        &:hover{
+            @include createIsomorphicConcave(black,$neon-green);
+
+        }
+    }
+}

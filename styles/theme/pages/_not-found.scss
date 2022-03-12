@@ -1,0 +1,10 @@
+.not-found{
+    width: 100vw;
+    height:100vh;
+    @include createFlex(row,center,center,null);
+    &__img{
+        width:70% ;
+        height:fit-content;
+
+    }
+}

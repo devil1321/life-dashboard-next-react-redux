@@ -64,3 +64,13 @@ $breakpoints-down:("small":"39.9375em", "sm-med":"33.75em","medium-sm":"63em","m
         animation: fadeOutWithRotate 0.5s ease-in-out forwards;
     }
 }
+@mixin createIsomorphicDual($firsColor,$secondColor){
+    box-shadow: 3px 3px 12px $firsColor inset, -3px -3px 12px $secondColor inset,3px 3px 12px $firsColor , -3px -3px 12px $secondColor;
+}
+
+@mixin createIsomorphicConcave($firsColor,$secondColor){
+    box-shadow: 3px 3px 12px $firsColor inset, -3px -3px 12px $secondColor inset;
+}
+@mixin createIsomorphicConvex($firsColor,$secondColor){
+    box-shadow: 3px 3px 12px $firsColor , -3px -3px 12px $secondColor;
+}
