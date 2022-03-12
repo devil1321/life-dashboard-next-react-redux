@@ -1,0 +1,14 @@
+.tasks{
+    padding:20px;
+    position: relative;
+    top:70px;
+    left:0px;
+    @include createFlex(row,space-between,flex-start,null);
+    &__left-panel{
+        width:60%;
+        margin-right: 20px;
+    }
+    &__right-panel{
+        width:40%;
+    }
+}

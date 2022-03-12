@@ -1,0 +1,74 @@
+.todo{
+    box-sizing: border-box;
+    width: 100%;
+    background-color: $item;
+    border-radius: 15px;
+    padding:0px 20px;
+    &__heading{
+        @include createFlex(row,center,center,null);
+        div{
+            margin-left: 20px;
+        }
+    }
+    &__field{
+        padding:10px;
+        @include createFlex(row,center,center,null);
+        input{
+            padding:10px;
+            width: 100%;
+            background-color: $strong-green;
+            border:0px;
+            outline:none;
+            border-top-left-radius:5px ;
+            border-bottom-left-radius:5px ;
+            color:white;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            transition:all 0.3s ease-in-out;
+            &::placeholder{
+                color:white;
+                font-style:italic;
+            }
+            &:active,&:focus{
+                background-color: $neon-green;
+                border-bottom: 2px solid yellowgreen;
+                button{
+                    border-bottom: 2px solid yellowgreen;
+                }
+            }
+        }
+        button{
+            min-width: fit-content;
+            padding:10px 20px;
+            border-top-right-radius:5px ;
+            border-bottom-right-radius:5px ;
+            border:0px;
+            background-color: yellowgreen;
+            border-bottom: 2px solid transparent;
+            &:active{
+                outline:none;
+            }
+        }
+    }
+    &__date{
+        overflow: hidden;
+        height:40.5px;
+        max-width: 40px;
+        input{
+            border-radius: 0px;
+            transform:translateX(-78%) translateY(30%) scale(3);
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(100%);
+          }
+       
+    }
+    &__body{
+        border-bottom: 1px solid $strong-green;
+        border-top: 1px solid $strong-green;
+        height:320px;
+    }
+    &__footer{
+        height:70px;
+    }
+}

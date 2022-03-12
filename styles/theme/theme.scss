@@ -1,7 +1,7 @@
 @import '../normalize';
 @import '../mixins';
-@import '../fonts';
 @import '../variables';
+@import '../fonts';
 @import './animations/animations';
 @import '../global';
 
@@ -13,8 +13,12 @@
 @import './components/monthly-panel';
 @import './components/small-widget';
 @import './components/email';
+@import './components/todo';
+@import './components/calendar';
+@import './components/wheather-widget';
 
 @import './pages/sign';
-@import './pages/home';
+@import './pages/dashboard';
+@import './pages/tasks';
 @import './pages/not-found';
 @import './pages/server-error';

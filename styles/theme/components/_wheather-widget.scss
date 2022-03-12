@@ -1,0 +1,87 @@
+.wheatherMainItem {
+    &__main-item-header {
+        height: 50px;
+        @include createFlex(row, flex-start, center, null);
+    }
+    &__main-item {
+        position: relative;
+        left: 0px;
+        top: 0px;
+        margin: 0px auto;
+        margin-top: $m-md;
+        height: 145px;
+        width:85.5%;
+        padding: $p-md-l;
+        padding-top:$p-l;
+        background-color: $item;
+        border-radius: 10px;
+        transition: all 1s ease-in-out;
+        color:$white;
+        animation: comesIn 0.7s ease-in-out forwards;
+        @include breakpoint-down(medium){
+            width:85%;
+            left:0%;
+            margin:$m-md-l auto;
+            padding:$p-md-l  $p-md-l $p-v-l;
+          }
+        @media (max-device-width:390px){
+            padding:$p-md-l $p-md-l 80px;
+
+        }
+        @include breakpoint-down-l(medium){
+            padding:$p-md-l $p-md-l 80px;
+
+        }
+        
+        
+        img {
+            position: relative;
+            top: 5px;
+            left: 60px;
+            padding-top:$p-sm-md;
+            padding-bottom: 0px;
+            display: block;
+            margin: -60px auto;
+            width: 20%;
+        }
+       
+    }
+    &__wheather {
+        margin: $m-sm 0px $m-sm-md;
+        h3 {
+            margin: 0px;
+        }
+        h3:nth-of-type(2) {
+            margin: 0px $m-sm;
+        }
+        @include createFlex(row, flex-start, center, null);
+    }
+    &__wheather-info {
+        margin-top: $m-sm;
+        @include breakpoint-down-l(medium){
+            margin-top: -$m-sm-md;
+        }
+        @include createFlex(row, space-between, center, wrap);
+        p {
+            @include createFlex(row, flex-start, center, null);
+            font-size: pxToRem(12) !important;
+            padding: $p-sm;
+            height: 30px;
+            margin: $m-sm 0px;
+            margin-right: $m-v-sm;
+            width: $s-25-p;
+            background-color: $strong-green;
+            @media (max-device-width:390px){
+                width: 40%;
+    
+            }
+            @include breakpoint-down(medium){
+                width: 40%;
+            }
+            @include breakpoint-down-l(medium){
+                width: 40%;
+            }
+
+        }
+    }
+}

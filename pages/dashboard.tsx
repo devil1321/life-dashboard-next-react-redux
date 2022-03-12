@@ -84,14 +84,14 @@ const Dashboard:NextPage = () => {
 
 
   return (
-    <Layout title="Home">
-        <div className="home">
-          <div className="home__main-group">
-            <div className="home__left-panel">
+    <Layout title="dashboard">
+        <div className="dashboard">
+          <div className="dashboard__main-group">
+            <div className="dashboard__left-panel">
               <ProfilePanel projects={100}  emails={124} earnings={3200} tasks={6}/>
               <MonthlyEarning series={[12]} all={3456} percentage={12}   />
             </div>
-            <div className="home__right-panel">
+            <div className="dashboard__right-panel">
               <SmalLWidget title="Orders" count={56} icon={openbox} />
               <SmalLWidget title="Rejections" count={12} icon={error} />
               <SmalLWidget title="Income" count={32656} icon={income} />
@@ -101,7 +101,7 @@ const Dashboard:NextPage = () => {
               type="bar"
               width="650"
               />
-              <div className="home__emails">
+              <div className="dashboard__emails">
                 <Email img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
                 <Email img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
                 <Email img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
