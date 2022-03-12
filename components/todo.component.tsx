@@ -3,6 +3,16 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import icon from '../animations/icons-json/1121-iota-internet-of-things.json'
 
 const Todo:React.FC = () => {
+
+  const handleBtn = (e:any) =>{
+    const btns = document.querySelectorAll('button') as NodeListOf<HTMLButtonElement>
+    btns.forEach((btn:HTMLButtonElement) => {
+      btn.classList.remove('active')
+    })
+    e.target.classList.add('active')
+  }
+
+
   return (
     <div className="todo">
         <div className="todo__heading">
@@ -26,7 +36,12 @@ const Todo:React.FC = () => {
           </form>
         </div>
         <div className="todo__body"></div>
-        <div className="todo__footer"></div>
+        <div className="todo__footer">
+          <button onClick={(e)=>handleBtn(e)}  className="active">Active</button>
+          <button onClick={(e)=>handleBtn(e)} >Completed</button>
+          <button onClick={(e)=>handleBtn(e)} >All</button>
+          <button onClick={(e)=>handleBtn(e)} >Clear</button>
+        </div>
     </div>
   )
 }

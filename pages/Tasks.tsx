@@ -1,13 +1,14 @@
 import { NextPage } from 'next'
 import React from 'react'
 import axios from 'axios'
+import { WheatherWidgetProps } from '../interfaces'
 
 import Layout from '../components/layout.component'
 import Todo from '../components/todo.component'
 import CalendarWrapper from '../components/calendar.component'
 import WheatherWidget from '../components/wheather-widget.component'
-const Tasks:NextPage = ({data}) => {
-    console.log(data)
+
+const Tasks:NextPage<WheatherWidgetProps> = ({data}) => {
   return (
     <Layout title="Tasks">
         <div className="tasks">
@@ -46,7 +47,7 @@ export async function getStaticProps(){
     }).then(data =>{
       return data.data
     }).catch(err => console.log(err))
-    
+
     return {
         props:{
            data:wheartherData

@@ -71,4 +71,24 @@
     &__footer{
         height:70px;
     }
+    &__footer{
+        @include createFlex(row,center,center,null);
+        button{
+            cursor: pointer;
+            margin:0px 3px;
+            min-width: fit-content;
+            padding:10px 20px;
+            border:0px;
+            background-color: transparent;
+            color:white;
+            font-weight: bold;
+            transition:all 0.3s ease-in-out;
+            &.active{
+                color:$strong-green;
+            }
+            &:first-of-type{
+                
+            }
+        }
+    }
 }

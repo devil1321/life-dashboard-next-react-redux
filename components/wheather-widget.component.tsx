@@ -1,11 +1,12 @@
-const WheatherWidget:React.FC = ({data}) => {
-    console.log(data)
+import { WheatherWidgetProps } from '../interfaces'
+
+const WheatherWidget:React.FC<WheatherWidgetProps> = ({data}) => {
   const { city, visibility, wind } = data
   const { temp, feels_like, humidity, pressure } = data.main
   const { icon,main,description } = data.weather[0]
   const iconURL = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
-  function capitalizeFirstLetter(string) {
+  function capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
