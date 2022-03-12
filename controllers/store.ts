@@ -1,7 +1,7 @@
 import { createStore , applyMiddleware , compose  } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from './reducers'
-
+import { createWrapper } from "next-redux-wrapper"
 const initState = {}
 const middleware = [thunk]
 
@@ -11,9 +11,11 @@ declare global {
     }
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
+let composeEnhancers = compose;
+if (typeof window !== 'undefined') {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
+const makeStore = () => createStore(
     reducers,
     initState,
     composeEnhancers(
@@ -22,4 +24,4 @@ const store = createStore(
     
 )
 
-export default store
+export const wrapper = createWrapper(makeStore)

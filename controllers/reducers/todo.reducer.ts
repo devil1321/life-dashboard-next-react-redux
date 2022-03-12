@@ -1,19 +1,15 @@
+import { Task } from '../../interfaces';
 import { TodoTypes } from '../types'
 
-interface Task {
-    name: string;
-    description: string;
-    completed: boolean;
-}
 
 interface TodoState {
-    isAvailable:boolean;
     tasks:Task[];
+    task:Task;
 }
 
 const initData:TodoState = {
-    isAvailable:true,
-    tasks:[]
+    tasks:[],
+    task:{}
 }
 
 export default (state = initData, action:any) =>{
@@ -33,12 +29,17 @@ export default (state = initData, action:any) =>{
                 ...state,
                 tasks:action.tasks
             }
-        case TodoTypes.CHECK_IS_AVAIBLE: 
+        case TodoTypes.ADD_TASK: 
             return {
                 ...state,
-                isAvailable:action.isAvailable
+                tasks:action.tasks,
             }
-        case TodoTypes.ADD_TASK: 
+        case TodoTypes.EDIT_TASK: 
+            return {
+                ...state,
+                task:action.task
+            }
+        case TodoTypes.SAVE_TASK: 
             return {
                 ...state,
                 tasks:action.tasks
@@ -51,7 +52,7 @@ export default (state = initData, action:any) =>{
         case TodoTypes.REMOVE_ALL: 
             return {
                 ...state,
-                tasks:[]
+                tasks:action.tasks
             }
         case TodoTypes.FILTER_ACTIVE: 
             return {
@@ -59,11 +60,6 @@ export default (state = initData, action:any) =>{
                 tasks:action.tasks
             }
         case TodoTypes.FILTER_COMPLETED: 
-            return {
-                ...state,
-                tasks:action.tasks
-            }
-        case TodoTypes.FILTER_ALL: 
             return {
                 ...state,
                 tasks:action.tasks

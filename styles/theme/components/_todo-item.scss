@@ -1,0 +1,104 @@
+.todo-item{
+    cursor: pointer;
+    padding:10px;
+    position: relative;
+    border-radius: 15px;
+    top:0px;
+    left:0px;
+    margin:10px 0px;
+    max-width: 97%;
+    background-color: $background;
+    &:hover{
+        background-color: $strong-green;
+    }
+    h3,p{
+        margin:3px 0px;
+    }
+    width: 100%;
+    @include createFlex(row,space-between,center,null);
+    &__info{
+        p{
+            text-align: right;
+        }
+    }
+    &__info{
+        @include createFlex(row,flex-end,center,null);
+     
+        svg{
+          margin-left: 10px;
+          width: 20px;
+          height:20px;
+        }
+    }
+    &__completed{
+        color:yellowgreen;
+    }
+    &__pending{
+        color:red;
+    }
+    &__btn{
+        cursor: pointer;
+        &:hover{
+            span:nth-of-type(2) {
+                transition: all 0.3s ease-in-out;   
+                transform:scale(1.2);
+            }
+        }
+        span{
+            pointer-events: none;
+            cursor: pointer;
+            display: block;
+            width: 20px;
+            border-bottom: 2px solid white;
+            margin:3px 0px 0px 10px;
+        }
+        &.active{
+            span{
+                transform-origin: 3px 1px;
+                transition: all 0.3s ease-in-out;
+                &:first-of-type{
+                    transform:rotate(45deg)
+                }
+                &:nth-of-type(2){
+                    opacity:0;
+                }
+                &:last-of-type{
+                    transform:rotate(-45deg)
+                }
+            }
+        }
+    }
+    &__menu{
+        visibility: hidden;
+        padding:10px;
+        border-radius: 15px;
+        position: absolute;
+        top:30px;
+        right:0px;
+        z-index:3;
+        opacity:0;
+        background-color: $strong-green;
+        animation:fadeOutWithRotate 0.3s ease-in-out forwards;
+        &.active{
+            visibility: visible;
+            animation:fadeInWithRotate 0.3s ease-in-out forwards;
+        }
+    }
+    &__item-inner{
+        cursor: pointer;
+        padding:3px 5px;
+        border-radius: 15px;
+        @include createFlex(row, flex-start,center,null);
+        &:hover{
+            background-color: $neon-green;
+        }
+        h3{
+            pointer-events: none;
+        }
+        svg{
+            pointer-events: none;
+            margin-right: 10px;
+            margin-left: 5px;
+        }
+    }
+}
