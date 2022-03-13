@@ -4,11 +4,13 @@ import { TodoTypes } from '../types'
 
 interface TodoState {
     tasks:Task[];
+    tempTasks:Task[]
     task:Task;
 }
 
 const initData:TodoState = {
     tasks:[],
+    tempTasks:[],
     task:{}
 }
 
@@ -17,22 +19,23 @@ export default (state = initData, action:any) =>{
         case TodoTypes.SET_TASKS: 
             return {
                 ...state,
+                tempTasks:action.tasks,
                 tasks:action.tasks
             }
         case TodoTypes.SET_COMPLETED: 
             return {
                 ...state,
-                tasks:action.tasks
+                tempTasks:action.tempTasks
             }
         case TodoTypes.SET_UNCOMPLETED: 
             return {
                 ...state,
-                tasks:action.tasks
+                tempTasks:action.tempTasks
             }
         case TodoTypes.ADD_TASK: 
             return {
                 ...state,
-                tasks:action.tasks,
+                tempTasks:action.tempTasks,
             }
         case TodoTypes.EDIT_TASK: 
             return {
@@ -42,27 +45,41 @@ export default (state = initData, action:any) =>{
         case TodoTypes.SAVE_TASK: 
             return {
                 ...state,
-                tasks:action.tasks
+                tempTasks:action.tempTasks
             }
+        case TodoTypes.FILTER_BY_DATE: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered
+            }
+
         case TodoTypes.REMOVE_TASK: 
             return {
                 ...state,
+                tempTasks:action.tempTasks,
                 tasks:action.tasks
             }
         case TodoTypes.REMOVE_ALL: 
             return {
                 ...state,
-                tasks:action.tasks
+                tasks:action.tasks,
+                tempTasks:action.tempTasks
             }
         case TodoTypes.FILTER_ACTIVE: 
             return {
                 ...state,
-                tasks:action.tasks
+                tempTasks:action.tempTasks
             }
         case TodoTypes.FILTER_COMPLETED: 
             return {
                 ...state,
-                tasks:action.tasks
+                tempTasks:action.tempTasks
+            }
+        case TodoTypes.FILTER_ALL: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks
             }
         default:
             return {

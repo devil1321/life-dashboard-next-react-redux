@@ -2,8 +2,8 @@ import axios from 'axios'
 import { TodoTypes } from '../types'
 import { Dispatch } from 'redux'
 import { Task } from '../../interfaces';
-import store from '../store'
-
+import  store  from '../store'
+import moment from 'moment'
 export const setTasks = () => async (dispatch:Dispatch<any>) => {
     const options:any = {
         method:'GET',
@@ -14,17 +14,17 @@ export const setTasks = () => async (dispatch:Dispatch<any>) => {
                     .catch(err => console.log(err))
     dispatch({
         type:TodoTypes.SET_TASKS,
-        tasks:data.tasks
+        tasks:data.tasks,
+        tempTasks:data.tasks
     })
 }
 export const setCompleted = (id:string) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
     const task:Task = tasks.find(task => task.id === id)
     task.completed = true
-    
     dispatch({
         type:TodoTypes.SET_COMPLETED,
-        tasks:tasks
+        tempTasks:tasks
     })
 }
 export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
@@ -34,24 +34,24 @@ export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
 
     dispatch({
         type:TodoTypes.SET_UNCOMPLETED,
-        tasks:tasks
+        tempTasks:tasks
     })
 }
 
 export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
-    const isAvailable = tasks.find((item: Task) => {
-        if(item.date === task.date){
+    const isAvailable = tasks.filter((item: Task) => {
+        if(moment(item.date).format('DD-MM-YYYY') === moment(task.date).format('DD-MM-YYYY')){
             return false
         }else{
             return true
         }})
-    if(isAvailable){
+    if(isAvailable.length === 0){
         tasks.push(task)
     }
     dispatch({
         type:TodoTypes.ADD_TASK,
-        tasks:tasks,
+        tempTasks:tasks,
         isAvailable:isAvailable,
     })
 }
@@ -59,23 +59,31 @@ export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
 export const editTask = (id:string ) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
     const task = tasks.find((task:Task) => task.id === id)
+    console.log(tasks)
     dispatch({
         type:TodoTypes.EDIT_TASK,
         task:task
     })
 }
+export const filterByDate = (date:Date ) => (dispatch:Dispatch<any>) => {
+    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => moment(task.date).format('DD-MM-YYYY') === date)
+    dispatch({
+        type:TodoTypes.FILTER_BY_DATE,
+        tempTasks:tasks,
+        isFiltered:true,
+    })
+}
 
 export const saveTask = (id: string,task: Task,) => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks
-    const tempTask = tasks.find((item:Task) => item.id === id)
-    tempTask.name = task.name
-    tempTask.description = task.description
-    tempTask.completed = task.completed
-    tempTask.date = task.date
+    const tasks:Task[] = store.getState().todo.tasks.find((item:Task) => item.id === id)
+    tasks.name = task.name
+    tasks.description = task.description
+    tasks.completed = task.completed
+    tasks.date = task.date
 
     dispatch({
         type:TodoTypes.SAVE_TASK,
-        tasks:tasks
+        tempTasks:tasks
     })
 }
 
@@ -83,28 +91,43 @@ export const removeTask = (id: string) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => task.id !== id)
     dispatch({
         type:TodoTypes.REMOVE_TASK,
+        tempTasks:tasks,
         tasks:tasks
     })
 }
+
+export const filterActive = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
+    const tempTasks:Task[] = tasks.filter((task:Task) => task.completed === false)
+    dispatch({
+        type:TodoTypes.FILTER_ACTIVE,
+        tempTasks:tempTasks,
+        isFiltered:false,
+    })
+}
+
+export const filterCompleted = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
+    const tempTasks:Task[] = tasks.filter((task:Task) => task.completed === true)
+    dispatch({
+        type:TodoTypes.FILTER_COMPLETED,
+        tempTasks:tempTasks,
+        isFiltered:false,
+    })
+}
+
+export const filterAll = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:TodoTypes.FILTER_ALL,
+        tempTasks:tasks,
+        isFiltered:false,
+    })
+}
+
+
 export const removeAll = () => (dispatch:Dispatch<any>) => {
     dispatch({
         type:TodoTypes.REMOVE_ALL,
-        tasks:[]
-    })
-}
-
-export const filterActive = () => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => task.completed === false)
-    dispatch({
-        type:TodoTypes.FILTER_ACTIVE,
-        tasks:tasks
-    })
-}
-
-export const filterCompleted = () => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => task.completed === true)
-    dispatch({
-        type:TodoTypes.FILTER_COMPLETED,
-        tasks:tasks
+        tempTasks:[],
+        tasks:[],
+        isFiltered:false,
     })
 }

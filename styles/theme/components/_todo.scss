@@ -5,9 +5,37 @@
     border-radius: 15px;
     padding:0px 20px;
     &__heading{
+        position: relative;
+        top:0px;
+        left:0px;
+        width: 100%;
         @include createFlex(row,center,center,null);
         div{
             margin-left: 20px;
+        }
+    }
+    &__save{
+        cursor: pointer;
+        position: absolute;
+        right:20px;
+        top:20px;
+        &:hover{
+            svg{
+                color:$neon-green;
+            }
+        }
+        svg{
+            color:$strong-green;
+            width: 30px;
+            height:30px;
+            transition:all 0.3s ease-in-out;
+        }
+    }
+    &__form{
+        button{
+            cursor: pointer;
+            font-weight:bold;
+            color:white;
         }
     }
     &__field{
@@ -63,7 +91,98 @@
           }
        
     }
+    &__edit{
+        textarea{
+            margin-top: 50px;
+            border:0px;
+            color:white;
+            width: 100%;
+            height:150px;
+            background-color: transparent;
+            border-bottom: 1px solid $strong-green;
+            &:focus,&:active{
+                border:0px;
+                border-bottom: 1px solid $strong-green;
+                outline:none;
+
+            }
+        }
+        button{
+            cursor: pointer;
+            padding:10px 0px;
+            display: block;
+            position: absolute;
+            bottom:10px;
+            left:0px;
+            border:0px;
+            width: 98%;
+            font-weight: bold;
+            color:white;
+            &:focus,&:active{
+                border:0px;
+                outline:none;
+
+            }
+           
+            svg{
+                margin-right: 10px;
+            }
+        }
+    }
+    &__btn-finished{
+        background-color: $strong-green;
+    }
+    &__btn-pending{
+        background-color: red;
+    }
+    &__edit-heading{
+        margin-top: 20px;
+        width: 100%;
+        @include createFlex(row,flex-start,center,null);
+        input:first-of-type,{
+            border:0px;
+            color:white;
+            width: 100%;
+            background-color: transparent;
+            border-bottom: 1px solid $strong-green;
+            &:focus,&:active{
+                border:0px;
+                border-bottom: 1px solid $strong-green;
+                outline:none;
+
+            }
+        }
+       span{
+           margin-left: 20px;
+           min-width: fit-content;
+       }
+        
+    }
+    &__edit-date{
+        margin-left: 10px;
+        border-radius: 10px;
+        background-color:$strong-green;
+        overflow: hidden;
+        height:40.5px;
+        max-width: 40px;
+        input{
+            width: 40px;
+            transform:translateX(-94%) translateY(100%) scale(3);
+            &:focus,&:active{
+                outline:none;
+                border:0px;
+            }
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(100%);
+
+          }
+    }
     &__body{
+        position: relative;
+        top:0px;
+        left:0px;
         padding:10px 20px 10px 0px;
         border-bottom: 1px solid $strong-green;
         border-top: 1px solid $strong-green;

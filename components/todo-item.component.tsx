@@ -1,12 +1,19 @@
 import React,{ useRef } from 'react'
+import { useSelector , useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { State } from '../controllers/reducers'
+import * as TodoActions from '../controllers/action-creators/todo.actions-creators'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
 interface TodoItemProps {
+    handleEdit:()=> void,
     task:{
+        id:string;
         name:string;
         description:string;
         completed:boolean;
@@ -14,9 +21,11 @@ interface TodoItemProps {
     }
 }
 
-const TodoItem:React.FC<TodoItemProps> = ({task}) => {
+const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   
-    const {name,completed,date} = task
+    const { id, name, completed, date } = task
+    const dispatch = useDispatch()
+    const todoActions = bindActionCreators(TodoActions,dispatch) 
 
     const menuRef = useRef<HTMLDivElement>()
     const btnRef = useRef<HTMLDivElement>()
@@ -54,21 +63,34 @@ const TodoItem:React.FC<TodoItemProps> = ({task}) => {
                     <span></span>
                 </div>
                 <div className="todo-item__menu" ref={menuRef}> 
-                    <div className="todo-item__item-inner" onClick={()=>handleMenuClose()}> 
-                    <   FontAwesomeIcon icon ={faPenToSquare} />
+                    <div className="todo-item__item-inner" onClick={()=>{
+                        handleMenuClose()
+                        handleEdit(true)
+                        todoActions.editTask(id)
+                    }}> 
+                        <FontAwesomeIcon icon ={faPenToSquare} />
                         <h3>Edit</h3>
                     </div>
                     {completed 
-                     ? <div className="todo-item__item-inner" onClick={()=>handleMenuClose()}> 
+                     ? <div className="todo-item__item-inner" onClick={()=>{
+                         todoActions.setUncompleted(id)
+                         handleMenuClose()
+                        }}> 
                         <FontAwesomeIcon icon ={faXmark} />  
-                        <h3>Unmpleted</h3>
+                        <h3>Uncompleted</h3>
                     </div>
-                     : <div className="todo-item__item-inner" onClick={()=>handleMenuClose()}> 
+                     : <div className="todo-item__item-inner" onClick={()=>{
+                         handleMenuClose()
+                         todoActions.setCompleted(id)
+                     }}> 
                         <FontAwesomeIcon icon ={faCheckDouble} />
                         <h3>Completed</h3>
                     </div>
                     }
-                    <div className="todo-item__item-inner" onClick={()=>handleMenuClose()}>
+                    <div className="todo-item__item-inner" onClick={()=>{
+                        todoActions.removeTask(id)
+                        handleMenuClose()
+                        }}>
                         <FontAwesomeIcon icon ={faTrash} />
                         <h3>Remove</h3>
                     </div>

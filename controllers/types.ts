@@ -1,3 +1,7 @@
+export enum UITypes {
+    SET_IS_EDIT = "SET_IS_EDIT"
+}
+
 export enum DateTypes{
     SET_DATE = "SET_DATE"
 }
@@ -11,6 +15,7 @@ export enum TodoTypes {
     SET_COMPLETED = "SET_COMPlETED",
     SET_UNCOMPLETED = "SET_UNCOMPLETED",
     FILTER_ACTIVE = "FILTER_ACTIVE",
+    FILTER_BY_DATE = "FILTER_BY_DATE",
     FILTER_COMPLETED = "FILTER_COMPLETED",
     FILTER_ALL = "FILTER_ALL",
     ADD_TASK = "ADD_TASK",
@@ -20,4 +25,3 @@ export enum TodoTypes {
     REMOVE_ALL = "REMOVE_ALL",
     CHECK_IS_AVAIBLE = "CHECK_IS_AVAIBLE"
 }
-

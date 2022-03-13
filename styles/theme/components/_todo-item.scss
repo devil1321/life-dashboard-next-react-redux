@@ -8,6 +8,8 @@
     margin:10px 0px;
     max-width: 97%;
     background-color: $background;
+ 
+    
     &:hover{
         background-color: $strong-green;
     }
@@ -75,7 +77,7 @@
         position: absolute;
         top:30px;
         right:0px;
-        z-index:3;
+        z-index:10;
         opacity:0;
         background-color: $strong-green;
         animation:fadeOutWithRotate 0.3s ease-in-out forwards;

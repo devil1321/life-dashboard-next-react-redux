@@ -15,7 +15,7 @@ let composeEnhancers = compose;
 if (typeof window !== 'undefined') {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
-const makeStore = () => createStore(
+const store = createStore(
     reducers,
     initState,
     composeEnhancers(
@@ -24,4 +24,4 @@ const makeStore = () => createStore(
     
 )
 
-export const wrapper = createWrapper(makeStore)
+export default store
