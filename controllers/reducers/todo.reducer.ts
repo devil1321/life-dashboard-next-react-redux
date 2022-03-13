@@ -6,16 +6,23 @@ interface TodoState {
     tasks:Task[];
     tempTasks:Task[]
     task:Task;
+    isAvailable:Task[]
 }
 
 const initData:TodoState = {
     tasks:[],
     tempTasks:[],
-    task:{}
+    task:{},
+    isAvailable:[]
 }
 
 export default (state = initData, action:any) =>{
     switch(action.type){
+        case TodoTypes.IS_AVAILABLE_TRUE: 
+            return {
+                ...state,
+               isAvailable:action.isAvailable
+            }
         case TodoTypes.SET_TASKS: 
             return {
                 ...state,
@@ -36,6 +43,7 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 tempTasks:action.tempTasks,
+                isAvailable:action.isAvailable
             }
         case TodoTypes.EDIT_TASK: 
             return {

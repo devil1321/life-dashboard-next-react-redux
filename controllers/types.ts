@@ -11,6 +11,7 @@ export enum CalendarTypes {
 }
 
 export enum TodoTypes {
+    IS_AVAILABLE_TRUE = "IS_AVAILABLE_TRUE",
     SET_TASKS = "SET_TASKS",
     SET_COMPLETED = "SET_COMPlETED",
     SET_UNCOMPLETED = "SET_UNCOMPLETED",

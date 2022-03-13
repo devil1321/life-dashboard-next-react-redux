@@ -31,6 +31,9 @@
             transition:all 0.3s ease-in-out;
         }
     }
+    &__error{
+        background-color:red !important;
+    }
     &__form{
         button{
             cursor: pointer;
