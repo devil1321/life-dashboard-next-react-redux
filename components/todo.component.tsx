@@ -173,7 +173,7 @@ const Todo:React.FC = () => {
               </div>
           </div>}
           <div className="todo__body">
-              {!isEdit && tempTasks.length > 0 && tempTasks.map((task:Task,index:number) => <TodoItem  task={task} handleEdit={UI.setIsEdit} /> )}
+              {!isEdit && tempTasks.length > 0 && tempTasks.map((task:Task,index:number) => <TodoItem key={task.id}  task={task} handleEdit={UI.setIsEdit} /> )}
               {isEdit && 
                 <div className="todo__edit">
                   <div className="todo__edit-heading">
