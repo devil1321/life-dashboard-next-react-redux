@@ -18,7 +18,7 @@ const Sidebar:React.FC = () => {
   const chatRef = useRef<HTMLDivElement>()
   const emailsRef = useRef<HTMLDivElement>()
   const contactsRef = useRef<HTMLDivElement>()
-
+// test
   const handleIcon = (ref:any) => {
       ref?.current?.play()
       setTimeout(()=>{
