@@ -13,14 +13,14 @@ const CalendarWrapper:React.FC = () => {
   const todoActions = bindActionCreators(TodoActions,dispatch)
   const dateActions = bindActionCreators(DateActions,dispatch)
 
-  const previewTask = (e) => {
+  const previewTask = (e:any) => {
     const date = e.target.querySelector('abbr').getAttribute('aria-label')
     dateActions.setDate(moment(date).format('DD-MM-YYYY'))
     todoActions.filterByDate(moment(date).format('DD-MM-YYYY'))
   }
 
 
-  const handleEvent = (el:any,els:any,event:any,fn:()=> void) => {
+  const handleEvent = (el:any,els:any,event:any,fn:any) => {
     if(el){
       el.addEventListener(event,fn)
     }

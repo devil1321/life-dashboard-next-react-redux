@@ -11,7 +11,7 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface TodoItemProps {
-    handleEdit:()=> void,
+    handleEdit:any,
     task:{
         id:string;
         name:string;

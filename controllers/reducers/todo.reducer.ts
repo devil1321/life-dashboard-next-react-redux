@@ -6,14 +6,16 @@ interface TodoState {
     tasks:Task[];
     tempTasks:Task[]
     task:Task;
-    isAvailable:Task[]
+    isAvailable:Task[],
+    isFiltered:boolean
 }
 
 const initData:TodoState = {
     tasks:[],
     tempTasks:[],
     task:{},
-    isAvailable:[]
+    isAvailable:[],
+    isFiltered:false
 }
 
 export default (state = initData, action:any) =>{
