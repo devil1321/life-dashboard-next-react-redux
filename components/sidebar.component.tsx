@@ -11,13 +11,13 @@ import { Player } from '@lottiefiles/react-lottie-player';
 
 const Sidebar:React.FC = () => {
 
-  const logoRef = useRef<HTMLDivElement>()
-  const dashboardRef = useRef<HTMLDivElement>()
-  const tasksRef = useRef<HTMLDivElement>()
-  const invoicesRef = useRef<HTMLDivElement>()
-  const chatRef = useRef<HTMLDivElement>()
-  const emailsRef = useRef<HTMLDivElement>()
-  const contactsRef = useRef<HTMLDivElement>()
+  const logoRef = useRef<Player>()
+  const dashboardRef = useRef<Player>()
+  const tasksRef = useRef<Player>()
+  const invoicesRef = useRef<Player>()
+  const chatRef = useRef<Player>()
+  const emailsRef = useRef<Player>()
+  const contactsRef = useRef<Player>()
 // test
   const handleIcon = (ref:any) => {
       ref?.current?.play()
