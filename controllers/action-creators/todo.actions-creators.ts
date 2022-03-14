@@ -15,7 +15,7 @@ export const isAvailableTrue = () => (dispatch:Dispatch<any>) => {
 export const setTasks = () => async (dispatch:Dispatch<any>) => {
     const options:any = {
         method:'GET',
-        url:'http://localhost:3000/api/tasks'
+        url:'/api/tasks'
     }
     const data = await axios.request(options)
                     .then(res => res.data)
