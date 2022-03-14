@@ -13,7 +13,13 @@ interface TodoState {
 const initData:TodoState = {
     tasks:[],
     tempTasks:[],
-    task:{},
+    task:{
+        id:'',
+        name:'',
+        description:'',
+        completed:false,
+        date:new Date(),
+    },
     isAvailable:[],
     isFiltered:false
 }

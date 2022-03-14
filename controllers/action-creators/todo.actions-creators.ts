@@ -28,7 +28,7 @@ export const setTasks = () => async (dispatch:Dispatch<any>) => {
 }
 export const setCompleted = (id:string) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
-    const task:Task = tasks.find(task => task.id === id)
+    const task:(Task | any) = tasks.find(task => task.id === id)
     task.completed = true
     dispatch({
         type:TodoTypes.SET_COMPLETED,
@@ -37,7 +37,7 @@ export const setCompleted = (id:string) => (dispatch:Dispatch<any>) => {
 }
 export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
-    const task:Task = tasks.find(task => task.id === id)
+    const task:(Task | any) = tasks.find(task => task.id === id)
     task.completed = false
 
     dispatch({
@@ -78,7 +78,7 @@ export const filterByDate = (date:Date ) => (dispatch:Dispatch<any>) => {
 }
 
 export const saveTask = (id: string,task: Task,) => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks.find((item:Task) => item.id === id)
+    const tasks:Task = store.getState().todo.tasks.find((item:Task) => item.id === id)
     tasks.name = task.name
     tasks.description = task.description
     tasks.completed = task.completed
