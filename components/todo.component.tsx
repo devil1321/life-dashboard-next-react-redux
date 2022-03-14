@@ -145,7 +145,9 @@ const Todo:React.FC = () => {
                 btns.forEach((btn:HTMLButtonElement) => {
                   btn.classList.remove('active')
                 })
-                activeBtnRef.current.classList.add('active')
+                if(activeBtnRef.current){
+                  activeBtnRef.current.classList.add('active')
+                }
                 }}>
                   <FontAwesomeIcon icon ={faSave} />
               </div>}

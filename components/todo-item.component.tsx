@@ -32,18 +32,22 @@ const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
 
     
     const handleMenu = () => {
-        if(!btnRef.current.classList.contains('active')){
-            btnRef.current.classList.add('active')
-            menuRef.current.classList.add('active')
-        }else{
-            menuRef.current.classList.remove('active')
-            btnRef.current.classList.remove('active')
+        if(btnRef.current && menuRef.current){
+            if(!btnRef.current.classList.contains('active')){
+                btnRef.current.classList.add('active')
+                menuRef.current.classList.add('active')
+            }else{
+                menuRef.current.classList.remove('active')
+                btnRef.current.classList.remove('active')
+            }
         }
     }
 
     const handleMenuClose = () => {
-        menuRef.current.classList.remove('active')
-        btnRef.current.classList.remove('active')
+        if(menuRef.current && btnRef.current){
+            menuRef.current.classList.remove('active')
+            btnRef.current.classList.remove('active')
+        }
     }
   
     return (

@@ -27,5 +27,6 @@ export interface WheatherWidgetProps {
                 main:string;
             }[]
         }
+
     }
 }
