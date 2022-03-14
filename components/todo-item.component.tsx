@@ -27,8 +27,8 @@ const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
     const dispatch = useDispatch()
     const todoActions = bindActionCreators(TodoActions,dispatch) 
 
-    const menuRef = useRef<HTMLDivElement>()
-    const btnRef = useRef<HTMLDivElement>()
+    const menuRef = useRef<HTMLDivElement | null>(null)
+    const btnRef = useRef<HTMLDivElement | null>(null)
 
     
     const handleMenu = () => {

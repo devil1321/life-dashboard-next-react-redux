@@ -30,7 +30,7 @@ const Todo:React.FC = () => {
   const { date } = useSelector((state:State) => state.date)
   const { isEdit } = useSelector((state:State) => state.ui)
 
-  const activeBtnRef = useRef()
+  const activeBtnRef = useRef<HTMLButtonElement | null>(null)
 
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const [isError,setIsError] = useState<boolean>(false)
