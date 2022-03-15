@@ -5,13 +5,6 @@ import { Task } from '../../interfaces';
 import  store  from '../store'
 import moment from 'moment'
 
-export const isAvailableTrue = () => (dispatch:Dispatch<any>) => {
-    dispatch({
-        type:'IS_AVAILABLE_TRUE',
-        isAvailable:[]
-    })
-}
-
 export const setTasks = () => async (dispatch:Dispatch<any>) => {
     const options:any = {
         method:'GET',
@@ -48,14 +41,10 @@ export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
 
 export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
-    const isAvailable = tasks.filter((item: Task) => moment(item.date).format('DD-MM-YYYY') === moment(task.date).format('DD-MM-YYYY'))
-    if(isAvailable.length === 0){
-        tasks.push(task)
-    }
+    tasks.push(task)
     dispatch({
         type:TodoTypes.ADD_TASK,
         tempTasks:tasks,
-        isAvailable:isAvailable,
     })
 }
 

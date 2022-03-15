@@ -32,14 +32,13 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   const dispatch = useDispatch()
   const todoActions = bindActionCreators(TodoActions,dispatch)
   const UI = bindActionCreators(UIActions,dispatch)
-  const { tasks,tempTasks, task, isFiltered, isAvailable } = useSelector((state:State) => state.todo)
+  const { tasks,tempTasks, task, isFiltered } = useSelector((state:State) => state.todo)
   const { date } = useSelector((state:State) => state.date)
   const { isEdit } = useSelector((state:State) => state.ui)
 
   const activeBtnRef = useRef<HTMLButtonElement | null>(null)
 
   const [isLoad,setIsLoad] = useState<boolean>(false)
-  const [isError,setIsError] = useState<boolean>(false)
 
   const [newTask,setNewTask] = useState({
     id:uuidv4(),
@@ -163,21 +162,15 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
         {!isEdit && 
           <div className="todo__form">
               <div className="todo__field">
-                <input className={`${isError && "todo__error"}`} type="text" data-name="name" value={newTask.name} onChange={(e)=>handleNewTask(e)} placeholder='Add Task...' />
+                <input type="text" data-name="name" value={newTask.name} onChange={(e)=>handleNewTask(e)} placeholder='Add Task...' />
                 <div className={`todo__date`} >
-                  <input className={`${isError && "todo__error"}`} type="date" name="" id="" data-name="date"  onChange={(e)=>handleNewTask(e)}/>
+                  <input type="date" name="" id="" data-name="date"  onChange={(e)=>handleNewTask(e)}/>
                 </div>
                 <button onClick={(e)=>{
                   setIsUpdated(!isUpdated)
                   handleAddTask(newTask)
                   handleFilter()
-                  if(isAvailable.length > 0){
-                    setIsError(true)
-                    setTimeout(()=>{
-                      todoActions.isAvailableTrue()
-                      setIsError(false)
-                    },2000)
-                  }
+              
                   }}>Add Task</button>
               </div>
           </div>}

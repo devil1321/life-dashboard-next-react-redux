@@ -22,3 +22,8 @@ export enum TodoTypes {
     REMOVE_ALL = "REMOVE_ALL",
     CHECK_IS_AVAIBLE = "CHECK_IS_AVAIBLE"
 }
+
+
+export enum InvoicesTypes{
+    SET_INVOICE = "SET_INVOICE"
+}

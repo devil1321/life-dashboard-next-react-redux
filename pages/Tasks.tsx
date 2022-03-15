@@ -38,7 +38,6 @@ export default Tasks
 export async function getStaticProps(){
   
     const wheather = await fetchWheather()
-
     return {
         props:{
            data:{

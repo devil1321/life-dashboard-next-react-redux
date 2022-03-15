@@ -65,6 +65,7 @@
         p {
             @include createFlex(row, flex-start, center, null);
             font-size: pxToRem(12) !important;
+            font-weight: bold;
             padding: $p-sm;
             height: 30px;
             margin: $m-sm 0px;
