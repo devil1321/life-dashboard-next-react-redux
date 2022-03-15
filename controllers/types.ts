@@ -6,10 +6,6 @@ export enum DateTypes{
     SET_DATE = "SET_DATE"
 }
 
-export enum CalendarTypes {
-    SET_ACTIVE_EVENTS = "SET_ACTIVE_EVENTS"
-}
-
 export enum TodoTypes {
     IS_AVAILABLE_TRUE = "IS_AVAILABLE_TRUE",
     SET_TASKS = "SET_TASKS",

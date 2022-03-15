@@ -18,8 +18,8 @@ export const setTasks = () => async (dispatch:Dispatch<any>) => {
         url:'/api/tasks'
     }
     const data = await axios.request(options)
-                    .then(res => res.data)
-                    .catch(err => console.log(err))
+                    .then((res:any) => res.data)
+                    .catch((err:any) => console.log(err))
     dispatch({
         type:TodoTypes.SET_TASKS,
         tasks:data.tasks,
@@ -68,8 +68,8 @@ export const editTask = (id:string ) => (dispatch:Dispatch<any>) => {
         task:task
     })
 }
-export const filterByDate = (date:Date ) => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => moment(task.date).format('DD-MM-YYYY') === date)
+export const filterByDate = (date: Date) => (dispatch:Dispatch<any>) => {
+    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => moment(task.date).format('MM-DD-YYYY') === date)
     dispatch({
         type:TodoTypes.FILTER_BY_DATE,
         tempTasks:tasks,

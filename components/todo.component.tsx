@@ -1,4 +1,4 @@
-import React,{ useEffect , useState,useRef } from 'react'
+import React,{ useEffect , useState,useRef, Dispatch } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,7 @@ import TodoItem from './todo-item.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckDouble, faSave, faXmark } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import { SetStateAction } from 'react';
 
 interface TaskFormData{
   id:string;
@@ -21,7 +22,12 @@ interface TaskFormData{
   date:Date
 }
 
-const Todo:React.FC = () => {
+interface TodoProps{
+  isUpdated:boolean;
+  setIsUpdated:Dispatch<SetStateAction<boolean>>
+}
+
+const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
 
   const dispatch = useDispatch()
   const todoActions = bindActionCreators(TodoActions,dispatch)
@@ -40,7 +46,7 @@ const Todo:React.FC = () => {
     name:'',
     description:'',
     completed:false,
-    date:new Date()
+    date:date
   })
 
   const [taskFormData,setTaskFormData] = useState<TaskFormData>({
@@ -48,7 +54,7 @@ const Todo:React.FC = () => {
     name:"",
     description:"",
     completed:false,
-    date:new Date()
+    date:moment(date).format('MM-DD-YYYY')
   })
 
   const handleTaskFormData = (e:any) =>{
@@ -67,9 +73,10 @@ const Todo:React.FC = () => {
  const handleDate = (e:any) =>{
   setTaskFormData((prevState)=>({
     ...prevState,
-    date:e.target.value
+    date:moment(e.target.value).format('MM-DD-YYYY')
   }))
  }
+
 
  const handleNewTask = (e:any) =>{
    setNewTask((prevState)=>({
@@ -85,7 +92,7 @@ const Todo:React.FC = () => {
     name:'',
     description:'',
     completed:false,
-    date:new Date()
+    date:moment(date).format('MM-DD-YYYY')
    })
  }
 
@@ -107,7 +114,9 @@ const Todo:React.FC = () => {
  
   
   useEffect(()=>{
-
+    if(isFiltered){
+      handleFilter()
+    }
     if(!isLoad){
       todoActions.setTasks()
       setIsLoad(true)
@@ -118,11 +127,11 @@ const Todo:React.FC = () => {
         name:task.name,
         description:task.description,
         completed:task.completed,
-        date:task.date
+        date:moment(task.date).format('MM-DD-YYYY')
       })
     }
   
-    },[isEdit,task])
+    },[isEdit,task,date])
     
 
  
@@ -140,7 +149,6 @@ const Todo:React.FC = () => {
               <div className="todo__save" onClick={()=>{
                 todoActions.saveTask(taskFormData.id,taskFormData)
                 UI.setIsEdit(false)
-                todoActions.filterActive(tasks)
                 const btns = document.querySelectorAll('button') as NodeListOf<HTMLButtonElement>
                 btns.forEach((btn:HTMLButtonElement) => {
                   btn.classList.remove('active')
@@ -160,6 +168,7 @@ const Todo:React.FC = () => {
                   <input className={`${isError && "todo__error"}`} type="date" name="" id="" data-name="date"  onChange={(e)=>handleNewTask(e)}/>
                 </div>
                 <button onClick={(e)=>{
+                  setIsUpdated(!isUpdated)
                   handleAddTask(newTask)
                   handleFilter()
                   if(isAvailable.length > 0){

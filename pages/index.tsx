@@ -2,6 +2,7 @@ import React from 'react'
 import { NextPage } from 'next'
 import  Image from 'next/image'
 import Loader from '../components/loader.component'
+
 const Index:NextPage = () => {
   return (
     <Loader title="Log In">

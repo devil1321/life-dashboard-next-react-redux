@@ -56,7 +56,7 @@ const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                 <h3>{name}</h3>
             </div>
             <div className="todo-item__info">
-                <span>{moment(date).format('DD-MM-YYYY')}</span>
+                <span>{moment(date).format('MM-DD-YYYY')}</span>
                     {completed
                         ? <div className="todo-item__completed"><FontAwesomeIcon icon ={faCheckDouble} /></div>
                         : <div className="todo-item__pending"><FontAwesomeIcon icon ={faXmark} /></div>

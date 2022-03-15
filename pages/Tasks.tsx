@@ -1,6 +1,5 @@
 import { NextPage } from 'next'
-import React from 'react'
-import axios from 'axios'
+import React,{ useState } from 'react'
 import { WheatherProps } from '../interfaces'
 import {fetchWheather } from '../modules/api.module'
 import Layout from '../components/layout.component'
@@ -15,14 +14,17 @@ interface TasksProps {
 }
 
 const Tasks:NextPage<TasksProps> = ({data}) => {
+
+  const [isUpdated,setIsUpdated] = useState<boolean>(false)
+
   return (
     <Layout title="Tasks">
         <div className="tasks">
             <div className="tasks__left-panel">
-                <Todo />
+                <Todo isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
             </div>
             <div className="tasks__right-panel">
-                <CalendarWrapper />
+                <CalendarWrapper isUpdated={isUpdated} />
                 <WheatherWidget data={data.wheather}/>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import { Player } from '@lottiefiles/react-lottie-player';
 import React,{ useState } from 'react'
 import trash from '../animations/icons-json/185-trash-bin.json'
+
 interface EmailProps{
     img:string;
     person:string;

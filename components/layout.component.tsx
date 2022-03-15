@@ -10,6 +10,7 @@ interface LayoutProps{
 }
 
 const Layout:React.FC<LayoutProps> = ({children,title}) => {
+  
   const [loading,setLoading] = useState<boolean>(true)
 
   useEffect(()=>{
