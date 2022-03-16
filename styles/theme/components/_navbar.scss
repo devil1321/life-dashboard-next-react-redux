@@ -34,7 +34,7 @@
         }
     }
     &__menu{
-        width: 300px;
+        width: 250px;
         background-color: $item;
         @include createFlex(row,flex-end,center,null);
         & > div{
@@ -93,7 +93,7 @@
     &__profile{
         @include pos-relative();
         img{
-            width: 50%;
+            width: 60%;
         }
     }
     &__profile-info{
@@ -157,9 +157,5 @@
             background-color: $light-green;
         }
     }
-    &__settings{
-        position: relative;
-        left:-20px;
-        top:0px;
-    }
+  
 }

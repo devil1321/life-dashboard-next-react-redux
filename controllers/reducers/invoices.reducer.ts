@@ -1,15 +1,21 @@
+import { InvoicesFormDataParams } from '../../interfaces'
 import { InvoicesTypes } from '../types'
 
-interface DateParams {
-    instance:any
-    update:any
+const initData:InvoicesFormDataParams = {
+    formData:{
+        file:'',
+        invoiceNR:'',
+        money:0,
+        tax:0,
+        bonuses:0,
+        nip:'',
+        firstName:'',
+        lastName:'',
+        adress:'',
+        zip:'',
+        city:'',
+    }
 }
-
-const initData:DateParams = {
-   instance:{},
-   update:{}
-}
-
 export default (state = initData, action:any) =>{
     switch(action.type){
         case InvoicesTypes.SET_INVOICE: 
@@ -17,6 +23,11 @@ export default (state = initData, action:any) =>{
                 ...state,
                 instance:action.instance,
                 update:action.update
+            }
+        case InvoicesTypes.HANDLE_FORM_DATA: 
+            return {
+                ...state,
+                formData:action.formData
             }
         default:
             return {

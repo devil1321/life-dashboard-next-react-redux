@@ -24,3 +24,18 @@ export interface WheatherProps {
            main:string;
        }[]
     }
+export interface InvoicesFormDataParams {
+    formData:{
+        file:string;
+        invoiceNR:string;
+        money:number;
+        tax:number;
+        bonuses:number;
+        nip:string;
+        firstName:string;
+        lastName:string;
+        adress:string;
+        zip:string
+        city:string;
+    };
+}

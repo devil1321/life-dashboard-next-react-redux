@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faFlag } from '@fortawesome/free-solid-svg-icons'
 import search from '../animations/icons-json/19-magnifier-zoom-search.json'
 import connection from '../animations/icons-json/726-wireless-connection.json'
-import settings from '../animations/icons-json/409-tool.json'
 
 const Navbar:React.FC = () => {
 
@@ -104,15 +103,6 @@ const Navbar:React.FC = () => {
                     <div className="navbar__connection-menu-item"><p>Connected</p></div>
                 </div>
            </div>
-            <div className="navbar__settings">
-                <Player
-                    loop
-                    hover={true}
-                    src={settings}
-                    style={{ height: '40px', width: '40px' }}
-                 >
-                </Player>
-            </div>
         </div>
     </div>
   )
