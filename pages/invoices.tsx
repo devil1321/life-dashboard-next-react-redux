@@ -78,7 +78,7 @@ const Invoices:NextPage = () => {
 
     const comesOut = (el:string | HTMLDivElement) => {
       const invoices = document.querySelectorAll('.invoice-item') as NodeListOf<HTMLDivElement>
-      let invArr:HTMLDivElement[]
+      let invArr:HTMLDivElement[] = []
       invoices.forEach((invoice) => invArr.push(invoice))
       const tl = gsap.timeline()
       const formTL = gsap.timeline()
@@ -131,7 +131,7 @@ const Invoices:NextPage = () => {
                   setIsAdd(true)
                   e.target.setAttribute('disabled','disabled')
                   setTimeout(()=>{
-                    e.target.setAttribute('disabled','false')
+                    e.target.removeAttribute('disabled','false')
                   },3000)
                 }
                 }}>Add Invoices</button>
@@ -142,7 +142,7 @@ const Invoices:NextPage = () => {
                   setIsAnim(false)
                   e.target.setAttribute('disabled','disabled')
                   setTimeout(()=>{
-                    e.target.setAttribute('disabled','false')
+                    e.target.removeAttribute('disabled','false')
                   },3000)
                 }
                 }}>Hide Form</button>}
