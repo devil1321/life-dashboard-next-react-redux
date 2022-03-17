@@ -45,8 +45,7 @@ const Invoices:NextPage = () => {
       const blob = await r.blob();
       return URL.createObjectURL(blob);
     }
-  
-    const comesIn = (el:HTMLDivElement) => {
+    const comesIn = (el:string | HTMLDivElement) => {
     
       const tl = gsap.timeline()
       
@@ -76,9 +75,10 @@ const Invoices:NextPage = () => {
         tl.to('.invoices__inner',{maxHeight:'100vh',duration:0})
     }
 
-    const comesOut = (el:HTMLDivElement) => {
+    const comesOut = (el:string | HTMLDivElement) => {
       const invoices = document.querySelectorAll('.invoice-item') as NodeListOf<HTMLDivElement>
-      const invArr = [...invoices]
+      let invArr:HTMLDivElement[]
+      invoices.forEach((invoice) => invArr.push(invoice))
       const tl = gsap.timeline()
       const formTL = gsap.timeline()
       tl.to(el, {
@@ -122,7 +122,7 @@ const Invoices:NextPage = () => {
       <Layout title="Invoices">
           <div className="invoices">
           {!isAdd 
-            ? <button className="invoices__green-btn" onClick={(e)=>{
+            ? <button className="invoices__green-btn" onClick={(e:any)=>{
                 setInnerContainer("130vh")
                 if(!isAnim){
                   comesOut('.invoice-item')
@@ -130,18 +130,18 @@ const Invoices:NextPage = () => {
                   setIsAdd(true)
                   e.target.setAttribute('disabled','disabled')
                   setTimeout(()=>{
-                    e.target.removeAttribute('disabled','false')
+                    e.target.setAttribute('disabled','false')
                   },3000)
                 }
                 }}>Add Invoices</button>
-              : <button className="invoices__red-btn" onClick={(e)=>{
+              : <button className="invoices__red-btn" onClick={(e:any)=>{
                 if(isAnim){
                   setIsAdd(false)
                   comesIn('.invoice-item')
                   setIsAnim(false)
                   e.target.setAttribute('disabled','disabled')
                   setTimeout(()=>{
-                    e.target.removeAttribute('disabled','false')
+                    e.target.setAttribute('disabled','false')
                   },3000)
                 }
                 }}>Hide Form</button>}

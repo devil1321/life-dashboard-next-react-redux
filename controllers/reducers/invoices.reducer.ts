@@ -4,6 +4,7 @@ import { InvoicesTypes } from '../types'
 const initData:InvoicesFormDataParams = {
     formData:{
         file:'',
+        company:'',
         invoiceNR:'',
         money:0,
         tax:0,

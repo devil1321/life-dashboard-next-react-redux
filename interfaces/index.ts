@@ -27,6 +27,7 @@ export interface WheatherProps {
 export interface InvoicesFormDataParams {
     formData:{
         file:string;
+        company?:string;
         invoiceNR:string;
         money:number;
         tax:number;
