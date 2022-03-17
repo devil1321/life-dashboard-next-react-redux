@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useState,useEffect,useRef, MutableRefObject } from 'react'
 import { useSelector , useDispatch } from 'react-redux'
@@ -156,7 +155,6 @@ const Invoices:NextPage = () => {
                     <label htmlFor="" className="invoices__input-file">
                       <FontAwesomeIcon icon ={faFileInvoice} /> PDF File
                       <input type="file" id="file" name="file" accept=".pdf" onChange={async(e)=>{
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         const data = await getBase64(e.target.files[0]).then((data:any) =>data)
                         const blob = await base64toUrl(data)

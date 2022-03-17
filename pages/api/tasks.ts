@@ -1,7 +1,7 @@
 import { NextApiRequest , NextApiResponse} from 'next'
 import { Task } from '../../interfaces'
 import moment from 'moment'
-export default function(req:NextApiRequest,res:NextApiResponse){
+export default function getTasks(req:NextApiRequest,res:NextApiResponse){
 
     const tasks:Task[] = [
         {
