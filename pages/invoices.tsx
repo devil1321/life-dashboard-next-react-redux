@@ -212,7 +212,7 @@ const Invoices:NextPage = () => {
               </div>
               <div className="invoices__right-panel">
                 {tempInArr.map((item:any)=>(
-                  <InvoiceItem file={"asdasds"} setPdfUrl={setPdfUrl} isAnim={isAnim} setIsInvoice={setIsInvoice} setIsInvoiceLoad={setIsInvoiceLoad}  setIsAnim={setIsAnim} comesIn = {comesIn} />
+                  <InvoiceItem key={item} file={"asdasds"} setPdfUrl={setPdfUrl} isAnim={isAnim} setIsInvoice={setIsInvoice} setIsInvoiceLoad={setIsInvoiceLoad}  setIsAnim={setIsAnim} comesIn = {comesIn} />
                 ))}
               </div>
             </div>

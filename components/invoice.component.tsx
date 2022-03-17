@@ -64,17 +64,7 @@ const styles = StyleSheet.create({
 
   const Invoice:React.FC<InvoicesFormDataParams> = ({formData}) => {
     const { invoiceNR, money, tax, bonuses, nip, firstName, lastName, adress, zip, city, company } = formData
-    // file:'',
-    // invoiceNR:'',
-    // money:0,
-    // tax:0,
-    // bonuses:0,
-    // nip:'',
-    // firstName:'',
-    // lastName:'',
-    // adress:'',
-    // zip:'',
-    // city:'',
+
 
     const [test,setTest] = useState<string>("ddd")
     const [test2,setTest2] = useState<string>("ddddddd")

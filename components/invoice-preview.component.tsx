@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React,{ useEffect, useState } from 'react'
 import { usePDF } from '@react-pdf/renderer'
