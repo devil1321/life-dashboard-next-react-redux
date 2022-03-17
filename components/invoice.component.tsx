@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
                 </View>
             </View>
             <View>
-                <Text style={styles.signature}>Employer's signature</Text>
+                <Text style={styles.signature}>{"Employer\'s signature"}</Text>
             </View>
           </Page>
         </Document>
