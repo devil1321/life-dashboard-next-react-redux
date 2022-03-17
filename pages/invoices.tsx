@@ -136,8 +136,8 @@ const Invoices:NextPage = () => {
                 }
                 }}>Add Invoices</button>
               : <button className="invoices__red-btn" onClick={(e:any)=>{
+                setIsAdd(false)
                 if(isAnim){
-                  setIsAdd(false)
                   comesIn('.invoice-item')
                   setIsAnim(false)
                   e.target.setAttribute('disabled','disabled')
@@ -212,7 +212,7 @@ const Invoices:NextPage = () => {
               </div>
               <div className="invoices__right-panel">
                 {tempInArr.map((item:any)=>(
-                  <InvoiceItem key={item} file={"asdasds"} setPdfUrl={setPdfUrl} isAnim={isAnim} setIsInvoice={setIsInvoice} setIsInvoiceLoad={setIsInvoiceLoad}  setIsAnim={setIsAnim} comesIn = {comesIn} />
+                  <InvoiceItem key={item} file={"asdasds"} setPdfUrl={setPdfUrl} isAnim={isAnim} setIsInvoice={setIsInvoice} setIsInvoiceLoad={setIsInvoiceLoad}  setIsAnim={setIsAnim} setIsAdd={setIsAdd} comesIn = {comesIn} />
                 ))}
               </div>
             </div>

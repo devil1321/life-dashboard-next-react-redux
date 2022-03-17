@@ -13,7 +13,7 @@ interface InvoiceItemProps{
     comesIn:(item:string) => void
 }
 
-const InvoiceItem:React.FC<InvoiceItemProps> = ({file,setPdfUrl,isAnim,setIsInvoice,setIsInvoiceLoad,setIsAnim,comesIn}) => {
+const InvoiceItem:React.FC<InvoiceItemProps> = ({file,setPdfUrl,isAnim,setIsInvoice,setIsInvoiceLoad,setIsAnim,setIsAdd,comesIn}) => {
   return (
     <div className="invoice-item">
         <div className="invoice-item__icon">
@@ -30,6 +30,7 @@ const InvoiceItem:React.FC<InvoiceItemProps> = ({file,setPdfUrl,isAnim,setIsInvo
                 setIsInvoice(true)
                 setIsInvoiceLoad(false)
                 setPdfUrl(file)
+                setIsAdd(false)
                 if(isAnim){
                     comesIn('.invoice-item')
                     setIsAnim(false)
