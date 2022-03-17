@@ -1,0 +1,52 @@
+.invoice-item{
+    margin:10px 0px;
+    background-color: $item;
+    border-radius: 40px;
+    width: 100%;
+    margin-left: auto;
+    overflow: hidden;
+    @include createFlex(row,flex-start,center,null);
+
+    &__icon{
+        margin-right: 10px;
+        padding:10px;
+        border-radius: 25px;
+        background:linear-gradient(45deg,$strong-green,white);
+        @include createIsomorphicConvex(black,$neon-green);
+        svg{
+            width: 30px;
+            height:30px;
+        }
+    }
+    &__info{
+        margin-right: 10px;
+        h3,p{
+            margin:2px 0px !important;
+            font-style: normal !important;
+        }
+    }
+    h3{
+        font-style: italic;
+    }
+    p{
+        margin-left: 10px;
+    }
+    &__controls{
+        margin-left: auto;
+        button{
+            cursor: pointer;
+            margin-right: 10px;
+            padding:10px 20px;
+            border-radius: 25px;
+            background:linear-gradient(45deg, yellowgreen,$strong-green);
+            border:0px;
+            font-weight: bold;
+            color:white;
+            @include createIsomorphicConvex(black,$neon-green);
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                background:linear-gradient(45deg, $strong-green,yellowgreen);
+            }
+        }
+    }
+}

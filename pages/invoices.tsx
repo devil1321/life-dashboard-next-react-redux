@@ -1,13 +1,14 @@
 import { NextPage } from 'next'
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect,useRef, MutableRefObject } from 'react'
 import { useSelector , useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { State } from '../controllers/reducers'
 import * as InvoicesActions from '../controllers/action-creators/invoices.actions-creators'
+import gsap from 'gsap'
 import Layout from '../components/layout.component'
-
-import { BlobProvider } from '@react-pdf/renderer'
-
+import InvoiceItem from '../components/invoice-item.component'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileInvoice } from '@fortawesome/free-solid-svg-icons'
 interface PDF{
   blob:string;
   url:string;
@@ -18,25 +19,17 @@ import dynamic from "next/dynamic";
 const InvoicePreview = dynamic(() => import("../components/invoice-preview.component"), { ssr: false });
 
 const Invoices:NextPage = () => {
-
-  
-    const [isForm,setIsForm] = useState<boolean>(true)
-    const [isInvoice,setIsInvoice] = useState<boolean>(true)
+    const [isAdd,setIsAdd] = useState<boolean>(false)
+    const [isAnim,setIsAnim] = useState<boolean>(false)
+    const [isInvoice,setIsInvoice] = useState<boolean>(false)
     const [isInvoiceLoad,setIsInvoiceLoad] = useState<boolean>(false)
     const [pdfUrl,setPdfUrl] = useState<string>("")
     const dispatch = useDispatch()
     const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
     const { formData } = useSelector((state:State) => state.invoices)
   
+    const tempInArr = [1,2,3,5,6,7,8,9,10]
   
-  
-  
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-  
-    function onDocumentLoadSuccess({ numPages }:{ numPages:any}) {
-      setNumPages(numPages);
-    }
     
     function getBase64(file:any) {
       return new Promise((resolve, reject) => {
@@ -47,30 +40,127 @@ const Invoices:NextPage = () => {
       });
     }
   
-    const b64toUrl = async (base64Data:string) => {
+    const base64toUrl = async (base64Data:string) => {
       const r = await fetch(base64Data);
       const blob = await r.blob();
       return URL.createObjectURL(blob);
     }
   
+    const comesIn = (el:HTMLDivElement) => {
+    
+      const tl = gsap.timeline()
+      
+      tl.fromTo('.invoices__field', 
+      {
+           x: 0,
+      },{
+        x:-550,
+        stagger: { 
+          each: 0.15,
+          from: "start",
+          grid: "auto",
+          ease: "power2.inOut",
+        }})
+        tl.to('.invoices__left-panel',{minWidth:"0%",width:"0%",duration:0});
+        tl.to('.invoices__right-panel',{minWidth:"100%",width:"100%",duration:0})
+        tl.to(el, {width:"50%",minWidth:"50%",duration:0})
+        tl.to(el,{
+          width:"100%",
+          stagger: { 
+            each: 0.15,
+            from: "start",
+            grid: "auto",
+            ease: "power2.inOut",
+          }
+        })
+        tl.to('.invoices__inner',{maxHeight:'100vh',duration:0})
+    }
+
+    const comesOut = (el:HTMLDivElement) => {
+      const invoices = document.querySelectorAll('.invoice-item') as NodeListOf<HTMLDivElement>
+      const invArr = [...invoices]
+      const tl = gsap.timeline()
+      const formTL = gsap.timeline()
+      tl.to(el, {
+        width: "50%",
+        stagger: { 
+          each: 0.15,
+          from: "start",
+          grid: "auto",
+          ease: "power2.inOut",
+        },
+      });
   
+      setTimeout(()=>{
+          formTL.to(el,{minWidth:"100%",duration:0})
+          formTL.to('.invoices__left-panel',{minWidth:"50%",duration:0})
+          formTL.to('.invoices__right-panel',{minWidth:"50%",width:"50%",duration:0})
+
+        formTL.fromTo('.invoices__field', 
+        {
+          x: -550,
+        },{
+          x:0,
+          stagger: { 
+            each: 0.15,
+            from: "start",
+            grid: "auto",
+            ease: "power2.inOut",
+          }
+        });
+      },2500)
+    }
+    
+    const setInnerContainer = (size:string):void => {
+      const innerContainer = document.querySelector('.invoices__inner') as HTMLDivElement
+      innerContainer.style.height = size
+      innerContainer.style.maxHeight = size
+    }
+  
+
     return (
       <Layout title="Invoices">
           <div className="invoices">
+          {!isAdd 
+            ? <button className="invoices__green-btn" onClick={(e)=>{
+                setInnerContainer("130vh")
+                if(!isAnim){
+                  comesOut('.invoice-item')
+                  setIsAnim(true)
+                  setIsAdd(true)
+                  e.target.setAttribute('disabled','disabled')
+                  setTimeout(()=>{
+                    e.target.removeAttribute('disabled','false')
+                  },3000)
+                }
+                }}>Add Invoices</button>
+              : <button className="invoices__red-btn" onClick={(e)=>{
+                if(isAnim){
+                  setIsAdd(false)
+                  comesIn('.invoice-item')
+                  setIsAnim(false)
+                  e.target.setAttribute('disabled','disabled')
+                  setTimeout(()=>{
+                    e.target.removeAttribute('disabled','false')
+                  },3000)
+                }
+                }}>Hide Form</button>}
             <div className="invoices__inner">
               <div className="invoices__left-panel">
-             {isForm && 
-             <div className="invoices__form-wraper">
+                  <div className="invoices__form-wraper">
                 <form action="">
                   <div className="invoices__field">
-                    <label htmlFor="">Invoice PDF</label>
-                    <input type="file" name="file" accept=".pdf" onChange={async(e)=>{
-                      const data = await getBase64(e.target.files[0]).then((data:any) =>data)
-                      const blob = await b64toUrl(data)
-                      invoicesActions.handleFormData(e.target.name,data)
-                      setIsInvoiceLoad(true)
-                      setPdfUrl(blob)
-                    }} />
+                    <label htmlFor="file">Invoice PDF</label>
+                    <label htmlFor="" className="invoices__input-file">
+                      <FontAwesomeIcon icon ={faFileInvoice} /> PDF File
+                      <input type="file" id="file" name="file" accept=".pdf" onChange={async(e)=>{
+                        const data = await getBase64(e.target.files[0]).then((data:any) =>data)
+                        const blob = await base64toUrl(data)
+                        invoicesActions.handleFormData(e.target.name,data)
+                        setIsInvoiceLoad(true)
+                        setPdfUrl(blob)
+                      }} />
+                    </label>
                   </div>
                   <div className="invoices__field">
                     <label htmlFor="">Invoice Nr.</label>
@@ -115,23 +205,25 @@ const Invoices:NextPage = () => {
                     <input type="text"name="city" onChange={(e)=>invoicesActions.handleFormData(e.target.name,e.target.value)} />
                   </div>
                  </form>
-                 {!isInvoice 
-                  ? <button onClick={()=>{
-                       setIsInvoice(true)
-                     }}>Preview Invoice</button>
-                  : <button onClick={()=>{
-                      setIsInvoice(false)
-                      }}>Hide Invoice</button>}
-                </div>}
-                
-              
+                 
+                   </div>              
               </div>
               <div className="invoices__right-panel">
-                      
+                {tempInArr.map((item:any)=>(
+                  <InvoiceItem file={"asdasds"} setPdfUrl={setPdfUrl} isAnim={isAnim} setIsInvoice={setIsInvoice} setIsInvoiceLoad={setIsInvoiceLoad}  setIsAnim={setIsAnim} comesIn = {comesIn} />
+                ))}
               </div>
             </div>
-            <InvoicePreview isInvoice={isInvoice} isInvoiceLoad={isInvoiceLoad} formData={formData} pdfUrl={pdfUrl} />
-
+            <div className="invoices__pdf-viewer">
+            {!isInvoice 
+                  ? <button className="invoices__green-btn" onClick={()=>{
+                       setIsInvoice(true)
+                     }}>Preview Invoice</button>
+                  : <button className="invoices__red-btn" onClick={()=>{
+                      setIsInvoice(false)
+                      }}>Hide Invoice</button>}
+              <InvoicePreview isInvoice={isInvoice} isInvoiceLoad={isInvoiceLoad} formData={formData} pdfUrl={pdfUrl} />
+            </div>
           </div>
       </Layout>
     )

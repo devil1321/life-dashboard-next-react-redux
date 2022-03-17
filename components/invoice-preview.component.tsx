@@ -8,10 +8,22 @@ interface InvoicePreviewProps {
     isInvoice:boolean;
     isInvoiceLoad:boolean;
     pdfUrl:string;
-    formData:InvoicesFormDataParams
+    formData:{
+        file:string;
+        invoiceNR:string;
+        money:number;
+        tax:number;
+        bonuses:number;
+        nip:string;
+        firstName:string;
+        lastName:string;
+        adress:string;
+        zip:string
+        city:string;
+    }
 }
 
-const InvoicePreview = ({isInvoice,isInvoiceLoad,pdfUrl,formData}) => {
+const InvoicePreview:React.FC<InvoicePreviewProps> = ({isInvoice,isInvoiceLoad,pdfUrl,formData}) => {
   
   const document = <Invoice formData={formData} />
   const [instance, update] = usePDF({ document });
