@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const fetchWheather = async () => {
     const city = await axios.get('https://extreme-ip-lookup.com/json/')
-    .then(res => {
+    .then((res:any) => {
         let city
         if (res.data.city === '') {
             return city = 'Warsaw'
@@ -17,7 +17,7 @@ export const fetchWheather = async () => {
             q: city,
             appid: 'd355aaa337c3ed0e0876c199a8060479'
         }
-    }).then(res =>res.data).catch(err => console.log(err))
+    }).then((res:any) => res.data).catch(err => console.log(err))
 
     return wheartherData
 }
