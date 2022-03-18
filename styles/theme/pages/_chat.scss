@@ -1,0 +1,14 @@
+.chat{
+    position:relative;
+    top:70px;
+    left:0px;
+    padding:20px;
+    @include createFlex(row,space-between,flex-start,null);
+    &__left-panel{
+        width: 50%;
+        margin-right: 20px;
+    }
+    &__right-panel{
+        width: 50%;
+    }
+}

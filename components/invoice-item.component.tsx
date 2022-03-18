@@ -10,6 +10,7 @@ interface InvoiceItemProps{
     setIsInvoice:(state:boolean) => void
     setIsInvoiceLoad:(state:boolean) => void
     setIsAnim:(state:boolean) => void
+    setIsAdd:(state:boolean) => void
     comesIn:(item:string) => void
 }
 

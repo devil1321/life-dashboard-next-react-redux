@@ -4,7 +4,7 @@
     background-color: $item;
     border-radius: 15px;
     padding:0px 20px;
-    
+    animation:fadeIn 1s ease-in-out forwards;
     &__heading{
         position: relative;
         top:0px;

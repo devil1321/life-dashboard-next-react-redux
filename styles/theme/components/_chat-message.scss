@@ -1,0 +1,43 @@
+.chat-message{
+    margin-bottom:20px;
+    min-width: 200px;
+    max-width: 200px;
+    padding:10px;
+    position: relative;
+    top:0px;
+    left:0px;
+    background-color: $strong-green;
+    border-radius: 15px;
+    animation: fadeIn 1s ease-in-out forwards;
+    @include createFlex(row,space-between,center,null);
+    &--sender{
+        margin-left:55px;
+        margin-right:auto;
+        .chat-message__user{
+            position: absolute;
+            top:12px;
+            left:-45px;
+            width: 30px;
+            height:30px;
+        }
+       
+    }
+    &--recipent{
+        margin-right:55px;
+        margin-left:auto;
+        .chat-message__user{
+            position: absolute;
+            top:10px;
+            left:235px;
+            width: 30px;
+            height:30px;
+        }
+    }
+   
+    &__msg{
+        position: relative;
+        z-index: 2;
+        top:0px;
+        left:0px;
+    }
+}

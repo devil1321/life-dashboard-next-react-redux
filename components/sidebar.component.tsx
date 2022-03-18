@@ -55,8 +55,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/dashboard">
-            <span className="sidebar__link">Dashboard</span>
+          <Link href="/dashboard" passHref={true}>
+            <a className="sidebar__link">Dashboard</a>
           </Link>
         </div>
         <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(tasksRef)}>
@@ -70,8 +70,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/tasks">
-            <span className="sidebar__link">Tasks</span>
+          <Link href="/tasks" passHref={true}>
+            <a className="sidebar__link">Tasks</a>
           </Link>
         </div>
         <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(invoicesRef)}> 
@@ -85,8 +85,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/invoices">
-            <span className="sidebar__link">Invoices</span>
+          <Link href="/invoices" passHref={true}>
+            <a className="sidebar__link">Invoices</a>
           </Link>
         </div>
         <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(chatRef)}>
@@ -100,8 +100,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/chat">
-            <span className="sidebar__link">Chat</span>
+          <Link href="/chat" passHref={true}>
+            <a className="sidebar__link">Chat</a>
           </Link>
         </div>
         <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(emailsRef)}>
@@ -115,8 +115,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/emails">
-            <span className="sidebar__link">Email</span>
+          <Link href="/emails" passHref={true}>
+            <a className="sidebar__link">Email</a>
           </Link>
         </div>
    
@@ -131,8 +131,8 @@ const Sidebar:React.FC = () => {
           >
           </Player>
           </span>
-          <Link href="/contacts">
-            <span className="sidebar__link">Contacts</span>
+          <Link href="/contacts" passHref={true}>
+            <a className="sidebar__link">Contacts</a>
           </Link>
         </div>
       </div>

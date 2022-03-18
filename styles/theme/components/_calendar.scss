@@ -9,6 +9,7 @@
     font-weight: bold;
     border-radius: 10px;
     margin:0px auto;
+    animation:fadeInRight 1s ease-in-out forwards;
     @include breakpoint-down(medium){
       height: 350px;
      }

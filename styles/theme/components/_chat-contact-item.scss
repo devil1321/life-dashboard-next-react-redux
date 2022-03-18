@@ -1,0 +1,33 @@
+.chat-contact-item{
+    margin:10px 0px;
+    background-color: $item;
+    border-radius: 25px;
+    transform:translateX(550px);
+    border-radius: 25px;
+    overflow: hidden;
+    @include createFlex(row,flex-start,center,null);
+    &__img{
+        width: 60px;
+        height:60px;
+        border-radius: 100%;
+        overflow: hidden;
+        @include createIsomorphicConvex(black,$neon-green);
+    }
+    &__info{
+        margin:0px 10px;
+        h3,p{
+            margin:3px 0px;
+            font-size: pxToRem(16);
+        }
+    }
+    h3{
+        font-size: pxToRem(14);
+        
+    }
+    button{
+        border-radius: 25px;
+        margin-left: auto;
+        margin-right: 10px;
+        @include createIsomorphicConvex(black,$neon-green);
+    }
+}
