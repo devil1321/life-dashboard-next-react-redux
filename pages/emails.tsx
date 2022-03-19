@@ -50,7 +50,7 @@ const Emails = () => {
           <div className="emails__main">
             <div className="emails__contacts-wrapper">
               <div className="emails__contacts">
-                {tempArr.map((el)=> <EmailContactItem />)}
+                {tempArr.map((el)=> <EmailContactItem key={el} />)}
               </div>
             </div>
             <div className="emails__emails-wrapper">
