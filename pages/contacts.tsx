@@ -30,7 +30,7 @@ const Contacts = () => {
             <Search />
           </div>
           <div className="contacts__contacts">
-            {tempArr.map((el) => <ContactItem />)}
+            {tempArr.map((el) => <ContactItem  key={el} />)}
           </div>
         </div>
       </Layout>

@@ -55,7 +55,7 @@ const Emails = () => {
             </div>
             <div className="emails__emails-wrapper">
               <div className="emails__emails">
-                {!isPreview && !isReply && tempArr.map((el:any) =>  <EmailItem isView={true} fn={setIsPreview} params={[true]} img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />)}
+                {!isPreview && !isReply && tempArr.map((el:any) =>  <EmailItem key={el} isView={true} fn={setIsPreview} params={[true]} img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />)}
                 {isPreview && !isReply &&
                   <div className="emails__preview-item">
                     <h3>From : email@gmail.com</h3>
