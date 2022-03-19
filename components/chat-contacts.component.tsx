@@ -1,6 +1,6 @@
 import React,{ useState,useEffect } from 'react'
 import gsap from 'gsap'
-import ChatContactItem from './chat-contact-item.component'
+import ChatContactItem from './contact-item.component'
 
 const ChatContacts = () => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
@@ -30,7 +30,7 @@ const ChatContacts = () => {
 
   useEffect(()=>{
       setTimeout(()=>{
-          comesIn('.chat-contact-item')
+          comesIn('.contact-item')
         },800)
   },[])
 

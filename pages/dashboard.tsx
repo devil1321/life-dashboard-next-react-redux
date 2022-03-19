@@ -4,7 +4,7 @@ import Layout from '../components/layout.component'
 import MonthlyEarning from '../components/monthly-panel.component'
 import ProfilePanel from '../components/profile-panel.component'
 import SmalLWidget from '../components/small-widget.component'
-import Email from '../components/email.component'
+import EmailItem from '../components/email-item.component'
 
 import openbox from '../animations/icons-json/107-box-package-open.json'
 import error from '../animations/icons-json/1140-error.json'
@@ -102,9 +102,9 @@ const Dashboard:NextPage = () => {
               width="650"
               />
               <div className="dashboard__emails">
-                <Email img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
-                <Email img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
-                <Email img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
+                <EmailItem img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
+                <EmailItem img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
+                <EmailItem img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
               </div>
             </div>
           </div>

@@ -15,6 +15,9 @@
             margin-left: 20px;
         }
     }
+    &__err{
+        background-color: red !important;
+    }
     &__save{
         cursor: pointer;
         position: absolute;

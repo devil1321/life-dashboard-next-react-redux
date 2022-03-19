@@ -39,6 +39,9 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   const activeBtnRef = useRef<HTMLButtonElement | null>(null)
 
   const [isLoad,setIsLoad] = useState<boolean>(false)
+  const [isFilteredByActive,setIsFilteredByActive] = useState<boolean>(false)
+  const [isFilteredByCompleted,setIsFilteredByCompleted] = useState<boolean>(false)
+  const [err,setErr] = useState<boolean>(false)
 
   const [newTask,setNewTask] = useState({
     id:uuidv4(),
@@ -85,7 +88,14 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
  }
 
  const handleAddTask = (task:Task) => {
-   todoActions.addTask(task)
+   if(newTask.name.length > 0){
+     todoActions.addTask(task)
+   } else{
+      setErr(true)
+      setTimeout(()=>{
+        setErr(false)
+      },2000)
+   }
    setNewTask({
     id:uuidv4(),
     name:'',
@@ -99,6 +109,15 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
    if(isFiltered){
     todoActions.filterByDate(date)
   }}
+
+  const handleFilterByCompletedOrActive = () => {
+     if(!isFiltered && isFilteredByActive){
+       todoActions.filterActive(tasks)
+     }
+     if(!isFiltered && isFilteredByCompleted){
+       todoActions.filterCompleted(tasks)
+     }
+  }
 
 
 
@@ -130,7 +149,7 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
       })
     }
   
-    },[isEdit,task,date])
+    },[isEdit,task])
     
 
  
@@ -161,15 +180,16 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
           </div>
         {!isEdit && 
           <div className="todo__form">
-              <div className="todo__field">
-                <input type="text" data-name="name" value={newTask.name} onChange={(e)=>handleNewTask(e)} placeholder='Add Task...' />
-                <div className={`todo__date`} >
-                  <input type="date" name="" id="" data-name="date"  onChange={(e)=>handleNewTask(e)}/>
+              <div className={`todo__field`}>
+                <input className={err ? "todo__err" : ""} type="text" data-name="name" value={newTask.name} onChange={(e:any)=>handleNewTask(e)} placeholder='Add Task...' />
+                <div className={`todo__date ${err ? "todo__err" : ""}`} >
+                  <input className={err ? "todo__err" : ""} type="date" name="" id="" data-name="date"  onChange={(e:any)=>handleNewTask(e)}/>
                 </div>
                 <button onClick={(e)=>{
                   setIsUpdated(!isUpdated)
                   handleAddTask(newTask)
                   handleFilter()
+                  handleFilterByCompletedOrActive()
               
                   }}>Add Task</button>
               </div>
@@ -202,21 +222,30 @@ const Todo:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
           <button onClick={(e)=>{
             handleBtn(e)
             todoActions.filterActive(tasks)
+            setIsFilteredByActive(true)
+            setIsFilteredByCompleted(false)
             UI.setIsEdit(false)
           }}  className="active" ref={activeBtnRef}>Active</button>
           <button onClick={(e)=>{
             handleBtn(e)
             UI.setIsEdit(false)
             todoActions.filterCompleted(tasks)
+            setIsFilteredByActive(false)
+            setIsFilteredByCompleted(true)
             }}>Completed</button>
           <button onClick={(e)=>{
             handleBtn(e)
             UI.setIsEdit(false)
+            setIsFilteredByActive(false)
+            setIsFilteredByCompleted(false)
             todoActions.filterAll(tasks)
             }}>All</button>
           <button onClick={(e)=>{
             handleBtn(e)
             UI.setIsEdit(false)
+            setIsFilteredByActive(false)
+            setIsFilteredByCompleted(false)
+            setIsUpdated(!isUpdated)
             todoActions.removeAll()
             }}>Clear</button>
         </div>

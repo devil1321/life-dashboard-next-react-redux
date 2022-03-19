@@ -14,7 +14,7 @@ interface CalendarWrapperProps{
 
 const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
   
- 
+  const [isLoad,setIsLoad] = useState<boolean>(false)
   const [date,setDate] = useState<Date>(new Date())
 
   const dispatch = useDispatch()
@@ -32,6 +32,11 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
        const datesWrappers = document.querySelectorAll('.react-calendar__tile') as NodeListOf<HTMLDivElement>
        datesWrappers.forEach((wrapper:HTMLDivElement)=>{
         const tempDate = wrapper.querySelector('abbr')!.getAttribute('aria-label')
+        wrapper.style.backgroundColor = 'transparent'
+        const today = new Date()
+        if(moment(tempDate).format('MM-DD-YYYY') === moment(today).format('MM-DD-YYYY')){
+          wrapper.style.backgroundColor = 'rgb(15, 141, 108)'
+        } 
         tempTasks?.length > 0 && tempTasks.map((task:Task) =>{
            if(moment(task.date).format('MM-DD-YYYY') === moment(tempDate).format('MM-DD-YYYY')){
              wrapper.style.backgroundColor = 'red'
@@ -52,8 +57,15 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
   useEffect(()=>{
     handleEvent(null,document.querySelectorAll('.react-calendar__tile'),'click',handlePreviewTask)
     handleEvent(null,document.querySelectorAll('button'),'click',handleEvents)
-    handleEvents()  
-  },[date,isUpdated,tempTasks])
+    if(!isLoad){
+      handleEvents()  
+      setTimeout(()=>{
+        setIsLoad(true)
+      },500)
+    }else{
+      handleEvents()  
+    }
+  },[isUpdated,isLoad])
 
   return (
     <Calendar   

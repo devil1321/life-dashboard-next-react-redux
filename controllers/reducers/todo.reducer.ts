@@ -66,18 +66,21 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 tempTasks:action.tempTasks,
-                tasks:action.tasks
+                tasks:action.tasks,
+                isFiltered:action.isFiltered
             }
         case TodoTypes.REMOVE_ALL: 
             return {
                 ...state,
                 tasks:action.tasks,
-                tempTasks:action.tempTasks
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered
             }
         case TodoTypes.FILTER_ACTIVE: 
             return {
                 ...state,
-                tempTasks:action.tempTasks
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered
             }
         case TodoTypes.FILTER_COMPLETED: 
             return {
@@ -87,7 +90,8 @@ export default (state = initData, action:any) =>{
         case TodoTypes.FILTER_ALL: 
             return {
                 ...state,
-                tempTasks:action.tempTasks
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered
             }
         default:
             return {

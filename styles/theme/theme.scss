@@ -11,7 +11,7 @@
 @import './components/profile-panel';
 @import './components/monthly-panel';
 @import './components/small-widget';
-@import './components/email';
+@import './components/email-item';
 @import './components/todo';
 @import './components/todo-item';
 @import './components/calendar';
@@ -20,12 +20,14 @@
 @import './components/chat-window';
 @import './components/chat-message';
 @import './components/chat-contacts';
-@import './components/chat-contact-item';
+@import './components/contact-item';
+@import './components/email-contact-item';
 
 @import './pages/sign';
 @import './pages/dashboard';
 @import './pages/tasks';
 @import './pages/invoices';
 @import './pages/chat';
+@import './pages/emails';
 @import './pages/not-found';
 @import './pages/server-error';

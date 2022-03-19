@@ -3,29 +3,31 @@ import React,{ useState } from 'react'
 import trash from '../animations/icons-json/185-trash-bin.json'
 
 interface EmailProps{
+    isView?:boolean;
     img:string;
     person:string;
     subject:string;
     date:string;
 }
 
-const Email:React.FC<EmailProps> = ({img,person,subject,date}) => {
+const EmailItem:React.FC<EmailProps> = ({isView,img,person,subject,date}) => {
 
   const [isEmail,setIsEmail] = useState<boolean>(true)
 
   return (
     <React.Fragment>
       {isEmail && 
-        <div className="email">
-          <div className="email__img">
+        <div className="email-item">
+          <div className="email-item__img">
               <img src={img} alt="email-pic" />
           </div>
-          <div className="email__content">
+          <div className="email-item__content">
               <h3>{person}</h3>
               <p>{subject}</p>
           </div>
           <p>{date}</p>
-          <div className="email__close" onClick={()=>setIsEmail(false)}>
+          {!isView 
+           ? <div className="email-item__close" onClick={()=>setIsEmail(false)}>
             <Player
                 loop
                 hover={true}
@@ -34,9 +36,10 @@ const Email:React.FC<EmailProps> = ({img,person,subject,date}) => {
             >
             </Player>
           </div>
+          : <button className="email-item__view-btn">View</button>}
       </div>}
     </React.Fragment>
   )
 }
 
-export default Email
+export default EmailItem
