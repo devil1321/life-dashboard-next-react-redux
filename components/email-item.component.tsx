@@ -1,5 +1,5 @@
 import { Player } from '@lottiefiles/react-lottie-player';
-import React,{ useState } from 'react'
+import React,{ Dispatch, SetStateAction, useState } from 'react'
 import trash from '../animations/icons-json/185-trash-bin.json'
 
 interface EmailProps{
@@ -8,7 +8,7 @@ interface EmailProps{
     subject:string;
     date:string;
     isView?:boolean;
-    fn?:() => any | void;
+    fn?:(params:any) => any | void 
     params?:any[];
 }
 
@@ -38,7 +38,12 @@ const EmailItem:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,param
             >
             </Player>
           </div>
-          : <button className="email-item__view-btn" onClick={()=>fn(...params)}>View</button>}
+          : <button className="email-item__view-btn" onClick={()=>{
+            if(fn && params){
+              // @ts-ignore
+              fn(...params)
+            }
+            }}>View</button>}
       </div>}
     </React.Fragment>
   )

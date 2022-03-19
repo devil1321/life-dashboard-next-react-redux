@@ -1,7 +1,7 @@
-import React,{useState,useCallback,useEffect} from 'react'
+import React,{Dispatch, useState} from 'react'
 
 interface SearchProps {
-    fn:() => any | void;
+    fn?:(params:any) => any | void 
     params?:any[]
 }
 
@@ -13,16 +13,25 @@ const Search:React.FC<SearchProps> = ({fn,params}) => {
     <div className="search">
        {!isFilter 
             ? <button onClick={()=>{
-                fn(searchVal,...params)
+                if(fn && params){
+                    // @ts-ignore
+                    fn(searchVal,...params)
+                }
                 setIsFilter(true)
             }}>A-Z</button>
             : <button onClick={()=>{
-                fn(searchVal,...params)
+                if(fn && params){
+                    // @ts-ignore
+                    fn(searchVal,...params)
+                }
                 setIsFilter(false)
                 }}>Z-A</button>}
         <input type="text" value={searchVal} onChange={(e)=>{
             setSearchVal(e.target.value) 
-            fn(searchVal,...params)
+            if(fn && params){
+                // @ts-ignore
+                fn(searchVal,...params)
+            }
         }} />
     </div>
   )
