@@ -8,6 +8,7 @@ import * as InvoicesActions from '../controllers/action-creators/invoices.action
 import gsap from 'gsap'
 import Layout from '../components/layout.component'
 import InvoiceItem from '../components/invoice-item.component'
+import Search from '../components/search.component'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileInvoice } from '@fortawesome/free-solid-svg-icons'
 interface PDF{
@@ -118,10 +119,11 @@ const Invoices:NextPage = () => {
       innerContainer.style.maxHeight = size
     }
   
-
     return (
       <Layout title="Invoices">
           <div className="invoices">
+          <div className="invoices__header">
+
           {!isAdd 
             ? <button className="invoices__green-btn" onClick={(e:any)=>{
                 setInnerContainer("130vh")
@@ -145,7 +147,9 @@ const Invoices:NextPage = () => {
                     e.target.removeAttribute('disabled','false')
                   },3000)
                 }
-                }}>Hide Form</button>}
+              }}>Hide Form</button>}
+              <Search />
+            </div>
             <div className="invoices__inner">
               <div className="invoices__left-panel">
                   <div className="invoices__form-wraper">

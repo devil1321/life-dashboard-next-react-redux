@@ -1,11 +1,12 @@
 .email-contact-item{
     cursor: pointer;
     padding:10px;
+    margin-right: 10px;
     border-radius: 25px;
     @include createFlex(row,space-between,center,null);
     &:hover{
-        background-color: $strong-green;
-    }
+            background-color: $light-green !important;
+        }
     &__info{
         h3,p{
             margin:3px 0px;

@@ -1,11 +1,14 @@
 .contact-item{
+    cursor: pointer;
     margin:10px 0px;
     background-color: $item;
     border-radius: 25px;
-    transform:translateX(550px);
     border-radius: 25px;
     overflow: hidden;
     @include createFlex(row,flex-start,center,null);
+    &:hover{
+        background-color: $light-green !important;
+    }
     &__img{
         width: 60px;
         height:60px;
@@ -24,10 +27,35 @@
         font-size: pxToRem(14);
         
     }
-    button{
-        border-radius: 25px;
-        margin-left: auto;
-        margin-right: 10px;
-        @include createIsomorphicConvex(black,$neon-green);
+    &__controls{
+        margin-left:auto;
+        button{
+            cursor: pointer;
+            margin-right: 10px;
+            height:39px;
+            padding:0px 20px;
+            border-radius: 25px;
+            border:0px;
+            font-weight: bold;
+            color:white;
+            @include createIsomorphicConvex(black,$neon-green);
+            background:linear-gradient(45deg,$neon-green,yellowgreen);
+            &:first-of-type{
+              background:linear-gradient(45deg,orange,red);
+              @include createIsomorphicConvex(black,orange);
+              &:hover{
+              background:linear-gradient(45deg,red,orange);
+              }
+            }
+            &:hover{
+                background:linear-gradient(45deg,yellowgreen, $neon-green);
+            }
+            &:active{
+                outline: none;
+                border:0px;
+            }
+            
+        }
     }
+   
 }

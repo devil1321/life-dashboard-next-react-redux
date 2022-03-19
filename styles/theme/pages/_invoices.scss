@@ -15,6 +15,9 @@
             border:0px;
         }
     }
+    &__header{
+        @include createFlex(row,space-between,center,null);
+    }
     &__green-btn{
         background:linear-gradient(45deg, $neon-green,yellowgreen);
         &:hover{

@@ -1,10 +1,14 @@
 .email-item{
+    cursor: pointer;
     min-width: 100%;
     margin:5px 0px;
     border-radius:25px;
     padding:0px 20px 0px 0px;
     background-color: $item;
     overflow: hidden; 
+    &:hover{
+        background-color: $light-green !important;
+    }
     @include createFlex(row,flex-start,center,null);
     &__img{
         margin-right: 20px;

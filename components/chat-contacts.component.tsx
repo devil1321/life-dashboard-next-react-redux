@@ -1,10 +1,10 @@
 import React,{ useState,useEffect } from 'react'
 import gsap from 'gsap'
-import ChatContactItem from './contact-item.component'
+import ChatContactItem from './chat-contact-item.component'
+import Search from './search.component'
 
 const ChatContacts = () => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
-  const [searchVal,setSearchVal] = useState<string>("")
 
   const comesIn = (el:string | HTMLDivElement) => {
     
@@ -30,17 +30,14 @@ const ChatContacts = () => {
 
   useEffect(()=>{
       setTimeout(()=>{
-          comesIn('.contact-item')
+          comesIn('.chat-contact-item')
         },800)
   },[])
 
   return (
     <div className="chat-contacts">
         <div className="chat-contacts__controls">
-            {!isFilter 
-                ? <button onClick={()=>{filterContacts()}}>A-Z</button>
-                : <button onClick={()=>{filterContacts()}}>Z-A</button>}
-            <input type="text" value={searchVal} onChange={(e)=>setSearchVal(e.target.value)} />
+          <Search />
         </div>
         <div className="chat-contacts__inner">
           <ChatContactItem />
