@@ -17,7 +17,7 @@
         color:$strong-green;
     }
     &__img{
-        width: 300px;
+        width: 280px;
         height:fit-content
     }
     &__field{
@@ -51,12 +51,25 @@
         font-family: Arial, Helvetica, sans-serif;
         border-radius:10px;
         font-weight: bold;
-        background-color: yellowgreen;
         color:white;
         @include createIsomorphicConvex(black,$neon-green);
+        background:linear-gradient(45deg,$neon-green,yellowgreen);
         &:hover{
-            @include createIsomorphicConcave(black,$neon-green);
-
+            background:linear-gradient(45deg,yellowgreen,$neon-green);
         }
+    }
+    &__google{
+        @include createIsomorphicConvex(black,red !important);
+        background:linear-gradient(45deg,red,orange) !important;
+        &:hover{
+            background:linear-gradient(45deg,orange,red) !important;
+        }
+    }
+    a{
+        display: block;
+        margin:0px auto;
+        font-weight: bold;
+        text-align: center;
+        color:orangered;
     }
 }

@@ -37,7 +37,7 @@ const ChatContacts = () => {
   return (
     <div className="chat-contacts">
         <div className="chat-contacts__controls">
-          <Search />
+          <Search isSearchAll={true} />
         </div>
         <div className="chat-contacts__inner">
           <ChatContactItem />

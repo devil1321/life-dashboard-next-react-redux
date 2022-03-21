@@ -1,8 +1,14 @@
-import React,{useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Navbar from './navbar.component'
 import Sidebar from './sidebar.component'
 import Head from 'next/head'
 import Spinner from './spinner.component'
+
+import { State } from '../controllers/reducers'
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as UserActions from '../controllers/action-creators/user.actions-creators'
 
 interface LayoutProps{
   title:string,
@@ -10,14 +16,22 @@ interface LayoutProps{
 }
 
 const Layout:React.FC<LayoutProps> = ({children,title}) => {
-  
+  const dispatch = useDispatch()
+  const { user } = useSelector((state:State) => state.user)
+  const userActions = bindActionCreators(UserActions,dispatch)
   const [loading,setLoading] = useState<boolean>(true)
-
+  const router = useRouter()
+    
   useEffect(()=>{
+    if(!user){
+      router.push('/')
+    }
+    console.log(user)
     setTimeout(()=>{
       setLoading(false)
     },2000)
-  },[])
+    userActions.traceChanges()
+  },[user])
 
   return (
     <React.Fragment>

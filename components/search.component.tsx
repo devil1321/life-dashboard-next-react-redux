@@ -1,11 +1,12 @@
 import React,{Dispatch, useState} from 'react'
 
 interface SearchProps {
+    isSearchAll?:boolean;
     fn?:(params:any) => any | void 
     params?:any[]
 }
 
-const Search:React.FC<SearchProps> = ({fn,params}) => {
+const Search:React.FC<SearchProps> = ({isSearchAll,fn,params}) => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
   const [searchVal,setSearchVal] = useState<string>("")
 
@@ -26,13 +27,15 @@ const Search:React.FC<SearchProps> = ({fn,params}) => {
                 }
                 setIsFilter(false)
                 }}>Z-A</button>}
-        <input type="text" value={searchVal} onChange={(e)=>{
+                {/* @ts-ignore */}
+        <input className={!isSearchAll ? "search__contacts" : null} type="text" value={searchVal} onChange={(e)=>{
             setSearchVal(e.target.value) 
             if(fn && params){
                 // @ts-ignore
-                fn(searchVal,...params)
+                fn(e.target.value,...params)
             }
         }} />
+        {isSearchAll && <button className="search__search-all-contacts">Search New Contacts</button>}
     </div>
   )
 }

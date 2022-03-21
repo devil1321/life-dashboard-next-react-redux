@@ -3,9 +3,9 @@
         cursor: pointer;
         height:39px;
         padding:0px 20px;
-        border-radius: 0px !important;
-        border-bottom-left-radius: 25px !important;
-        border-top-left-radius: 25px !important;
+        border-radius: 0px ;
+        border-bottom-left-radius: 25px ;
+        border-top-left-radius: 25px ;
         border:0px;
         font-weight: bold;
         color:white;
@@ -29,12 +29,19 @@
         background:linear-gradient(45deg,$neon-green,yellowgreen);
         border:0px;
         outline:none;
-        border-bottom-right-radius: 25px;
-        border-top-right-radius: 25px;
         &:hover{
           opacity:0.9;
 
         }
+        &.search__contacts{
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
   
+    }
+    &__search-all-contacts{
+        border-radius: 0px !important;
+        border-top-right-radius: 25px !important;
+        border-bottom-right-radius: 25px !important;
     }
 }

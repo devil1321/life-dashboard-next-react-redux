@@ -4,6 +4,19 @@ import { Dispatch } from 'redux'
 import { Task } from '../../interfaces';
 import  store  from '../store'
 import moment from 'moment'
+import { initializeApp } from 'firebase/app'
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCPB_ibh5yK49GwSHCAHGlCEhGlVBuq2i0",
+    authDomain: "company-life-admin.firebaseapp.com",
+    projectId: "company-life-admin",
+    storageBucket: "company-life-admin.appspot.com",
+    messagingSenderId: "1051805480691",
+    appId: "1:1051805480691:web:4dca6e5fe4b5e10558e986",
+    measurementId: "G-KTGFRZ262D"
+  };
+  const app = initializeApp(firebaseConfig);
 
 export const setTasks = () => async (dispatch:Dispatch<any>) => {
     const options:any = {
