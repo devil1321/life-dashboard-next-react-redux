@@ -11,7 +11,8 @@ export enum UserTypes {
 }
 
 export enum UITypes {
-    SET_IS_EDIT = "SET_IS_EDIT"
+    SET_IS_EDIT = "SET_IS_EDIT",
+    HANDLE_LOCK = "HANDLE_LOCK"
 }
 
 export enum DateTypes{

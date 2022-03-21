@@ -2,10 +2,12 @@ import { UITypes } from '../types'
 
 interface DateParams {
     isEdit:boolean
+    isLocked:boolean;
 }
 
 const initData:DateParams = {
-   isEdit:false
+   isEdit:false,
+   isLocked:false
 }
 
 export default (state = initData, action:any) =>{
@@ -14,6 +16,11 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 isEdit:action.isEdit
+            }
+        case UITypes.HANDLE_LOCK: 
+            return {
+                ...state,
+                isLocked:action.isLocked
             }
         default:
             return {
