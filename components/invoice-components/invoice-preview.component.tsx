@@ -27,7 +27,7 @@ interface PreviewProps {
       fields:Field[]
 }
 
-const Preview = React.forwardRef<PreviewProps,any>((props,ref) => {
+const Preview = React.forwardRef<any,PreviewProps>((props,ref) => {
   
   const document = <Invoice.InvoicePDF formData={props.formData} />
   const customDocument = <Invoice.CustomInvoicePDF formData={props.formData} fields={props.fields} />
