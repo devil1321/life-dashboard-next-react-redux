@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
                 <Text>Invoice</Text>
             </View>
             <View>
-                {fields.map((field:any) => <Text style={field.isHeading ? styles.largeHeading : null}>{field.text}</Text>)}
+                {fields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field.text}</Text>)}
             </View>
             <View>
                 <Text style={styles.signature}>{"Employer\'s signature"}</Text>
