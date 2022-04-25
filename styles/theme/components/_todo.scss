@@ -88,10 +88,10 @@
     &__date{
         overflow: hidden;
         height:40.5px;
-        max-width: 40px;
+        max-width: 50px;
         input{
             border-radius: 0px;
-            transform:translateX(-78%) translateY(30%) scale(3);
+            transform:translateX(-65%) translateY(10%) scale(2);
         }
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(100%);

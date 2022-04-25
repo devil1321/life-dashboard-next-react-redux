@@ -3,6 +3,13 @@
     top:70px;
     left:0px;
     padding:20px;
+    h2{
+        margin-top:20px;
+        text-align: center;
+        background: transparent;
+        border:0px;
+    }
+  
     button{
         cursor: pointer;
         padding:10px 20px;
@@ -25,6 +32,10 @@
 
         }
     }
+    &__save{
+        margin-top:20px;
+        display: block;
+    }
     &__red-btn{
         background:linear-gradient(45deg, red,orange);
         &:hover{
@@ -46,6 +57,9 @@
         max-width: 100%;
     }
     &__field{        
+        position:relative;
+        top:0px;
+        left:0px;
         margin:5px 0px;
         margin-right: 40px;
         label{
@@ -73,6 +87,43 @@
             }
         }
     }
+    &__custom{
+        button{
+           margin-top:20px;
+           background: linear-gradient(45deg,$strong-green,yellowgreen);
+           &:hover{
+                background: linear-gradient(45deg,yellowgreen,$strong-green);
+           }
+        }
+        &:hover{
+            button{
+            cursor: pointer;
+
+            }
+        }
+    }
+    &__field-type{
+        width: 110px;
+        cursor: pointer;
+        padding:5px;
+        position: absolute;
+        top:70px;
+        left:0px;
+        background-color: $item;
+        border-radius: 15px;
+        animation:fadeInWithRotate 1s ease-in-out forwards;
+        &.close{
+            animation:fadeOutWithRotate 1s ease-in-out forwards;
+        }
+        p{
+            cursor: pointer;
+            padding:5px 10px;
+            border-radius: 15px;
+        }
+        p:hover{
+            background-color: grey;
+        }
+    }
     &__input-file{
         cursor: pointer;
         color:white;
@@ -83,6 +134,12 @@
             height:20px;
         }
     }
+    &__custom-field-btn{
+        margin-top:15px;
+        position:relative;
+        right:-43%;
+        top:0px;
+    }
     &__right-panel{
         width: 100%;
         overflow-y: scroll;
@@ -91,6 +148,7 @@
             display: none;
         }
     }
+ 
     &__pdf-viewer{
         position: relative;
         z-index: 3;

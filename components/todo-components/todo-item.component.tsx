@@ -1,8 +1,8 @@
 import React,{ useRef } from 'react'
 import { useSelector , useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { State } from '../controllers/reducers'
-import * as TodoActions from '../controllers/action-creators/todo.actions-creators'
+import { State } from '../../controllers/reducers'
+import * as TodoActions from '../../controllers/action-creators/todo.actions-creators'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ interface TodoItemProps {
     }
 }
 
-const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
+const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   
     const { id, name, completed, date } = task
     const dispatch = useDispatch()
@@ -104,4 +104,4 @@ const TodoItem:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   )
 }
 
-export default TodoItem
+export default Item

@@ -1,13 +1,14 @@
 import React,{ useState } from 'react'
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
-import { useSelector  } from 'react-redux'
-import { State } from '../controllers/reducers'
-import { InvoicesFormDataParams } from '../interfaces';
+import { InvoicesFormDataParams } from '../../interfaces';
 
 const styles = StyleSheet.create({
     page: {
         padding:'0px 20px'
+    },
+    invoiceNr:{
+        width:'100%',
+        textAlign:'center'
     },
     header:{
         display:"flex",
@@ -61,17 +62,19 @@ const styles = StyleSheet.create({
     }
   });
   
+  interface InvoicePDFProps {
+      formData:InvoicesFormDataParams['formData']
+  }
 
-  const Invoice:React.FC<InvoicesFormDataParams> = ({formData}) => {
+  const InvoicePDF:React.FC<InvoicePDFProps> = ({formData}) => {
     const { invoiceNR, money, tax, bonuses, nip, firstName, lastName, adress, zip, city, company } = formData
-
-
-    const [test,setTest] = useState<string>("ddd")
-    const [test2,setTest2] = useState<string>("ddddddd")
     
     return(
         <Document>
           <Page size="A4" style={styles.page}>
+            <View >
+                <Text style={styles.invoiceNR}>{invoiceNR}</Text>
+            </View>
             <View style={styles.header} >
                 <View>
                   <Text style={styles.heading}>Employee</Text>
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
   );
 }
 
-export default Invoice
+export default InvoicePDF
 
 
 

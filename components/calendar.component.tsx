@@ -18,7 +18,7 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
   const [date,setDate] = useState<Date>(new Date())
 
   const dispatch = useDispatch()
-  const { tempTasks } = useSelector((state:State) => state.todo)
+  const { tasks } = useSelector((state:State) => state.todo)
   const todoActions = bindActionCreators(TodoActions,dispatch)
   const dateActions = bindActionCreators(DateActions,dispatch)
 
@@ -29,20 +29,27 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
   }
 
   const handleEvents = () =>{
+    setTimeout(()=>{
        const datesWrappers = document.querySelectorAll('.react-calendar__tile') as NodeListOf<HTMLDivElement>
        datesWrappers.forEach((wrapper:HTMLDivElement)=>{
+
         const tempDate = wrapper.querySelector('abbr')!.getAttribute('aria-label')
         wrapper.style.backgroundColor = 'transparent'
         const today = new Date()
         if(moment(tempDate).format('MM-DD-YYYY') === moment(today).format('MM-DD-YYYY')){
           wrapper.style.backgroundColor = 'rgb(15, 141, 108)'
         } 
-        tempTasks?.length > 0 && tempTasks.map((task:Task) =>{
+        tasks?.length > 0 && tasks.map((task:Task) =>{
            if(moment(task.date).format('MM-DD-YYYY') === moment(tempDate).format('MM-DD-YYYY')){
-             wrapper.style.backgroundColor = 'red'
+             if(task.completed === false){
+               wrapper.style.backgroundColor = 'red'
+              }else{
+               wrapper.style.backgroundColor = 'yellowgreen'
+              }
            }
          })
-       })
+        })
+      },200)
   }
 
   const handleEvent = (el:any,els:any,event:any,fn:any) => {
@@ -62,10 +69,9 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
       setTimeout(()=>{
         setIsLoad(true)
       },500)
-    }else{
-      handleEvents()  
     }
-  },[isUpdated,isLoad])
+    handleEvents()  
+  },[isUpdated,isLoad,date])
 
   return (
     <Calendar   

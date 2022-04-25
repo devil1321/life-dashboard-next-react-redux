@@ -13,14 +13,14 @@ const Search:React.FC<SearchProps> = ({isSearchAll,fn,params}) => {
   return (
     <div className="search">
        {!isFilter 
-            ? <button onClick={()=>{
+            ? <button className="search__a-z-btn" onClick={()=>{
                 if(fn && params){
                     // @ts-ignore
                     fn(searchVal,...params)
                 }
                 setIsFilter(true)
             }}>A-Z</button>
-            : <button onClick={()=>{
+            : <button className="search__a-z-btn" onClick={()=>{
                 if(fn && params){
                     // @ts-ignore
                     fn(searchVal,...params)

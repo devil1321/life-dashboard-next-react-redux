@@ -39,4 +39,10 @@ export interface InvoicesFormDataParams {
         zip:string
         city:string;
     };
+    fields:Field[]
+}
+
+export interface Field {
+    isHeading:boolean;
+    text:string;
 }

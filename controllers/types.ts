@@ -38,6 +38,7 @@ export enum TodoTypes {
 
 
 export enum InvoicesTypes{
+    SET_FIELDS = "SET_FIELDS",
     SET_INVOICE = "SET_INVOICE",
     HANDLE_FORM_DATA = "HANDLE_FORM_DATA"
 }

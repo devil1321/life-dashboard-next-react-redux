@@ -3,7 +3,7 @@ import React,{ useState } from 'react'
 import { WheatherProps } from '../interfaces'
 import {fetchWheather } from '../modules/api.module'
 import Layout from '../components/layout.component'
-import Todo from '../components/todo.component'
+import TodoMainComponent from '../components/todo-components/todo.component'
 import CalendarWrapper from '../components/calendar.component'
 import WheatherWidget from '../components/wheather-widget.component'
 
@@ -17,11 +17,11 @@ const Tasks:NextPage<TasksProps> = ({data}) => {
 
   const [isUpdated,setIsUpdated] = useState<boolean>(false)
 
-  return (
+  return(
     <Layout title="Tasks">
         <div className="tasks">
             <div className="tasks__left-panel">
-                <Todo isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
+                <TodoMainComponent isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
             </div>
             <div className="tasks__right-panel">
                 <CalendarWrapper isUpdated={isUpdated} />
