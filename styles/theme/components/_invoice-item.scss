@@ -1,12 +1,26 @@
 .invoice-item{
+    cursor: pointer;
     margin:10px 0px;
     background-color: $item;
     border-radius: 40px;
     width: 100%;
     margin-left: auto;
     overflow: hidden;
+    transform:translateY(600px);
     @include createFlex(row,flex-start,center,null);
-
+    &:hover{
+        background-color: $light-green !important;
+    }
+    h3,p{
+        margin:3px 0px;
+    }
+    h3{
+        font-size: pxToRem(14);
+    }
+    p{
+        color:lightgray;
+        font-size:pxToRem(12);
+    }
     &__icon{
         margin-right: 10px;
         padding:10px;
@@ -25,12 +39,7 @@
             font-style: normal !important;
         }
     }
-    h3{
-        font-style: italic;
-    }
-    p{
-        margin-left: 10px;
-    }
+  
     &__controls{
         margin-left: auto;
         button{

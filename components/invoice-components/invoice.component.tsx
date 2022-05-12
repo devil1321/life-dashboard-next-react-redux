@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     page: {
         padding:'0px 20px'
     },
-    invoiceNr:{
+    invoiceNR:{
         width:'100%',
         textAlign:'center'
     },
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         <Document>
           <Page size="A4" style={styles.page}>
             <View >
-                <Text style={styles.invoiceNR}>{invoiceNR}</Text>
+                <Text style={styles.invoiceNR}>NR. {invoiceNR}</Text>
             </View>
             <View style={styles.header} >
                 <View>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
                     <Text style={styles.tableCeil}>{invoiceNR}</Text>
                     <Text style={styles.tableCeil}>{tax}</Text>
                     <Text style={styles.tableCeil}>{bonuses}</Text>
-                    <Text style={styles.lastCeil}>{money  + bonuses - ((money + bonuses) * (tax / 100))}</Text>
+                    <Text style={styles.lastCeil}>{(Number(money)  + Number(bonuses)) - (Number(money) + Number(bonuses)) * (Number(tax) / 100)}</Text>
                 </View>
             </View>
             <View>

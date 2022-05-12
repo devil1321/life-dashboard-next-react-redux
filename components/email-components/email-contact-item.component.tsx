@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EmailContactItem = () => {
+const ContactItem = () => {
   return (
     <div className="email-contact-item">
         <div className="email-contact-item__info">
@@ -12,4 +12,4 @@ const EmailContactItem = () => {
   )
 }
 
-export default EmailContactItem
+export default ContactItem

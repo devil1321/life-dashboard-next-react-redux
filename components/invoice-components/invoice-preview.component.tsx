@@ -4,7 +4,6 @@ import { usePDF } from '@react-pdf/renderer'
 import Invoice from './invoice.components';
 import { Field } from '../../interfaces';
 
-
 interface PreviewProps {
       isInvoice:boolean;
       isInvoiceLoad:boolean;
@@ -13,6 +12,7 @@ interface PreviewProps {
       formData:{
           file:string;
           invoiceNR:string;
+          date:string;
           money:number;
           tax:number;
           bonuses:number;
@@ -29,11 +29,11 @@ interface PreviewProps {
 
 const Preview = React.forwardRef<any,PreviewProps>((props,ref) => {
   
-  const document = <Invoice.InvoicePDF formData={props.formData} />
+  const ivoiceDocument = <Invoice.InvoicePDF formData={props.formData} />
   const customDocument = <Invoice.CustomInvoicePDF formData={props.formData} fields={props.fields} />
-  const [instance, update] = usePDF({ document });
+  const [instance, update] = usePDF({ document:ivoiceDocument });
   const [customInstance,updateCustomInstance] = usePDF({ document:customDocument })
-
+  
   useEffect(()=>{
     update(document)
     updateCustomInstance(customDocument)

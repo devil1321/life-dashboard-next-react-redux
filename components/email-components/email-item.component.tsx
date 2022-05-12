@@ -1,6 +1,6 @@
 import { Player } from '@lottiefiles/react-lottie-player';
 import React,{ Dispatch, SetStateAction, useState } from 'react'
-import trash from '../animations/icons-json/185-trash-bin.json'
+import trash from '../../animations/icons-json/185-trash-bin.json'
 
 interface EmailProps{
     img:string;
@@ -12,7 +12,7 @@ interface EmailProps{
     params?:any[];
 }
 
-const EmailItem:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) => {
+const Item:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) => {
 
   const [isEmail,setIsEmail] = useState<boolean>(true)
 
@@ -38,15 +38,26 @@ const EmailItem:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,param
             >
             </Player>
           </div>
-          : <button className="email-item__view-btn" onClick={()=>{
-            if(fn && params){
-              // @ts-ignore
-              fn(...params)
-            }
-            }}>View</button>}
+          : <React.Fragment>
+               <button className="email-item__view-btn" onClick={()=>{
+               if(fn && params){
+                 // @ts-ignore
+                 fn(...params)
+               }
+             }}>View</button>
+            <div className="email-item__close" onClick={()=>setIsEmail(false)}>
+            <Player
+                loop
+                hover={true}
+                src={trash}
+                style={{ height: '40px', width: '40px' }}
+            >
+            </Player>
+          </div>
+          </React.Fragment>}
       </div>}
     </React.Fragment>
   )
 }
 
-export default EmailItem
+export default Item

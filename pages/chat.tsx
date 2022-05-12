@@ -1,21 +1,20 @@
 import React from 'react'
-import ChatContacts from '../components/chat-contacts.component'
-import ChatWindow from '../components/chat-window.component'
+import Chat from '../components/chat-components/chat.components'
 import Layout from '../components/layout.component'
 
-const Chat = () => {
+const ChatPage = () => {
   return (
       <Layout title="Chat">  
         <div className="chat">
           <div className="chat__left-panel">
-            <ChatWindow />
+            <Chat.MainWindow />
           </div>
           <div className="chat__right-panel">
-            <ChatContacts />
+            <Chat.Contacts />
           </div>
         </div>
       </Layout>
   )
 }
 
-export default Chat
+export default ChatPage

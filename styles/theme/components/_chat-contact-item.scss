@@ -7,27 +7,30 @@
     border-radius: 25px;
     overflow: hidden;
     @include createFlex(row,flex-start,center,null);
+    h3,p{
+        margin:3px 0px;
+    }
+    h3{
+        font-size: pxToRem(14);
+    }
+    p{
+        color:lightgray;
+        font-size:pxToRem(12);
+    }
     &:hover{
         background-color: $light-green !important;
     }
     &__img{
-        width: 60px;
-        height:60px;
+        width: 45px;
+        height:45px;
         border-radius: 100%;
         overflow: hidden;
         @include createIsomorphicConvex(black,$neon-green);
     }
     &__info{
         margin:0px 10px;
-        h3,p{
-            margin:3px 0px;
-            font-size: pxToRem(16);
-        }
     }
-    h3{
-        font-size: pxToRem(14);
-        
-    }
+    
     button{
         cursor: pointer;
         margin-left: auto;

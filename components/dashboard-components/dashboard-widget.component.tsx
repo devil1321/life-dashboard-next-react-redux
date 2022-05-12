@@ -7,7 +7,7 @@ interface SmalLWidgetProps{
     icon:any;
 }
 
-const SmalLWidget:React.FC<SmalLWidgetProps> = ({title,count,icon}) => {
+const Widget:React.FC<SmalLWidgetProps> = ({title,count,icon}) => {
   return (
     <div className="small-widget">
         <div className="small-widget__content">
@@ -25,4 +25,4 @@ const SmalLWidget:React.FC<SmalLWidgetProps> = ({title,count,icon}) => {
   )
 }
 
-export default SmalLWidget
+export default Widget

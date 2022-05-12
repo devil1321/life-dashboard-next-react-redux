@@ -14,7 +14,7 @@ interface FormDataState{
     password:string;
 }
 
-const Index:NextPage = () => {
+const IndexPage:NextPage = () => {
   const dispatch = useDispatch()
   const userActions = bindActionCreators(UserActions,dispatch)
   const { error, user } = useSelector((state:State) => state.user)
@@ -75,4 +75,4 @@ const Index:NextPage = () => {
   )
 }
 
-export default Index
+export default IndexPage

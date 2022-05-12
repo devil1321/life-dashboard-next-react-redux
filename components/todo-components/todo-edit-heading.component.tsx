@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import moment from 'moment'
 
 interface TaskFormData{
-    id:string;
     name:string;
     description:string;
     completed:boolean;

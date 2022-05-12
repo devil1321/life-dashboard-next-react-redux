@@ -1,5 +1,5 @@
 export interface Task {
-    id:string;
+    firebaseId?:string;
     name: string;
     description: string;
     completed: boolean;
@@ -26,9 +26,10 @@ export interface WheatherProps {
     }
 export interface InvoicesFormDataParams {
     formData:{
-        file:string;
+        file:any;
         company?:string;
         invoiceNR:string;
+        date:string;
         money:number;
         tax:number;
         bonuses:number;
@@ -40,9 +41,21 @@ export interface InvoicesFormDataParams {
         city:string;
     };
     fields:Field[]
+    invoices:any;
+    invoice:string;
 }
 
 export interface Field {
     isHeading:boolean;
     text:string;
+}
+
+export interface Invoice{
+    id:string;
+    invoiceNR:string;
+    firstName:string;
+    lastName:string;
+    money:number;
+    date:string;
+    invoiceData:string;
 }

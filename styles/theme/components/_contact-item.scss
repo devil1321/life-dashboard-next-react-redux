@@ -5,13 +5,15 @@
     border-radius: 25px;
     border-radius: 25px;
     overflow: hidden;
+    transform: translateY(600px);
     @include createFlex(row,flex-start,center,null);
+ 
     &:hover{
         background-color: $light-green !important;
     }
     &__img{
-        width: 60px;
-        height:60px;
+        width: 45px;
+        height:45px;
         border-radius: 100%;
         overflow: hidden;
         @include createIsomorphicConvex(black,$neon-green);
@@ -29,6 +31,7 @@
     }
     &__controls{
         margin-left:auto;
+        @include createFlex(row,flex-start,center,null);
         button{
             cursor: pointer;
             margin-right: 10px;

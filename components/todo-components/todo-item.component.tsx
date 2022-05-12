@@ -13,7 +13,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 interface TodoItemProps {
     handleEdit:any,
     task:{
-        id:string;
+        firebaseId?:string;
         name:string;
         description:string;
         completed:boolean;
@@ -23,7 +23,7 @@ interface TodoItemProps {
 
 const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   
-    const { id, name, completed, date } = task
+    const { firebaseId , name, completed, date } = task
     const dispatch = useDispatch()
     const todoActions = bindActionCreators(TodoActions,dispatch) 
 
@@ -69,15 +69,17 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                 <div className="todo-item__menu" ref={menuRef}> 
                     <div className="todo-item__item-inner" onClick={()=>{
                         handleMenuClose()
-                        handleEdit(true)
-                        todoActions.editTask(id)
+                        todoActions.editTask(firebaseId as string)
+                        setTimeout(()=>{
+                            handleEdit(true)
+                        },100)
                     }}> 
                         <FontAwesomeIcon icon ={faPenToSquare} />
                         <h3>Edit</h3>
                     </div>
                     {completed 
                      ? <div className="todo-item__item-inner" onClick={()=>{
-                         todoActions.setUncompleted(id)
+                         todoActions.setUncompleted(firebaseId as string)
                          handleMenuClose()
                         }}> 
                         <FontAwesomeIcon icon ={faXmark} />  
@@ -85,14 +87,14 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                     </div>
                      : <div className="todo-item__item-inner" onClick={()=>{
                          handleMenuClose()
-                         todoActions.setCompleted(id)
+                         todoActions.setCompleted(firebaseId as string)
                      }}> 
                         <FontAwesomeIcon icon ={faCheckDouble} />
                         <h3>Completed</h3>
                     </div>
                     }
                     <div className="todo-item__item-inner" onClick={()=>{
-                        todoActions.removeTask(id)
+                        todoActions.removeTask(firebaseId as string)
                         handleMenuClose()
                         }}>
                         <FontAwesomeIcon icon ={faTrash} />

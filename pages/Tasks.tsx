@@ -1,7 +1,7 @@
-import { NextPage } from 'next'
 import React,{ useState } from 'react'
+import { NextPage } from 'next'
 import { WheatherProps } from '../interfaces'
-import {fetchWheather } from '../modules/api.module'
+import { fetchWheather } from '../modules/api.module'
 import Layout from '../components/layout.component'
 import TodoMainComponent from '../components/todo-components/todo.component'
 import CalendarWrapper from '../components/calendar.component'
@@ -13,7 +13,7 @@ interface TasksProps {
     }
 }
 
-const Tasks:NextPage<TasksProps> = ({data}) => {
+const TasksPage:NextPage<TasksProps> = ({data}) => {
 
   const [isUpdated,setIsUpdated] = useState<boolean>(false)
 
@@ -32,7 +32,7 @@ const Tasks:NextPage<TasksProps> = ({data}) => {
   )
 }
 
-export default Tasks
+export default TasksPage
 
 
 export async function getStaticProps(){

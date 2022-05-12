@@ -1,9 +1,9 @@
 import React,{ useState,useEffect } from 'react'
 import gsap from 'gsap'
-import ChatContactItem from './chat-contact-item.component'
-import Search from './search.component'
+import Chat from './chat.components'
+import Search from '../search.component'
 
-const ChatContacts = () => {
+const Contacts = () => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
 
   const comesIn = (el:string | HTMLDivElement) => {
@@ -40,16 +40,17 @@ const ChatContacts = () => {
           <Search isSearchAll={true} />
         </div>
         <div className="chat-contacts__inner">
-          <ChatContactItem />
-          <ChatContactItem />
-          <ChatContactItem />
-          <ChatContactItem />
-          <ChatContactItem />
-          <ChatContactItem />
-          <ChatContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
+          <Chat.ContactItem />
         </div>
     </div>
   )
 }
 
-export default ChatContacts
+export default Contacts

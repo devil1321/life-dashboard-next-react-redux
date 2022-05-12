@@ -9,7 +9,7 @@ interface MonthlyEarningProps{
     percentage:number;
 }
 
-const MonthlyEarning:React.FC<MonthlyEarningProps> = ({series,all,percentage}) => {
+const MonthlyEarningPanel:React.FC<MonthlyEarningProps> = ({series,all,percentage}) => {
 
    const options:any = {
        chart: {
@@ -79,4 +79,4 @@ const MonthlyEarning:React.FC<MonthlyEarningProps> = ({series,all,percentage}) =
   )
 }
 
-export default MonthlyEarning
+export default MonthlyEarningPanel

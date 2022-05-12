@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     page: {
         padding:'0px 20px'
     },
-    invoiceNr:{
+    invoiceNR:{
         width:'100%',
         textAlign:'center'
     },
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         <Document>
           <Page size="A4" style={styles.page}>
             <View >
-                <Text style={styles.invoiceNR}>{invoiceNR}</Text>
+                <Text style={styles.invoiceNR}>NR. {invoiceNR}</Text>
             </View>
             <View style={styles.header} >
                 <View>

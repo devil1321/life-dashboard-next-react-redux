@@ -22,10 +22,13 @@ import dynamic from "next/dynamic";
 import Invoice from '../components/invoice-components/invoice.components'
 const InvoicePreview = dynamic(() => import("../components/invoice-components/invoice-preview.component"), { ssr: false });
 
-const Invoices:NextPage = () => {
+const InvoicesPage:NextPage = () => {
+
     const dispatch = useDispatch()
-    const { formData,fields } = useSelector((state:State) => state.invoices)
-    
+    const { formData,fields,invoice,invoices } = useSelector((state:State) => state.invoices)
+    const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
+
+    const [isLoad,setIsLoad] = useState<boolean>(false)
     const [isAdd,setIsAdd] = useState<boolean>(false)
     const [isAnim,setIsAnim] = useState<boolean>(false)
     const [isInvoice,setIsInvoice] = useState<boolean>(false)
@@ -33,12 +36,7 @@ const Invoices:NextPage = () => {
     const [isCustomInvoice,setIsCustomInvoice] = useState<boolean>(false)
     const [pdfUrl,setPdfUrl] = useState<string>("")
     const [file,setFile] = useState<string>('')
-    const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
-  
 
-    
-    const tempInArr = [1,2,3,5,6,7,8,9,10]
-    
     const comesIn = (el:string | HTMLDivElement) => {
     
       const tl = gsap.timeline()
@@ -111,11 +109,13 @@ const Invoices:NextPage = () => {
       setPdfUrl(blob)
     }
 
-    const handleItemFn = (e:any) => {
+    const handleItemFn = (e:any,id:string) => {
       setIsInvoice(true)
-      setIsInvoiceLoad(false)
+      setIsInvoiceLoad(true)
+      setIsCustomInvoice(false)
       setPdfUrl(file)
       setIsAdd(false)
+      invoicesActions.viewInvoice(id)
       if(isAnim){
           comesIn('.invoice-item')
           setIsAnim(false)
@@ -133,6 +133,28 @@ const Invoices:NextPage = () => {
       innerContainer.style.maxHeight = size
     }
   
+    const comesFromDown = (el:string) => {
+      gsap.fromTo(el,{y:600},{y:0, stagger: { 
+        each: 0.15,
+        from: "start",
+        grid: "auto",
+        ease: "power2.inOut",
+      }})
+    }
+
+
+      useEffect(()=>{
+        if(!isLoad){
+          invoicesActions.setInvoices()
+          setIsLoad(true)
+        }
+        if(isLoad){
+          setFile(invoice.file)
+        }
+        setTimeout(()=>{
+          comesFromDown('.invoice-item')
+        },2000)
+      },[invoice,isLoad])
 
     return (
       <Layout title="Invoices">
@@ -192,8 +214,8 @@ const Invoices:NextPage = () => {
                 </div>              
               </div>
               <div className="invoices__right-panel">
-                {tempInArr.map((item:any)=>(
-                  <Invoice.Item key={item} fn={handleItemFn} comesIn = {comesIn} />
+                {invoices.map((item:any)=>(
+                  <Invoice.Item key={item} fn={handleItemFn} invoice={item} comesIn = {comesIn}  />
                 ))}
               </div>
             </div>
@@ -219,4 +241,4 @@ const Invoices:NextPage = () => {
     )
   }
 
-export default Invoices
+export default InvoicesPage

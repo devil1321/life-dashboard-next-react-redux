@@ -11,7 +11,6 @@ interface TaskFormProps {
 }
 
 interface NewTaskState{
-    id:string;
     name:string;
     description:string;
     completed:boolean;
@@ -23,7 +22,6 @@ const TaskForm:React.FC<TaskFormProps>= ({handleTaskFn,addTask}) => {
     const { date } = useSelector((state:State) => state.date)
 
     const [newTask,setNewTask] = useState<NewTaskState>({
-        id:uuidv4(),
         name:'',
         description:'',
         completed:false,
@@ -49,7 +47,6 @@ const TaskForm:React.FC<TaskFormProps>= ({handleTaskFn,addTask}) => {
            },2000)
         }
         setNewTask({
-         id:uuidv4(),
          name:'',
          description:'',
          completed:false,

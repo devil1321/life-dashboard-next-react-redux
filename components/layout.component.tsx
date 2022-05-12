@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Navbar from './navbar.component'
-import Sidebar from './sidebar.component'
+import Nav from './navbar-components/navbar.components'
+import Sidebar from './sidebar-components/sidebar.components'
 import Head from 'next/head'
 import Spinner from './spinner.component'
 import LockScreen from './lock-screen.component';
@@ -55,9 +55,9 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-           <Sidebar />
+           <Sidebar.Main />
            <div className="container-inner">
-                <Navbar /> 
+                <Nav.Navbar /> 
                {children}
           </div>
         </div>}

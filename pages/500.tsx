@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import Loader from '../components/loader.component'
 
-const ServerError:NextPage = () => {
+const ServerErrorPage:NextPage = () => {
   return (
     <Loader title="Server Error">
         <div className="server-error">
@@ -22,4 +22,4 @@ const ServerError:NextPage = () => {
   )
 }
 
-export default ServerError
+export default ServerErrorPage

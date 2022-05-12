@@ -1,11 +1,8 @@
 import React from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/layout.component'
-import MonthlyEarning from '../components/monthly-panel.component'
-import ProfilePanel from '../components/profile-panel.component'
-import SmalLWidget from '../components/small-widget.component'
-import EmailItem from '../components/email-item.component'
-
+import Dashboard from '../components/dashboard-components/dashboard.components'
+import Email from '../components/email-components/email.components'
 import openbox from '../animations/icons-json/107-box-package-open.json'
 import error from '../animations/icons-json/1140-error.json'
 import income from '../animations/icons-json/453-savings-pig.json'
@@ -18,7 +15,7 @@ interface SeriesOptions{
   data:number[]
 }
 
-const Dashboard:NextPage = () => {
+const DashboardPage:NextPage = () => {
 
   const series:SeriesOptions[] = [{
     name: 'Orders',
@@ -88,23 +85,23 @@ const Dashboard:NextPage = () => {
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
-              <ProfilePanel projects={100}  emails={124} earnings={3200} tasks={6}/>
-              <MonthlyEarning series={[12]} all={3456} percentage={12}   />
+              <Dashboard.ProfilePanel projects={100}  emails={124} earnings={3200} tasks={6}/>
+              <Dashboard.MonthlyEarningPanel series={[12]} all={3456} percentage={12}   />
             </div>
             <div className="dashboard__right-panel">
-              <SmalLWidget title="Orders" count={56} icon={openbox} />
-              <SmalLWidget title="Rejections" count={12} icon={error} />
-              <SmalLWidget title="Income" count={32656} icon={income} />
+              <Dashboard.Widget title="Orders" count={56} icon={openbox} />
+              <Dashboard.Widget title="Rejections" count={12} icon={error} />
+              <Dashboard.Widget title="Income" count={32656} icon={income} />
               <Chart
-              options={options}
-              series={series}
-              type="bar"
-              width="650"
+                options={options}
+                series={series}
+                type="bar"
+                width="650"
               />
               <div className="dashboard__emails">
-                <EmailItem img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
-                <EmailItem img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
-                <EmailItem img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
+                <Email.Item img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
+                <Email.Item img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
+                <Email.Item img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
               </div>
             </div>
           </div>
@@ -113,4 +110,4 @@ const Dashboard:NextPage = () => {
   )
 }
 
-export default Dashboard
+export default DashboardPage

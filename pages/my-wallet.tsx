@@ -1,9 +1,9 @@
 import React from 'react'
 
-const MyWallet = () => {
+const MyWalletPage = () => {
   return (
     <div>MyWallet</div>
   )
 }
 
-export default MyWallet
+export default MyWalletPage

@@ -16,7 +16,7 @@ import { SetStateAction } from 'react';
 
 
 interface TaskFormData{
-  id:string;
+  firebaseId:string;
   name:string;
   description:string;
   completed:boolean;
@@ -45,7 +45,7 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   const [isFilteredByCompleted,setIsFilteredByCompleted] = useState<boolean>(false)
  
   const [taskFormData,setTaskFormData] = useState<TaskFormData>({
-    id:"",
+    firebaseId:'',
     name:"",
     description:"",
     completed:false,
@@ -103,7 +103,7 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   }
 
   const handleTodoSaveFn = () =>{
-    todoActions.saveTask(taskFormData.id,taskFormData)
+    todoActions.saveTask(task.firebaseId,taskFormData)
     UI.setIsEdit(false)
     const btns = document.querySelectorAll('button') as NodeListOf<HTMLButtonElement>
     btns.forEach((btn:HTMLButtonElement) => {
@@ -152,15 +152,16 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
       todoActions.setTasks()
       setIsLoad(true)
     }
-    if(task.id){
+    if(task.firebaseId){
       setTaskFormData({
-        id:task.id,
+        firebaseId:task.firebaseId,
         name:task.name,
         description:task.description,
         completed:task.completed,
         date:moment(task.date).format('MM-DD-YYYY')
       })
     }
+    console.log(taskFormData)
   },[isEdit,task])
     
 
@@ -170,7 +171,7 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
         <Todo.Heading isEdit={isEdit} handleTodoSaveFn={handleTodoSaveFn} />
         {!isEdit && <Todo.TaskForm handleTaskFn={handleTaskFn} addTask={todoActions.addTask}/>}
           <div className="todo__body">
-              {!isEdit && tempTasks.length > 0 && tempTasks.map((task:Task,index:number) => <Todo.Item key={task.id}  task={task} handleEdit={UI.setIsEdit} /> )}
+              {!isEdit && tempTasks.length > 0 && tempTasks.map((task:TaskFormData,index:number) => <Todo.Item key={task.name}  task={task} handleEdit={UI.setIsEdit} /> )}
               {isEdit && 
                 <div className="todo__edit">
                   <Todo.EditHeading taskFormData={taskFormData} handleTaskFormData={handleTaskFormData} handleDate={handleDate} />

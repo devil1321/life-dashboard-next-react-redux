@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import Loader from '../components/loader.component'
 
-const NotFound:NextPage = () => {
+const NotFoundPage:NextPage = () => {
   return (
     <Loader title="Not Found">
         <div className="not-found">
@@ -22,4 +22,4 @@ const NotFound:NextPage = () => {
   )
 }
 
-export default NotFound
+export default NotFoundPage

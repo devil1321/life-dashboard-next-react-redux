@@ -8,7 +8,7 @@ interface ChatMessageProps {
 }
 
 
-const ChatMessage:React.FC<ChatMessageProps> = ({userImg,msg,isRecipient}) => {
+const Message:React.FC<ChatMessageProps> = ({userImg,msg,isRecipient}) => {
   return (
     <div className={`chat-message ${isRecipient ? "chat-message--recipent" : "chat-message--sender"}`}>
         <div className="chat-message__user">
@@ -21,4 +21,4 @@ const ChatMessage:React.FC<ChatMessageProps> = ({userImg,msg,isRecipient}) => {
   )
 }
 
-export default ChatMessage
+export default Message

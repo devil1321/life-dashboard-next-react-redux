@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-const ChatContactItem = () => {
+
+const ContactItem = () => {
   return (
     <div className="chat-contact-item">
       <div className="chat-contact-item__img">
@@ -16,4 +17,4 @@ const ChatContactItem = () => {
   )
 }
 
-export default ChatContactItem
+export default ContactItem

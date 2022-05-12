@@ -12,3 +12,4 @@ export const base64toUrl = async (base64Data:string) => {
     const blob = await r.blob();
     return URL.createObjectURL(blob);
 }
+

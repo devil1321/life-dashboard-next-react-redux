@@ -37,6 +37,7 @@ const CustomForm:React.FC<CustomFormProps> = ({customFormFn}) => {
     <form action="" onSubmit={(e)=>handleCustomForm(e)}>
       <Form.File type="file" id="custom-file" label="PDF File" iconName="PDF" name="file" accept=".pdf" onChange={customFormFn} />
       <Form.Field type="text" label="Invoice Nr." name="invoiceNR" onChange={invoicesActions.handleFormData} />
+      <Form.Field type="date" label="Date" name="date" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="Money" name="money" onChange={invoicesActions.handleFormData} />
       <Form.Field type="number" label="Tax" name="tax" onChange={invoicesActions.handleFormData} />
       <Form.Field type="number" label="Bonuses" name="bonuses" onChange={invoicesActions.handleFormData} />

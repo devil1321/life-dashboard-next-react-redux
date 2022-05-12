@@ -1,6 +1,5 @@
 import { InvoicesFormDataParams } from '../../interfaces'
 import { InvoicesTypes } from '../types'
-import { Field } from '../../interfaces'
 
 
 const initData:InvoicesFormDataParams = {
@@ -8,6 +7,7 @@ const initData:InvoicesFormDataParams = {
         file:'',
         company:'',
         invoiceNR:'',
+        date:'',
         money:0,
         tax:0,
         bonuses:0,
@@ -18,15 +18,16 @@ const initData:InvoicesFormDataParams = {
         zip:'',
         city:'',
     },
-    fields:[]
+    fields:[],
+    invoices:[],
+    invoice:''
 }
 export default (state = initData, action:any) =>{
     switch(action.type){
-        case InvoicesTypes.SET_INVOICE: 
+        case InvoicesTypes.SET_INVOICES: 
             return {
                 ...state,
-                instance:action.instance,
-                update:action.update
+                invoices:action.invoices
             }
         case InvoicesTypes.SET_FIELDS: 
             return {
@@ -37,6 +38,15 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 formData:action.formData
+            }
+        case InvoicesTypes.ADD_INVOICE: 
+            return {
+                ...state,
+            }
+        case InvoicesTypes.VIEW_INVOICE: 
+            return {
+                ...state,
+                invoice:action.invoice
             }
         default:
             return {

@@ -14,7 +14,7 @@ interface FormDataState{
     password:string;
 }
 
-const SignUp:NextPage = () => {
+const SignUpPage:NextPage = () => {
     const dispatch = useDispatch()
     const userActions = bindActionCreators(UserActions,dispatch)
     const { error, user } = useSelector((state:State) => state.user)
@@ -75,4 +75,4 @@ const SignUp:NextPage = () => {
   )
 }
 
-export default SignUp
+export default SignUpPage

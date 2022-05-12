@@ -13,7 +13,7 @@ const initData:TodoState = {
     tasks:[],
     tempTasks:[],
     task:{
-        id:'',
+        firebaseId:'',
         name:'',
         description:'',
         completed:false,
@@ -25,6 +25,12 @@ const initData:TodoState = {
 export default (state = initData, action:any) =>{
     switch(action.type){
         case TodoTypes.SET_TASKS: 
+            return {
+                ...state,
+                tempTasks:action.tasks,
+                tasks:action.tasks
+            }
+        case TodoTypes.TRACK_TASKS: 
             return {
                 ...state,
                 tempTasks:action.tasks,
@@ -44,6 +50,7 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 tempTasks:action.tempTasks,
+                tasks:action.tasks
             }
         case TodoTypes.EDIT_TASK: 
             return {
