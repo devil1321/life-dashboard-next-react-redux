@@ -42,6 +42,12 @@ export default (state = initData, action:any) =>{
         case InvoicesTypes.ADD_INVOICE: 
             return {
                 ...state,
+                invoices:action.invoices
+            }
+        case InvoicesTypes.REMOVE_INVOICE:
+            return{
+                ...state,
+                invoices:action.invoices
             }
         case InvoicesTypes.VIEW_INVOICE: 
             return {

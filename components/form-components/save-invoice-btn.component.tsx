@@ -12,7 +12,9 @@ const SaveBtn = () => {
   return (
     <button type="submit" className="invoices__green-btn invoices__save" onClick={()=>{
         invoicesActions.addInvoice(formData,formData.file,'dd')
-        console.log(formData)
+        setTimeout(()=>{
+          invoicesActions.setInvoices()
+        },100)
       }}>Save Invoice</button>
   )
 }

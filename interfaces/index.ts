@@ -51,11 +51,11 @@ export interface Field {
 }
 
 export interface Invoice{
-    id:string;
+    firebaseId?:string;
     invoiceNR:string;
     firstName:string;
     lastName:string;
     money:number;
     date:string;
-    invoiceData:string;
+    file:string;
 }

@@ -6,7 +6,6 @@
     width: 100%;
     margin-left: auto;
     overflow: hidden;
-    transform:translateY(600px);
     @include createFlex(row,flex-start,center,null);
     &:hover{
         background-color: $light-green !important;
@@ -57,5 +56,13 @@
                 background:linear-gradient(45deg, $strong-green,yellowgreen);
             }
         }
+    }
+    &__remove-btn{
+        background:linear-gradient(45deg, orangered,red) !important;
+        @include createIsomorphicConvex(black,red);
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                background:linear-gradient(45deg, red,orange) !important;
+            }
     }
 }

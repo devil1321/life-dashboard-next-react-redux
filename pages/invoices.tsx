@@ -144,10 +144,7 @@ const InvoicesPage:NextPage = () => {
 
 
       useEffect(()=>{
-        if(!isLoad){
-          invoicesActions.setInvoices()
-          setIsLoad(true)
-        }
+        invoicesActions.setInvoices()
         if(isLoad){
           setFile(invoice.file)
         }
@@ -215,7 +212,7 @@ const InvoicesPage:NextPage = () => {
               </div>
               <div className="invoices__right-panel">
                 {invoices.map((item:any)=>(
-                  <Invoice.Item key={item} fn={handleItemFn} invoice={item} comesIn = {comesIn}  />
+                  <Invoice.Item key={item} fn={handleItemFn} invoice={item} setInvoices={invoicesActions.setInvoices} removeInvoice={invoicesActions.removeInvoice} comesIn = {comesIn}  />
                 ))}
               </div>
             </div>

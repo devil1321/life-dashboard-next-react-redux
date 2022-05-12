@@ -19,7 +19,6 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig)
 const db = getFirestore() 
-const q = query(collection(db, "tasks"))
 const colRefTasks = collection(db,'tasks')
 
 

@@ -2,7 +2,7 @@ import { InvoicesTypes } from '../types'
 import { Dispatch } from 'redux'
 import store from '../store'
 
-import { Field } from '../../interfaces'
+import { Field, Invoice } from '../../interfaces'
 import { initializeApp } from 'firebase/app'
 import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query,where,getDoc,updateDoc } from 'firebase/firestore'
 
@@ -18,6 +18,8 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig)
 const db = getFirestore() 
+const q = query(collection(db, "invoices"))
+
 const colRefInvoices = collection(db,'invoices')
 
 export const setField = (field:Field) => (dispatch:Dispatch<any>) => {
@@ -41,11 +43,11 @@ export const handleFormData = (name:string,val:string) => (dispatch:Dispatch<any
 }
 
 export const setInvoices = () => (dispatch:Dispatch<any>) => {
-    const invoices:any = []
     getDocs(colRefInvoices)
-        .then((snapshot)=>{
+    .then((snapshot)=>{
+            let invoices:any = []
             snapshot.docs.forEach(doc => {
-                invoices.push({...doc.data(),id:doc.id})
+                invoices.push({...doc.data(),firebaseId:doc.id})
             })
             dispatch({
                 type:InvoicesTypes.SET_INVOICES,
@@ -53,11 +55,12 @@ export const setInvoices = () => (dispatch:Dispatch<any>) => {
                
             })
         }).catch(err => console.log(err))
-   
 }
 
-export const addInvoice = (invoice:any,invoiceData:any,userId:string) => (dispatch:Dispatch<any>) => {
+export const addInvoice = (invoice:any,dataFile:any,userId:string) => (dispatch:Dispatch<any>) => {
     const { file, invoiceNR, firstName, lastName, money, date } = invoice
+    const invoices:Invoice[] = store.getState().invoices.invoices
+
     addDoc(colRefInvoices,{
         userId,
         invoiceNR,
@@ -69,7 +72,8 @@ export const addInvoice = (invoice:any,invoiceData:any,userId:string) => (dispat
     })
     .then(()=>{
         dispatch({
-            type:InvoicesTypes.ADD_INVOICE
+            type:InvoicesTypes.ADD_INVOICE,
+            invoices:invoices
         })
     })
     .catch(err => console.log(err))
@@ -83,4 +87,18 @@ export const viewInvoice = (id:string) => (dispatch:Dispatch<any>) => {
         invoice:invoice
     })
     
+}
+
+
+export const removeInvoice = (id: string) => (dispatch:Dispatch<any>) => {
+    const tempInvoices:Invoice[] = store.getState().invoices.invoices.filter((invoice:Invoice) => invoice.firebaseId !== id)
+    const docRef = doc(db,"invoices",id)
+    deleteDoc(docRef)
+        .then(()=>{
+            dispatch({
+                type:InvoicesTypes.REMOVE_INVOICE,
+                invoices:tempInvoices
+            })
+        })
+        .catch(err => console.log(err)) 
 }
