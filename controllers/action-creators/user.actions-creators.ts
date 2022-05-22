@@ -234,10 +234,9 @@ export const setEmails = (email:string,password:string) => (dispatch:Dispatch<an
                         }
                 })
                     .then((res:any)=>{
-                        const emails = JSON.parse(res.data)
                         dispatch({
                             type:UserTypes.SET_EMAILS,
-                            emails:[...emails]
+                            emails:[...res.data]
                         })
             })    
         })
