@@ -5,15 +5,16 @@ const nodemailer = require('nodemailer')
 
 
 export default function sendEmail(req: NextApiRequest,res: NextApiResponse) {
-    const mail = req.body.email
-    const password = req.body.password
+    const body = JSON.parse(req.body)
+    const mail = body.email
+    const password = body.password
     const mailRegExp = new RegExp('gmail','gi')
     const isGmail = mail.match(mailRegExp)
     
-    const from  = `${req.body.from}`
-    const to = req.body.to
-    const subject = req.body.subject
-    const text = req.body.text
+    const from  = `${body.from}`
+    const to = body.to
+    const subject = body.subject
+    const text = body.text
 
     let host = ''
     let port = 0
