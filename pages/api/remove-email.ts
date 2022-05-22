@@ -6,9 +6,8 @@ export default function handler(req: NextApiRequest,res: NextApiResponse) {
     const imaps = require('imap-simple');
     const simpleParser = require('mailparser').simpleParser;
     const _ = require('lodash');
-    const body = JSON.parse(req.body)
-    const mail = body.email
-    const password = body.password
+    const mail = req.body.email
+    const password = req.body.password
     const mailRegExp = new RegExp('gmail','gi')
     const isGmail = mail.match(mailRegExp)
     

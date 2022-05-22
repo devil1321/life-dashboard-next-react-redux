@@ -6,16 +6,14 @@ export default async function gmailInbox(req: NextApiRequest,res: NextApiRespons
 const imaps = require('imap-simple');
 const simpleParser = require('mailparser').simpleParser;
 const _ = require('lodash');
-const body = JSON.parse(req.body)
-const mail = body.email
-const password = body.password
+const mail = req.body.email
+const password = req.body.password
 const mailRegExp = new RegExp('gmail','gi')
-// const isGmail = mail.match(mailRegExp)
-let host = ''
 console.log(req.body)
-console.log(body)
+const isGmail = mail.match(mailRegExp)
+let host = ''
 
-if(true){
+if(isGmail){
     host = 'imap.gmail.com'
 }else{
     host = 'imap-mail.outlook.com'
