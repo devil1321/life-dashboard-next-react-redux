@@ -15,7 +15,7 @@ let host = ''
 console.log(req.body)
 console.log(body)
 
-if(isGmail){
+if(true){
     host = 'imap.gmail.com'
 }else{
     host = 'imap-mail.outlook.com'
