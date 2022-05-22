@@ -9,8 +9,6 @@ const _ = require('lodash');
 const mail = req.body.email
 const password = req.body.password
 const mailRegExp = new RegExp('gmail','gi')
-console.log('body',req.body)
-console.log('email',req.body.email)
 const isGmail = mail.match(mailRegExp)
 let host = ''
 
