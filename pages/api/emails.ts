@@ -31,8 +31,7 @@ var config = {
         authTimeout:10000,
     }
 };
-    try{
-        const emails = await imaps.connect(config)
+    imaps.connect(config)
             .then((connection:any) => {
                 return connection.openBox('INBOX')
                     .then(() => {
@@ -60,12 +59,8 @@ var config = {
                     })
                 }) 
             })
-            .then((emails:any) => emails)
-            .catch((err:any) => console.log(err))
-
-        res.json(emails)
-    }
-    catch(err){
-        console.log(err)
-    }
+        
+        .then((emails:any) => res.json(emails))
+        .catch((err:any) => console.log(err))
+  
 }
