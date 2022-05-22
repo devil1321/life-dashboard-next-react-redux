@@ -26,7 +26,6 @@ export default function sendEmail(req: NextApiRequest,res: NextApiResponse) {
         port = 587
     }
 
-    console.log(req.body)
 
     let transporter = nodemailer.createTransport({
         host: host,

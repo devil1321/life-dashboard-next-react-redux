@@ -228,7 +228,7 @@ export const setEmails = (email:string,password:string) => (dispatch:Dispatch<an
                 resolve(pass)
             }).then((pass:any)=>{
                 const reqBody = JSON.stringify({ email, password:pass })
-                axios.post('/api/send-email',reqBody,{
+                axios.post('/api/emails',reqBody,{
                     headers:{
                         'Content-Type': 'application/json'
                         }
@@ -252,7 +252,7 @@ export const deleteEmail = (email:string,password:string,uid:string) => (dispatc
                 resolve(pass)
             }).then((pass:any)=>{
                 const reqBody = { email, password:pass, uid }
-                axios.post('/api/send-email',reqBody,{
+                axios.post('/api/remove-email',reqBody,{
                     headers:{
                         'Content-Type': 'application/json'
                         }
