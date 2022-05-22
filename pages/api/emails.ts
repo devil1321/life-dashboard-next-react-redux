@@ -27,7 +27,8 @@ var config = {
         port: 993,
         tls: true,
         tlsOptions: { rejectUnauthorized:false },
-        connectTimeout:10000
+        connectTimeout:60000,
+        authTimeout:10000,
     }
 };
     try{

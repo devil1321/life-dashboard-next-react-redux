@@ -27,7 +27,9 @@ export default function handler(req: NextApiRequest,res: NextApiResponse) {
             host:host,
             port: 993,
             tls: true,
-            tlsOptions: { rejectUnauthorized:false }
+            tlsOptions: { rejectUnauthorized:false },
+            connectTimeout:60000,
+            authTimeout:10000,
         }
     };
     
