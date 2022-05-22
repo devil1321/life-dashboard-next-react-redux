@@ -232,7 +232,7 @@ export const setEmails = (email:string,password:string) => (dispatch:Dispatch<an
                     .then((res:any)=>{
                         dispatch({
                             type:UserTypes.SET_EMAILS,
-                            emails:res.data
+                            emails:[...res.data]
                         })
             })    
         })
