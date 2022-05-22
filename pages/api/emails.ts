@@ -29,7 +29,7 @@ var config = {
         tlsOptions: { rejectUnauthorized:false },
     }
 };
-    imaps.connect(config)
+    const emails = await imaps.connect(config)
             .then((connection:any) => {
                 return connection.openBox('INBOX')
                     .then(() => {
@@ -60,6 +60,6 @@ var config = {
             .then((emails:any) => emails)
             .catch((err:any) => console.log(err))
 
-        res.json(emails)
+    res.json(emails)
   
 }
