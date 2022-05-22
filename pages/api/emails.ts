@@ -10,7 +10,7 @@ const body = JSON.parse(req.body)
 const mail = body.email
 const password = body.password
 const mailRegExp = new RegExp('gmail','gi')
-const isGmail = mail.match(mailRegExp)
+// const isGmail = mail.match(mailRegExp)
 let host = ''
 console.log(req.body)
 console.log(body)
