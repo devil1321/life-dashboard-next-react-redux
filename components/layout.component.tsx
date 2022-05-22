@@ -47,11 +47,11 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     if(user && userDetails === null){
       userActions.setUserDetails(user.email)
     }
-    if(userDetails !== null){
+    if(userDetails?.email !== undefined){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
     }
-  },[user,isLocked,userDetails])
+  },[user,isLocked,userDetails,userDetails?.email])
 
   return (
     <React.Fragment>
