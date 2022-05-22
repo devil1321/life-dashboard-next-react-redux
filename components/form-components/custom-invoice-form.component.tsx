@@ -34,7 +34,7 @@ const CustomForm:React.FC<CustomFormProps> = ({customFormFn}) => {
       <Form.Field type="text" label="Adress" name="adress" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="Zip Code" name="zipCode" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="City" name="city" onChange={invoicesActions.handleFormData} />
-      {invoiceFields.length > 0 && invoiceFields.map((field:any) => <Form.Field type="text" label={field.name} name={field.name} onChange={invoicesActions.handleFormData} />)}
+      {invoiceFields.length > 0 && invoiceFields.map((field:any,index:number) => <Form.Field key={index} type="text" label={field.name} name={field.name} onChange={invoicesActions.handleFormData} />)}
       <Form.CustomMenu />
       <Form.SaveBtn />
    </form>
