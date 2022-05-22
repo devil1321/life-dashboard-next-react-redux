@@ -61,8 +61,5 @@ var config = {
             .catch((err:any) => console.log(err))
 
         res.json(emails)
-    }
-    catch(err){
-        console.log(err)
-    }
+  
 }
