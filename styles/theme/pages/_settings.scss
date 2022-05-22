@@ -1,0 +1,38 @@
+.settings{
+    padding:50px;
+    position: relative;
+    top:50px;
+    left:0px;
+    @include createFlex(row,center,flex-start,null);
+    &__main{
+        width: 62%;
+    }
+    &__widget-wrapper{
+        width: 38%;
+    }
+    &__form-split{
+        @include createFlex(row,flex-start,center,null);
+        .invoices__field{
+            width: 100%;
+        }
+    }
+    &__form-submit-btn{
+        cursor: pointer;
+        width: 97%;
+        margin-top:20px;
+        padding:10px 20px;
+        border-radius:25px;
+        border:0px;
+        font-weight: bold;
+        color:white;
+        background:linear-gradient(45deg, $neon-green,yellowgreen);
+        &:hover{
+        background:linear-gradient(45deg,yellowgreen, $neon-green);
+
+        }
+        &:active{
+            outline: none;
+            border:0px;
+        }
+    }
+}

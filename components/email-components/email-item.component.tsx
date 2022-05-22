@@ -1,20 +1,30 @@
-import { Player } from '@lottiefiles/react-lottie-player';
 import React,{ Dispatch, SetStateAction, useState } from 'react'
+import { Player } from '@lottiefiles/react-lottie-player';
 import trash from '../../animations/icons-json/185-trash-bin.json'
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from '../../controllers/reducers'
+import { bindActionCreators } from 'redux'
+import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 
 interface EmailProps{
     img:string;
-    person:string;
-    subject:string;
-    date:string;
-    isView?:boolean;
-    fn?:(params:any) => any | void 
-    params?:any[];
+    email:any;
+    isView:boolean;
+    handleEmailItemIsPreviewFn?:() => any | void 
 }
 
-const Item:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) => {
+const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}) => {
+
+  const dispatch = useDispatch()
+  const userActions = bindActionCreators(UserActions,dispatch)
+  const { userDetails } = useSelector((state:State) => state.user)
 
   const [isEmail,setIsEmail] = useState<boolean>(true)
+  
+  if(email){
+    var { uid, subject, date } = email
+    var name = email.from.value[0].name
+  }
 
   return (
     <React.Fragment>
@@ -24,10 +34,10 @@ const Item:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) =
               <img src={img} alt="email-pic" />
           </div>
           <div className="email-item__content">
-              <h3>{person}</h3>
-              <p>{subject}</p>
+              <h3>{email && name}</h3>
+              <p>{email && subject}</p>
           </div>
-          <p>{date}</p>
+          <p>{email && date.slice(0,10)} {email && date.slice(11,19)}</p>
           {!isView 
            ? <div className="email-item__close" onClick={()=>setIsEmail(false)}>
             <Player
@@ -40,12 +50,14 @@ const Item:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) =
           </div>
           : <React.Fragment>
                <button className="email-item__view-btn" onClick={()=>{
-               if(fn && params){
+               if(handleEmailItemIsPreviewFn){
                  // @ts-ignore
-                 fn(...params)
+                 handleEmailItemIsPreviewFn()
+                 userActions.setEmail(email)
                }
              }}>View</button>
             <div className="email-item__close" onClick={()=>setIsEmail(false)}>
+            <span onClick={()=>userActions.deleteEmail(userDetails.email,userDetails.inbox_password,uid)}>
             <Player
                 loop
                 hover={true}
@@ -53,6 +65,7 @@ const Item:React.FC<EmailProps> = ({img,person,subject,date,isView,fn,params}) =
                 style={{ height: '40px', width: '40px' }}
             >
             </Player>
+            </span>
           </div>
           </React.Fragment>}
       </div>}

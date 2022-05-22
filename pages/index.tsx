@@ -35,6 +35,7 @@ const IndexPage:NextPage = () => {
   const handleSubmit = (e:any) => {
       e.preventDefault()
       userActions.loginUser(formData.email,formData.password)
+      setTimeout(()=>{userActions.setUserDetails(formData.email)},500)
        setFormData({
            email:'',
            password:''
@@ -64,7 +65,6 @@ const IndexPage:NextPage = () => {
                         <input type="password" name="password" value={formData.password} onChange={(e:any)=>handleFormData(e)} />
                     </div>
                 <button type="submit">Log In</button>
-                <button onClick={()=>userActions.loginUserGoogle()} className="sign__google">Google</button>
                 <Link href="/sign-up" passHref={true}>
                     <a className="sign__sign-link">Sign Up</a>
                 </Link>

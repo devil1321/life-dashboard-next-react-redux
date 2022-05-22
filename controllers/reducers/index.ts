@@ -4,6 +4,7 @@ import invoicesReducer from "./invoices.reducer";
 import todoReducer from "./todo.reducer";
 import uiReducer from "./ui.reducer";
 import userReducer from "./user.reducer";
+import contactsReducer from './contacts.reducer'
 
 const reducers = combineReducers({
     ui:uiReducer,
@@ -11,6 +12,7 @@ const reducers = combineReducers({
     todo:todoReducer,
     invoices:invoicesReducer,
     user:userReducer,
+    contacts:contactsReducer
 })
 
 export default reducers

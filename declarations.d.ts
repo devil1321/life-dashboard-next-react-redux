@@ -1,3 +1,4 @@
+declare module 'crypto-js'
 declare module 'moment'
 declare module 'uuid'
 declare module 'axios'

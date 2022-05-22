@@ -31,6 +31,12 @@
         p{
             color:lightgray;
             font-size:pxToRem(12);
+            text-overflow: ellipsis;
+            width:280px;
+            overflow:hidden;
+            display:inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
     & > p {

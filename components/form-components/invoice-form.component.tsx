@@ -14,13 +14,12 @@ const InvoiceForm:React.FC<InvoiceFormProps> = ({customFormFn}) => {
 const dispatch = useDispatch()
 const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
 
-const handleForm = (e:any) => {
-    e.preventDefault()
+const handleSubmit = (e:any) => {
+  e.preventDefault()
 }
 
   return (
-
-    <form action="" onSubmit={(e)=>handleForm(e)}>
+    <form action="" onSubmit={(e)=>handleSubmit(e)}>
      <Form.File type="file" id="custom-file" label="PDF File" iconName="PDF" name="file" accept=".pdf" onChange={customFormFn} />
      <Form.Field type="text" label="Invoice Nr." name="invoiceNR" onChange={invoicesActions.handleFormData} />
      <Form.Field type="date" label="Date" name="date" onChange={invoicesActions.handleFormData} />

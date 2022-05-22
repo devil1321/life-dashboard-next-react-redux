@@ -17,6 +17,7 @@
         border:0px;
         font-weight: bold;
         color:white;
+        
         &:active{
             outline: none;
             border:0px;
@@ -90,6 +91,7 @@
     &__custom{
         button{
            margin-top:20px;
+           margin-right:10px;
            background: linear-gradient(45deg,$strong-green,yellowgreen);
            &:hover{
                 background: linear-gradient(45deg,yellowgreen,$strong-green);
@@ -137,7 +139,7 @@
     &__custom-field-btn{
         margin-top:15px;
         position:relative;
-        right:-43%;
+        right:0px;
         top:0px;
     }
     &__right-panel{

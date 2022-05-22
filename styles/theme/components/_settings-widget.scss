@@ -1,0 +1,43 @@
+.settings{
+    &__widget{
+       cursor: pointer;
+       padding:50px 0px;
+       background-color: $item;
+       border-radius: 15px;
+       position: relative;
+       top:0px;
+       left:0px;
+       width: 101.5%;
+       transition: all 0.5s ease-in-out;
+       &:hover{
+           transform:translateY(-20px);
+           &:before{
+               height:120px;
+           }
+       }
+       &:before{
+           content:'';
+           position: absolute;
+           top:0px;
+           left:0px;
+           height: 100px;
+           width: 100%;
+           background-color: $strong-green;
+           border-radius: 15px;
+           transition: all 0.5s ease-in-out;
+       }
+       @include createFlex(column,center,center,null);
+    }
+    &__image{
+        margin:0px auto;
+        height:100px;
+        width:100px;
+        position: relative;
+        z-index: 2;
+        top:0px;
+        left:0px;
+        img{
+            width: 100%;
+        }
+    }
+}

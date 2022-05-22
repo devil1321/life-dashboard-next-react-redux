@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React from 'react'
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import { InvoicesFormDataParams } from '../../interfaces';
 
@@ -64,10 +64,13 @@ const styles = StyleSheet.create({
   
   interface InvoicePDFProps {
       formData:InvoicesFormDataParams['formData']
+      userDetails:any;
   }
 
-  const InvoicePDF:React.FC<InvoicePDFProps> = ({formData}) => {
+  const InvoicePDF:React.FC<InvoicePDFProps> = ({formData,userDetails}) => {
+
     const { invoiceNR, money, tax, bonuses, nip, firstName, lastName, adress, zip, city, company } = formData
+    const { name, surname, company:userCompany, nip:userNip } = userDetails
     
     return(
         <Document>
@@ -78,10 +81,10 @@ const styles = StyleSheet.create({
             <View style={styles.header} >
                 <View>
                   <Text style={styles.heading}>Employee</Text>
-                  <Text style={styles.company}>First Name: </Text>
-                  <Text style={styles.company}>Last Name: </Text>
-                  <Text style={styles.company}>Company: </Text>
-                  <Text style={styles.company}>NIP: </Text>
+                  <Text style={styles.company}>First Name:{name} </Text>
+                  <Text style={styles.company}>Last Name:{surname} </Text>
+                  <Text style={styles.company}>Company:{userCompany} </Text>
+                  <Text style={styles.company}>NIP: {userNip}</Text>
                 </View>
                 <View>
                   <Text style={styles.heading}>Person</Text>
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
                   <Text style={styles.company}>Company:{company} </Text>
                   <Text style={styles.company}>Adress: {adress} </Text>
                   <Text style={styles.company}>{zip} {city} </Text>
+                  {nip.length !== 0 && <Text style={styles.company}>{nip} </Text>}
                 </View>
             </View>
             <View style={styles.largeHeading}>

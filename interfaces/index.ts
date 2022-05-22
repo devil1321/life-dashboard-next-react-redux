@@ -47,7 +47,8 @@ export interface InvoicesFormDataParams {
 
 export interface Field {
     isHeading:boolean;
-    text:string;
+    text?:string;
+    name:string;
 }
 
 export interface Invoice{
@@ -59,3 +60,12 @@ export interface Invoice{
     date:string;
     file:string;
 }
+
+
+export interface Contact {
+    id:string;
+    email:string;
+    name:string;
+    surname:string;
+    phoneNumber:string;
+  }

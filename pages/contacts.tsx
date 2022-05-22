@@ -1,11 +1,17 @@
-import React,{ useEffect} from 'react'
+import React,{ useEffect, useState } from 'react'
 import Layout from '../components/layout.component'
 import Search from '../components/search.component'
-import ContactItem from '../components/contacts-components/contact-item.component'
+import Contact from '../components/contacts-components/contact.components'
 import gsap from 'gsap'
+import { Contact as ContactType } from '../interfaces'
+import { useSelector, useDispatch } from 'react-redux'
+import { State } from '../controllers/reducers'
 
 const ContactsPage = () => {
-  const tempArr = [1,2,3,4,5,6,7,8,9,10]
+  
+  const { contacts }:{ contacts:ContactType[] } = useSelector((state:State) => state.contacts)
+  const [isLoad,setIsLoad] = useState<boolean>(false)
+
 
   const comesFromDown = (el:string) => {
     gsap.fromTo(el,{y:600},{y:0, stagger: { 
@@ -18,10 +24,13 @@ const ContactsPage = () => {
 
 
   useEffect(()=>{
-    setTimeout(()=>{
+    if(isLoad){
       comesFromDown('.contact-item')
-    },2500)
-  },[])
+    }
+    setTimeout(()=>{
+      setIsLoad(true)
+    },4000)
+  },[isLoad])
 
   return (
       <Layout title="Contacts">
@@ -30,7 +39,7 @@ const ContactsPage = () => {
             <Search />
           </div>
           <div className="contacts__contacts">
-            {tempArr.map((el) => <ContactItem  key={el} />)}
+            {isLoad && contacts.map((contact:ContactType) => <Contact.Item  key={contact.id} contact={contact} />)}
           </div>
         </div>
       </Layout>

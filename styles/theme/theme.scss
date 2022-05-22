@@ -25,6 +25,7 @@
 @import './components/chat-contact-item';
 @import './components/email-contact-item';
 @import './components/contact-item';
+@import './components/settings-widget';
 
 @import './pages/sign';
 @import './pages/dashboard';
@@ -33,5 +34,6 @@
 @import './pages/chat';
 @import './pages/emails';
 @import './pages/contacts';
+@import './pages/settings';
 @import './pages/not-found';
 @import './pages/server-error';

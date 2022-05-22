@@ -41,10 +41,13 @@ const styles = StyleSheet.create({
   interface CustomInvoicePDFProps  {
     formData:InvoicesFormDataParams['formData'];
     fields:any[]
+    userDetails:any;
   }
 
-  const CustomInvoicePDF:React.FC<CustomInvoicePDFProps> = ({formData,fields}) => {
+  const CustomInvoicePDF:React.FC<CustomInvoicePDFProps> = ({formData,fields,userDetails}) => {
+
     const { invoiceNR, firstName, lastName, adress, zip, city, company } = formData
+    const { name, surname, company:userCompany, nip:userNip, invoiceFields  } = userDetails
 
     return(
         <Document>
@@ -55,10 +58,10 @@ const styles = StyleSheet.create({
             <View style={styles.header} >
                 <View>
                   <Text style={styles.heading}>Employee</Text>
-                  <Text style={styles.company}>First Name: </Text>
-                  <Text style={styles.company}>Last Name: </Text>
-                  <Text style={styles.company}>Company: </Text>
-                  <Text style={styles.company}>NIP: </Text>
+                  <Text style={styles.company}>First Name:{name} </Text>
+                  <Text style={styles.company}>Last Name:{surname} </Text>
+                  <Text style={styles.company}>Company:{userCompany} </Text>
+                  <Text style={styles.company}>NIP:{userNip} </Text>
                 </View>
                 <View>
                   <Text style={styles.heading}>Person</Text>
@@ -73,7 +76,9 @@ const styles = StyleSheet.create({
                 <Text>Invoice</Text>
             </View>
             <View>
-                {fields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field.text}</Text>)}
+                {invoiceFields.length > 0 
+                ? invoiceFields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field.text}</Text>)
+                : fields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field?.text}</Text>)}
             </View>
             <View>
                 <Text style={styles.signature}>{"Employer\'s signature"}</Text>

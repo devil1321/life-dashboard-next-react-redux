@@ -1,4 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { State } from '../../controllers/reducers'
+import { isGmail } from '../../modules/regex.module';
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux' 
+import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 
 interface PreviewProps{
     handlePreviewFn:() => void;
@@ -6,14 +12,28 @@ interface PreviewProps{
 }
 
 const Preview:React.FC<PreviewProps>= ({handlePreviewFn,handleHideFn}) => {
+
+  const { email, user } = useSelector((state:State) => state.user)
+  const dispatch = useDispatch()
+  const userActions = bindActionCreators(UserActions,dispatch)
+ 
+  if(Object.keys(email).length > 0){
+    var { subject, mail } = email
+    var name = email.from.value[0].name
+    var address = email.from.value[0].address
+  }
+
+
   return (
     <div className="emails__preview-item">
-       <h3>From : email@gmail.com</h3>
-       <h3>Subject: simple subject</h3>
-       <p>FirstName LastName</p>
-       <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae quam deleniti asperiores dolore eos omnis aperiam eius magni nihil ratione ex tenetur sapiente dolor excepturi voluptas sint minus iusto obcaecati quod officia, sed ab. Quod culpa, veniam doloremque maxime ad accusamus itaque doloribus esse laboriosam ipsam mollitia nobis illum, quibusdam laborum nulla, voluptates magni eligendi minus exercitationem consequatur voluptatem nihil. Non quibusdam distinctio asperiores inventore vero itaque, mollitia perspiciatis animi in labore? Perferendis pariatur iure iusto accusamus iste expedita reprehenderit officia explicabo sequi, at odio illum aspernatur sunt amet inventore id ducimus quo porro voluptatem distinctio dolor ab? Nisi, assumenda.</p>
+       <h3>From : <span>{address} | {name}</span></h3>
+       <h3>Subject: <span>{subject}</span></h3>
+       <div className="emails__msg-html" dangerouslySetInnerHTML={{ __html:mail}}></div>
        <div className="emails__preview-controls">
-         <button className="emails__write-btn" onClick={()=>handlePreviewFn()}>Reply</button>
+         <button className="emails__write-btn" onClick={()=>{
+           handlePreviewFn()
+           userActions.setReplyDetails(address,subject)
+           }}>Reply</button>
          <button className="emails__hide-btn" onClick={()=>handleHideFn()}>Hide</button>
        </div>
      </div>

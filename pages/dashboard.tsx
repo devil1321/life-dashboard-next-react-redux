@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/layout.component'
 import Dashboard from '../components/dashboard-components/dashboard.components'
@@ -6,8 +6,11 @@ import Email from '../components/email-components/email.components'
 import openbox from '../animations/icons-json/107-box-package-open.json'
 import error from '../animations/icons-json/1140-error.json'
 import income from '../animations/icons-json/453-savings-pig.json'
+import { State } from '../controllers/reducers'
+import { useSelector } from 'react-redux'
 
 import dynamic from "next/dynamic";
+{/* @ts-igonre */}
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface SeriesOptions{
@@ -16,6 +19,8 @@ interface SeriesOptions{
 }
 
 const DashboardPage:NextPage = () => {
+
+  const { emails } = useSelector((state:State) => state.user)
 
   const series:SeriesOptions[] = [{
     name: 'Orders',
@@ -81,7 +86,7 @@ const DashboardPage:NextPage = () => {
 
 
   return (
-    <Layout title="dashboard">
+    <Layout title="Dashboard">
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
@@ -92,6 +97,7 @@ const DashboardPage:NextPage = () => {
               <Dashboard.Widget title="Orders" count={56} icon={openbox} />
               <Dashboard.Widget title="Rejections" count={12} icon={error} />
               <Dashboard.Widget title="Income" count={32656} icon={income} />
+              {/* @ts-igonre */}
               <Chart
                 options={options}
                 series={series}
@@ -99,9 +105,8 @@ const DashboardPage:NextPage = () => {
                 width="650"
               />
               <div className="dashboard__emails">
-                <Email.Item img="/assets/user.png" person="Janette McGreed" subject="Blog Site" date="2022-02-28" />
-                <Email.Item img="/assets/user.png" person="Janette McMike" subject="Blog Site" date="2022-02-26" />
-                <Email.Item img="/assets/user.png" person="Janette McSmith" subject="Blog Site" date="2022-02-23" />
+                {emails.length > 0 && emails.slice(0,2).map((email:any) => <Email.Item isView={false} key={email.id} img="/assets/user.png" email={email} />)}
+                
               </div>
             </div>
           </div>

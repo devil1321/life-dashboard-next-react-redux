@@ -14,9 +14,6 @@ const Profile:React.FC<ProfileProps> = ({innerRef,handleMenu}) => {
             <div className="navbar__profile-btn">Profile</div>
         </div>
         <div className="navbar__profile-menu --close-modifier" ref={innerRef}>
-            <Link href="#" >
-                <p className="navbar__profile-menu-item">Profile</p>
-            </Link>
             <Link href="#">
                 <p className="navbar__profile-menu-item">My Wallet</p>
             </Link>

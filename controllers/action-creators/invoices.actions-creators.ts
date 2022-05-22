@@ -18,7 +18,6 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig)
 const db = getFirestore() 
-const q = query(collection(db, "invoices"))
 
 const colRefInvoices = collection(db,'invoices')
 
@@ -52,7 +51,6 @@ export const setInvoices = () => (dispatch:Dispatch<any>) => {
             dispatch({
                 type:InvoicesTypes.SET_INVOICES,
                 invoices:invoices
-               
             })
         }).catch(err => console.log(err))
 }

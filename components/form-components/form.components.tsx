@@ -5,6 +5,9 @@ import SaveBtn from './save-invoice-btn.component'
 import CustomMenu from './custom-menu.component'
 import CustomForm from './custom-invoice-form.component'
 import InvoiceForm from './invoice-form.component'
+import SaveCustomFields from './save-custom-fieds.component'
+import SettingsForm from './settings-form.component'
+import ResetCustomFields from './reset-custom-fields.component'
 
 const Form = {
     Field,
@@ -12,8 +15,11 @@ const Form = {
     CustomMenu,
     AddCustomFieldBtn,
     SaveBtn,
+    SaveCustomFields,
+    ResetCustomFields,
     InvoiceForm,
     CustomForm,
+    SettingsForm
 }
 
 export default Form

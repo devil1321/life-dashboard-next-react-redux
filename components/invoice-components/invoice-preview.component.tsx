@@ -1,8 +1,11 @@
 // @ts-ignore
-import React,{ useEffect, useImperativeHandle, useState } from 'react'
+import React,{ useEffect } from 'react'
 import { usePDF } from '@react-pdf/renderer'
 import Invoice from './invoice.components';
 import { Field } from '../../interfaces';
+import { useSelector } from 'react-redux'
+import { State } from '../../controllers/reducers'
+
 
 interface PreviewProps {
       isInvoice:boolean;
@@ -28,9 +31,10 @@ interface PreviewProps {
 }
 
 const Preview = React.forwardRef<any,PreviewProps>((props,ref) => {
-  
-  const ivoiceDocument = <Invoice.InvoicePDF formData={props.formData} />
-  const customDocument = <Invoice.CustomInvoicePDF formData={props.formData} fields={props.fields} />
+
+  const { userDetails } = useSelector((state:State) => state.user)
+  const ivoiceDocument = <Invoice.InvoicePDF formData={props.formData} userDetails={userDetails}/>
+  const customDocument = <Invoice.CustomInvoicePDF formData={props.formData} fields={props.fields} userDetails={userDetails}/>
   const [instance, update] = usePDF({ document:ivoiceDocument });
   const [customInstance,updateCustomInstance] = usePDF({ document:customDocument })
   

@@ -33,11 +33,14 @@ const SignUpPage:NextPage = () => {
         
     const handleSubmit = (e:any) => {
         e.preventDefault()
-        userActions.loginUser(formData.email,formData.password)
-         setFormData({
-             email:'',
-             password:''
-         })      
+        new Promise((res:any,rej:any) => {
+            userActions.singUpUser(formData.email,formData.password)
+            setTimeout(()=>{userActions.setUserDetails(formData.email)},500)
+            setFormData({
+                email:'',
+                password:''
+              })      
+          }).then(()=>  setTimeout(()=>{userActions.loginUser(formData.email,formData.password)},100) )
     }    
     useEffect(()=>{
       if(user){
@@ -64,7 +67,6 @@ const SignUpPage:NextPage = () => {
                         <input type="password" name="password" value={formData.password} onChange={(e:any)=>handleFormData(e)} />
                     </div>
                 <button type="submit">Sign Up</button>
-                <button onClick={()=>userActions.loginUserGoogle()} className="sign__google">Google</button>
                 <Link href="/" passHref={true}>
                     <a className="sign__sign-link">Login</a>
                 </Link>

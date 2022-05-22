@@ -3,11 +3,13 @@ import { UITypes } from '../types'
 interface DateParams {
     isEdit:boolean
     isLocked:boolean;
+    isContact:boolean;
 }
 
 const initData:DateParams = {
    isEdit:false,
-   isLocked:false
+   isLocked:false,
+   isContact:false,
 }
 
 export default (state = initData, action:any) =>{
@@ -16,6 +18,16 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 isEdit:action.isEdit
+            }
+        case UITypes.SET_IS_CONTACT: 
+            return {
+                ...state,
+                isContact:action.isContact
+            }
+        case UITypes.SET_IS_CHAT: 
+            return {
+                ...state,
+                isChat:action.isChat
             }
         case UITypes.HANDLE_LOCK: 
             return {

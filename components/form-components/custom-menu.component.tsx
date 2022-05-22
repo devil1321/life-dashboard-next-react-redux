@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as InvoicesActions from '../../controllers/action-creators/invoices.actions-creators'
 import Form from './form.components'
 
-const CusomMenu = () => {
+const CusomMenu = ({}) => {
 
     const [isMenuField,setIsMenuField] = useState<boolean>(false)
     const [isHeading,setIsHeading] = useState<boolean>(false)
@@ -39,14 +39,17 @@ const CusomMenu = () => {
                       <input name="${name}" value="${text}">
                    `
     field.innerHTML = fieldElements 
-    customField?.append(field)
-    const cutomFieldInstance = {
+    const customFieldInstance = {
+      name:name,
       isHeading:isHeading,
       text:text
     }
-    invoicesActions.setField(cutomFieldInstance)
-    setFieldName('')
-    setFieldText('')
+    if(customFieldInstance.name !== '' && customFieldInstance.text !== ''){
+      customField?.append(field)
+      invoicesActions.setField(customFieldInstance)
+      setFieldName('')
+      setFieldText('')
+  }
 }
 
 
@@ -57,8 +60,8 @@ const CusomMenu = () => {
     <div className="invoices__custom-fields">
     
     </div>
-     <Form.Field type="text" label="Field Name" name="field-text" value={fieldText} onChangeCustom={setFieldText}/>
-     <Form.Field type="text" label="Field Text" name="field-name" value={fieldName} onChangeCustom={setFieldName}/>
+     <Form.Field type="text" label="Field Name" name="field-text" value={fieldName} onChangeCustom={setFieldName}/>
+     <Form.Field type="text" label="Field Text" name="field-name" value={fieldText} onChangeCustom={setFieldText}/>
     <div className="invoices__field invoices__custom">
         <button onClick={(e)=>handleFieldMenu(e)}>Field Type</button>
         {isMenuField && 
@@ -73,6 +76,8 @@ const CusomMenu = () => {
               }}>Text</p>
           </div>}
           <Form.AddCustomFieldBtn fn={addCustomField} fieldName={fieldName} fieldText={fieldText}/>
+          <Form.SaveCustomFields />
+          <Form.ResetCustomFields />
         </div>
       </React.Fragment>
 

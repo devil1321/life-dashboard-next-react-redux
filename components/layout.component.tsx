@@ -9,6 +9,7 @@ import { State } from '../controllers/reducers'
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as UserActions from '../controllers/action-creators/user.actions-creators'
+import * as ContactsActions from '../controllers/action-creators/contacts.actions-creators'
 
 interface LayoutProps{
   title:string,
@@ -17,9 +18,11 @@ interface LayoutProps{
 
 const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const dispatch = useDispatch()
-  const { user } = useSelector((state:State) => state.user)
+  const { user, userDetails } = useSelector((state:State) => state.user)
   const { isLocked } = useSelector((state:State) => state.ui)
   const userActions = bindActionCreators(UserActions,dispatch)
+  const contactsActions = bindActionCreators(ContactsActions,dispatch)
+
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
   useEffect(()=>{
@@ -28,16 +31,27 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     }
     if(!isLocked){
       setTimeout(()=>{
-        setLoading(false)
+        if(userDetails !== null){
+          setLoading(false)
+        }
       },2000)
     }else{
       setLoading(true)
       setTimeout(()=>{
-        setLoading(false)
+        if(userDetails !== null){
+          setLoading(false)
+        }
       },2000)
     }
     userActions.traceChanges()
-  },[user,isLocked])
+    if(user && userDetails === null){
+      userActions.setUserDetails(user.email)
+    }
+    if(userDetails !== null){
+      userActions.setEmails(userDetails.email,userDetails.inbox_password)
+      contactsActions.setContacts()
+    }
+  },[user,isLocked,userDetails])
 
   return (
     <React.Fragment>

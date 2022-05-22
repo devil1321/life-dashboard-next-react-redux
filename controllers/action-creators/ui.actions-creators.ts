@@ -9,6 +9,20 @@ export const setIsEdit = (state: boolean) => (dispatch:Dispatch<any>) =>{
     })
 }
 
+export const setIsContact = (state: boolean) => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:UITypes.SET_IS_CONTACT,
+        isContact:state
+    })
+}
+
+export const setIsChat = (state: boolean) => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:UITypes.SET_IS_CONTACT,
+        isChat:state
+    })
+}
+
 export const handleLock = (isLocked:boolean) => (dispatch:Dispatch<any>) => {
     dispatch({
         type:UITypes.HANDLE_LOCK,

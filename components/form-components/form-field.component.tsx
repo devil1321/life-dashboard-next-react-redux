@@ -8,9 +8,10 @@ interface FieldProps{
   value?:any;
   onChange?:(name:string,val:string)=> (dispatch:Dispatch<any>) => void
   onChangeCustom?:(val:string) => any
+  handleChange?:(e:any) => any
 }
 
-const Field:React.FC<FieldProps> = ({label,type,name,value,onChange,onChangeCustom}) => {
+const Field:React.FC<FieldProps> = ({label,type,name,value,onChange,onChangeCustom,handleChange}) => {
   return (
     <div className="invoices__field">
         <label htmlFor="">{label}</label>
@@ -20,6 +21,9 @@ const Field:React.FC<FieldProps> = ({label,type,name,value,onChange,onChangeCust
           }
           if(onChangeCustom){
             onChangeCustom(e.target.value)
+           }
+           if(handleChange){
+             handleChange(e)
            }
         }} />
     </div>

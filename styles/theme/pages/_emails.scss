@@ -13,6 +13,11 @@
     &__main{
         @include createFlex(row,space-between,flex-start,null);
     }
+    &__not-connected{
+        width:100%;
+        height:calc(100vh - 150px);
+        @include createFlex(row,center,center,null);
+    }
     &__contacts-wrapper{
         box-sizing: border-box;
         padding:20px 0px 20px 20px;
@@ -52,11 +57,24 @@
         left:0px;
         height:100%;
         animation:fadeIn 1s ease-in-out forwards;
+        h3{
+            font-style:normal;
+            font-size:pxToRem(20);
+            color:white !important;
+            font-weight:bold;
+            opacity:1;
+            margin:10px 0px;
+            font-family: 'Raleway', sans-serif !important;
+        }
+        span{
+            font-weight:300 !important;
+        }
     }
+   
     &__preview-controls{
-        position:absolute;
-        bottom:10px;
-        right:-30px;
+       width:200px;
+       padding:10px 0px 20px;
+       margin-left:auto;
     }
     &__write-btn,&__hide-btn{
         margin:0px 5px;
