@@ -227,12 +227,13 @@ export const setEmails = (email:string,password:string) => (dispatch:Dispatch<an
                 const pass = decrypted.toString(CryptoJS.enc.Utf8)
                 resolve(pass)
             }).then((pass:any)=>{
-                console.log(pass)
-                axios.post('/api/emails',{ email, password:pass })
+                const reqBody = JSON.stringify({ email, password:pass })
+                axios.post('/api/emails',reqBody)
                     .then((res:any)=>{
+                        const emails = JSON.parse(res.data)
                         dispatch({
                             type:UserTypes.SET_EMAILS,
-                            emails:[...res.data]
+                            emails:[...emails]
                         })
             })    
         })
@@ -247,7 +248,8 @@ export const deleteEmail = (email:string,password:string,uid:string) => (dispatc
                 const pass = decrypted.toString(CryptoJS.enc.Utf8)
                 resolve(pass)
             }).then((pass:any)=>{
-                axios.post('/api/remove-email',{ email, password:pass, uid })
+                const reqBody = JSON.stringify({ email, password:pass, uid })
+                axios.post('/api/remove-email',reqBody)
                     .then((res:any)=>{
                         dispatch({
                             type:UserTypes.REMOVE_EMAIL,
@@ -266,12 +268,12 @@ export const sendEmail = (email:string, password:string, message:any) => (dispat
             const pass = decrypted.toString(CryptoJS.enc.Utf8)
             resolve(pass)
         }).then((pass:any)=>{
-            const requestParams = {
+            const reqBody = JSON.stringify({
                 email,
                 password:pass,
                 ...message
-            }
-            axios.post('/api/send-email',requestParams)
+            })
+            axios.post('/api/send-email',reqBody)
             .then((res:any)=>{
                 dispatch({
                     type:UserTypes.SEND_EMAIL

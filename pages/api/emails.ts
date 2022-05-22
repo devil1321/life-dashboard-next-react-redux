@@ -10,7 +10,6 @@ const mail = req.body.email
 const password = req.body.password
 const mailRegExp = new RegExp('gmail','gi')
 const isGmail = mail.match(mailRegExp)
-
 let host = ''
 
 if(isGmail){
