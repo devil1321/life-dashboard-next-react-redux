@@ -27,15 +27,13 @@ var config = {
         port: 993,
         tls: true,
         tlsOptions: { rejectUnauthorized:false },
-        connectTimeout:60000,
-        authTimeout:10000,
     }
 };
     imaps.connect(config)
             .then((connection:any) => {
                 return connection.openBox('INBOX')
                     .then(() => {
-                        let searchCriteria = ['ALL'];
+                        let searchCriteria = ['1:50'];
                         let fetchOptions = {
                         bodies: ['HEADER', 'TEXT', ''],
                     };
@@ -59,8 +57,12 @@ var config = {
                     })
                 }) 
             })
-        
-        .then((emails:any) => res.json(emails))
-        .catch((err:any) => console.log(err))
-  
+            .then((emails:any) => emails)
+            .catch((err:any) => console.log(err))
+
+        res.json(emails)
+    }
+    catch(err){
+        console.log(err)
+    }
 }
