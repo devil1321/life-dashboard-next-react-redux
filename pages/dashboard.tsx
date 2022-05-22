@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/layout.component'
 import Dashboard from '../components/dashboard-components/dashboard.components'
@@ -10,7 +10,6 @@ import { State } from '../controllers/reducers'
 import { useSelector } from 'react-redux'
 
 import dynamic from "next/dynamic";
-{/* @ts-igonre */}
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface SeriesOptions{
@@ -98,12 +97,12 @@ const DashboardPage:NextPage = () => {
               <Dashboard.Widget title="Rejections" count={12} icon={error} />
               <Dashboard.Widget title="Income" count={32656} icon={income} />
               {/* @ts-igonre */}
-              <Chart
+              {Chart && <Chart
                 options={options}
                 series={series}
                 type="bar"
                 width="650"
-              />
+              />}
               <div className="dashboard__emails">
                 {emails.length > 0 && emails.slice(0,2).map((email:any) => <Email.Item isView={false} key={email.id} img="/assets/user.png" email={email} />)}
                 
