@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { useSelector } from 'react-redux'
+import { State } from '../../controllers/reducers'
+import { Message } from '../../interfaces'
 
 interface ChatMessageProps {
-    userImg:string;
-    msg:string;
-    isRecipient:boolean;
+  windowMessage:Message
 }
 
 
-const Message:React.FC<ChatMessageProps> = ({userImg,msg,isRecipient}) => {
+const Message:React.FC<ChatMessageProps> = ({windowMessage}) => {
+
+  const { message } = useSelector((state:State) => state.chat)
+  const { email } = useSelector((state:State) => state.user.userDetails)
+  
+  if(windowMessage){
+    var {  msg,sender_email,recipient_email,sender_img,recipient_img } = windowMessage
+  }
+
   return (
-    <div className={`chat-message ${isRecipient ? "chat-message--recipent" : "chat-message--sender"}`}>
+    <div className={`chat-message ${sender_email === email ? "chat-message--sender" : "chat-message--recipent"}`}>
         <div className="chat-message__user">
-            <Image src={userImg} layout="responsive" width={30} height={30} alt="user" />
+        {sender_email === email  
+            ? sender_img !== null 
+              ? <Image src={sender_img} layout="responsive" width={30} height={30} alt="user" />
+              : <Image src="/assets/user.png" layout='responsive' width={30} height={30} alt="user" />
+            : recipient_img !== null 
+              ? <Image src={recipient_img} layout="responsive" width={30} height={30} alt="user" />
+              : <Image src="/assets/user.png" layout='responsive' width={30} height={30} alt="user" />}
         </div>
         <div className="chat-message__msg">
             {msg}

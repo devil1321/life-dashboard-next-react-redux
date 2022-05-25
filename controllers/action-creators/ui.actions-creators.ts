@@ -18,7 +18,7 @@ export const setIsContact = (state: boolean) => (dispatch:Dispatch<any>) => {
 
 export const setIsChat = (state: boolean) => (dispatch:Dispatch<any>) => {
     dispatch({
-        type:UITypes.SET_IS_CONTACT,
+        type:UITypes.SET_IS_CHAT,
         isChat:state
     })
 }

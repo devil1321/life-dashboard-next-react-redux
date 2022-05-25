@@ -20,20 +20,20 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const dispatch = useDispatch()
   const { user, userDetails } = useSelector((state:State) => state.user)
   const { isLocked } = useSelector((state:State) => state.ui)
+  const [isLoad,setIsLoad] = useState<boolean>(false)
   const userActions = bindActionCreators(UserActions,dispatch)
   const contactsActions = bindActionCreators(ContactsActions,dispatch)
 
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
+  
   useEffect(()=>{
-    if(!user && router.asPath === 'sign-in' || router.asPath === '/'){
+    if(isLoad && user === null && router.asPath !== 'sign-in' && router.asPath !== '/'){
       router.push('/')
     }
     if(!isLocked){
       setTimeout(()=>{
-        if(userDetails !== null){
           setLoading(false)
-        }
       },2000)
     }else{
       setLoading(true)
@@ -46,6 +46,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     userActions.traceChanges()
     if(user && userDetails === null){
       userActions.setUserDetails(user.email)
+      setIsLoad(true)
     }
     if(user && userDetails !== null){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)

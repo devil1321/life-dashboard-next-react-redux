@@ -1,13 +1,24 @@
+import { Message } from '../../interfaces';
 import { ChatTypes } from '../types'
 
 interface ChatParams{
     allMessages:any[];
     messagesByEmail:any[];
+    message:Message;
 }
 
 const initData:ChatParams = {
     allMessages:[],
-    messagesByEmail:[]
+    messagesByEmail:[],
+    message:{
+        isRead:false,
+        recipient_img:null,
+        sender_img:null,
+        sender_id:'',
+        recipient_email:'',
+        sender_email:'',
+        msg:'',
+    }
 }
 
 export default (state = initData, action:any) =>{
@@ -15,17 +26,18 @@ export default (state = initData, action:any) =>{
         case ChatTypes.SET_MESSAGES: 
             return {
                 ...state,
-                allMessages:action.messages
+                allMessages:action.allMessages
             }
         case ChatTypes.SEND_MESSAGE: 
             return {
                 ...state,
+                messages:action.messages,
+                messagesByEmail:action.messagesByEmail   
             }
         case ChatTypes.FILTER_BY_EMAIL: 
             return {
                 ...state,
-                messagesByEmail:action.messagesByEmail
-                
+                messagesByEmail:action.messagesByEmail   
             }
         case ChatTypes.CHECK_READ: 
             return {

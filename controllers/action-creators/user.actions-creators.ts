@@ -69,6 +69,7 @@ const firebaseConfig = {
                 inbox_email:'',
                 inbox_password:'',
                 lock_screen_password:'',
+                last_chat_recipient:'',
                 contacts:[],
                 invoiceFields:[],
             })
@@ -294,5 +295,17 @@ export const sendEmail = (email:string, password:string, message:any) => (dispat
         })
     }
 }
+
+export const lastChatRecipient = (email:string,id:string) => (dispatch:Dispatch<any>) => {
+    const docRef = doc(db,'users',id)
+    updateDoc(docRef,{
+        last_chat_recipient:email,
+    }).then(()=>{
+        dispatch({
+            type:UserTypes.LAST_CHAT_RECIPIENT,
+        })
+    }).catch(err => console.log(err))
+}
+
 
 

@@ -4,12 +4,14 @@ interface DateParams {
     isEdit:boolean
     isLocked:boolean;
     isContact:boolean;
+    isChat:boolean;
 }
 
 const initData:DateParams = {
    isEdit:false,
    isLocked:false,
    isContact:false,
+   isChat:false,
 }
 
 export default (state = initData, action:any) =>{

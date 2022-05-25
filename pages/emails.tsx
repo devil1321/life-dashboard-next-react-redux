@@ -9,6 +9,7 @@ import { State } from '../controllers/reducers'
 import * as UserActions from '../controllers/action-creators/user.actions-creators'
 import * as UIActions from '../controllers/action-creators/ui.actions-creators'
 import { Contact } from '../interfaces'
+import Spinner from '../components/spinner.component'
 
 const EmailsPage = () => {
 
@@ -80,7 +81,13 @@ const EmailsPage = () => {
               </div>
               <div className="emails__emails-wrapper">
                 <div className="emails__emails">
-                  {!isPreview && !isContact && emails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
+                  {!isPreview && !isContact && emails.includes('loading')
+                    ? <Spinner />
+                    : emails.length === 0 
+                    ? <div className="emails__not-connected">
+                        <h1>Inbox Empty</h1>
+                      </div>
+                    : !isPreview && !isContact && emails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
                   {isPreview && !isContact && <Email.Preview handlePreviewFn={handlePreviewFn} handleHideFn={handleHideFn} />}
                   {isContact && !isPreview && <Email.Write handleHideFn={handleHideFn} />}
                 </div>

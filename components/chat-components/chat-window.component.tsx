@@ -1,38 +1,56 @@
-import React,{ useState, useRef, MutableRefObject } from 'react'
+import React,{ useEffect,useState, useRef, MutableRefObject } from 'react'
 import Chat from './chat.components'
+import { useSelector, useDispatch } from 'react-redux'
+import { State } from '../../controllers/reducers'
+import { bindActionCreators } from 'redux'
+import * as UIActions from '../../controllers/action-creators/ui.actions-creators'
+import * as ChatActions from '../../controllers/action-creators/chat.actions-creators'
+import { Message } from '../../interfaces'
 
 const MainWindow = () => {
 
-  const [isWrite,setIsWrite] = useState<boolean>(false)
+  const { isChat } = useSelector((state:State) => state.ui)
+  const { messagesByEmail } = useSelector((state:State) => state.chat)
+  const { email, last_chat_recipient } = useSelector((state:State) => state.user.userDetails)
+  const [isLoad,setIsLoad] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const UI = bindActionCreators(UIActions,dispatch)
+  const chatActions = bindActionCreators(ChatActions,dispatch)
 
   const msgWindowRef = useRef<HTMLDivElement | null>(null) as MutableRefObject<HTMLDivElement>
 
   const openMsg = () => {
     msgWindowRef.current.style.minHeight = '270px'
     msgWindowRef.current.style.maxHeight = '270px'
-    setIsWrite(true)
+    UI.setIsChat(true)
   }
   const closeMsg = () => {
     msgWindowRef.current.style.minHeight = '340px'
     msgWindowRef.current.style.maxHeight = '340px'
-    setIsWrite(false)
+    UI.setIsChat(false)
   }
+
+  useEffect(()=>{
+    if(!isLoad){
+      chatActions.setMessages(email)
+      setIsLoad(true)
+    }
+    if(isLoad){
+      setTimeout(()=>{
+        chatActions.filterByEmail(last_chat_recipient)
+        chatActions.manageMessage('recipient_email',last_chat_recipient)
+      },2000)
+    }
+  },[isLoad])
 
   return (
     <div className="chat-window">
         <h1>Chat</h1>
         <div className="chat-window__msgs-windoww"  ref={msgWindowRef}>
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc asjkhsa kasasjhkjashjakshk" isRecipient={false} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc asjkhsa kasasjhkjashjakshk" isRecipient={true} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc" isRecipient={false} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc" isRecipient={true} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc asjkhsa kasasjhkjashjakshk" isRecipient={false} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc asjkhsa kasasjhkjashjakshk" isRecipient={true} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc" isRecipient={false} />
-            <Chat.Message userImg="/assets/user.png" msg="Testowa Wiadomosc" isRecipient={true} />
+            {messagesByEmail?.length > 0 && messagesByEmail.map((msg:Message) => <Chat.Message key={msg.id} windowMessage={msg} />)}
         </div>
-        {isWrite && <Chat.WindowMsg />}
-        <Chat.Controls isWrite={isWrite} openMsg={openMsg} closeMsg={closeMsg} />
+        {isChat && <Chat.WindowMsg />}
+        <Chat.Controls isWrite={isChat} openMsg={openMsg} closeMsg={closeMsg} />
     </div> 
   )
 }

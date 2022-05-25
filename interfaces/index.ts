@@ -68,4 +68,16 @@ export interface Contact {
     name:string;
     surname:string;
     phoneNumber:string;
+    photoURL:string;
   }
+
+export interface Message {
+    id?:string;
+    isRead:boolean;
+    recipient_img:null | string;
+    sender_img:null | string;
+    msg:string;
+    sender_id:string;
+    recipient_email:string;
+    sender_email:string;
+}

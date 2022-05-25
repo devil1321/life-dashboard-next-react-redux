@@ -96,15 +96,15 @@ const DashboardPage:NextPage = () => {
               <Dashboard.Widget title="Orders" count={56} icon={openbox} />
               <Dashboard.Widget title="Rejections" count={12} icon={error} />
               <Dashboard.Widget title="Income" count={32656} icon={income} />
-              {/* @ts-igonre */}
-              {Chart && <Chart
+
+              <Chart
                 options={options}
                 series={series}
                 type="bar"
                 width="650"
-              />}
+                />
               <div className="dashboard__emails">
-                {emails.length > 0 && emails.slice(0,2).map((email:any) => <Email.Item isView={false} key={email.id} img="/assets/user.png" email={email} />)}
+                {emails.length > 0 && emails.slice(0,3).map((email:any) => <Email.Item isView={false} key={email.id} img="/assets/user.png" email={email} />)}
                 
               </div>
             </div>

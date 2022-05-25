@@ -20,7 +20,7 @@ const initData:UserParams = {
     access_token:'',
     error:'',
     msg:'',
-    emails:[],
+    emails:['loading'],
     email:null,
     replyDetails:{
         email:'',
@@ -99,6 +99,10 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 userDetails:action.userDetails,
+            }
+        case UserTypes.LAST_CHAT_RECIPIENT: 
+            return {
+                ...state,
             }
         case UserTypes.TRACE_CHANGES: 
             return {

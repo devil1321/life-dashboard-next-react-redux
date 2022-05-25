@@ -13,6 +13,7 @@ export enum UserTypes {
     REMOVE_EMAIL = "REMOVE_EMAIL",
     SET_REPLY_EMAIL = "SET_REPLY_EMAIL",
     SEND_EMAIL = "SEND_EMAIL",
+    LAST_CHAT_RECIPIENT = "LAST_CHAT_RECIPIENT",
 }
 
 export enum UITypes {
@@ -64,4 +65,5 @@ export enum ChatTypes{
     SEND_MESSAGE = "SEND_MESSAGE",
     FILTER_BY_EMAIL = "FILTER_BY_EMAIL",
     CHECK_READ = "CHECK_READ",
+    MANAGE_MESSAGE = "MANAGE_MESSAGE",
 }

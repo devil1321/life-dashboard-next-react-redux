@@ -57,19 +57,21 @@ const Write:React.FC<WriteProps> = ({handleHideFn}) => {
         <div className="emails__write-field">
           <textarea id="" name="text" value={formData.text} onChange={(e)=>handleChange(e)}></textarea>
         </div>
-        <button className="emails__hide-btn" onClick={()=>handleHideFn()}>Hide</button> 
-        <button className="emails__send-btn" onClick={()=>{
-          userActions.sendEmail(email,inbox_password,formData)
-          setFormData((prevState)=> ({  
-            ...prevState,
-            to:'',
-            subject:'',
-            text:''
-          }))
-          setTimeout(()=>{
-            userActions.setEmails(email,inbox_password)
-          },5000)
-        }}>Send</button> 
+        <div className="emails__write-controls">
+          <button className="emails__hide-btn" onClick={()=>handleHideFn()}>Hide</button> 
+          <button className="emails__send-btn" onClick={()=>{
+            userActions.sendEmail(email,inbox_password,formData)
+            setFormData((prevState)=> ({  
+              ...prevState,
+              to:'',
+              subject:'',
+              text:''
+            }))
+            setTimeout(()=>{
+              userActions.setEmails(email,inbox_password)
+            },5000)
+          }}>Send</button> 
+        </div>
   </div>
   )
 }

@@ -5,6 +5,10 @@
     top:70px;
     left:0px;
     padding:20px;
+    .lazy-layout-loader{
+        width:100%;
+        height:100%;
+    }
     &__search{
         text-align:right;
         margin-bottom:10px;
@@ -45,7 +49,6 @@
         height:calc(100vh - 150px);
         box-sizing: border-box;
         padding:0px 40px 20px 20px;
-        background-color: $background;
         .email{
             margin:10px 0px;
         }
@@ -55,12 +58,14 @@
         position:relative;
         top:0px;
         left:0px;
-        height:100%;
+        height:fit-content;
         animation:fadeIn 1s ease-in-out forwards;
+        background-color: white;
+        padding:20px;
         h3{
             font-style:normal;
             font-size:pxToRem(20);
-            color:white !important;
+            color:black !important;
             font-weight:bold;
             opacity:1;
             margin:10px 0px;
@@ -68,6 +73,7 @@
         }
         span{
             font-weight:300 !important;
+            font-size: pxToRem(16);
         }
     }
    
@@ -76,7 +82,7 @@
        padding:10px 0px 20px;
        margin-left:auto;
     }
-    &__write-btn,&__hide-btn{
+    &__write-btn,&__hide-btn,&__send-btn{
         margin:0px 5px;
         cursor: pointer;
         padding:10px 20px;
@@ -90,12 +96,24 @@
         }
     
     }
+    &__write-controls{
+        margin-left:auto;
+        width: 180px;
+        @include createFlex(row,flex-start,center,null);
+    }
     &__write-btn{
         background:linear-gradient(45deg, $neon-green,yellowgreen);
         &:hover{
             background:linear-gradient(45deg,yellowgreen, $neon-green);
         }
     }
+    &__send-btn{
+        background:linear-gradient(45deg, $neon-green,yellowgreen);
+        &:hover{
+            background:linear-gradient(45deg,yellowgreen, $neon-green);
+        }
+    }
+
     &__hide-btn{
         background:linear-gradient(45deg, red,orange);
         &:hover{

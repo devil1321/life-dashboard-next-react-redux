@@ -41,6 +41,7 @@ export const setContacts = () => (dispatch:Dispatch<any>) => {
                     name:user.name,
                     surname:user.surname,
                     phoneNumber:user.phoneNumber,
+                    photoURL:user.photoURL
                 }
                 contacts.push(contact)
             })
