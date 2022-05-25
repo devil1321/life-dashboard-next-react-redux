@@ -23,7 +23,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
   
   if(email){
     var { uid, subject, date } = email
-    var name = email.from.value[0].name
+    var name = email?.from?.value[0].name
   }
 
   return (
