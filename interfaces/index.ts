@@ -80,4 +80,5 @@ export interface Message {
     sender_id:string;
     recipient_email:string;
     sender_email:string;
+    date:string,
 }

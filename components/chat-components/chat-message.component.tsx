@@ -19,7 +19,7 @@ const Message:React.FC<ChatMessageProps> = ({windowMessage}) => {
   }
 
   return (
-    <div className={`chat-message ${sender_email === email ? "chat-message--sender" : "chat-message--recipent"}`}>
+    <div className={`chat-message ${sender_email !== email ? "chat-message--sender" : "chat-message--recipent"}`}>
         <div className="chat-message__user">
         {sender_email === email  
             ? sender_img !== null 

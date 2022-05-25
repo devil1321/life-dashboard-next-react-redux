@@ -49,13 +49,13 @@ const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
         {email && <p>{email}</p>}
       </div>
       {phoneNumber && <h3>Nr. {phoneNumber}</h3>}
-      {count !== 0 && <button className="chat_unseen">{count}</button>}
+      {count !== 0 && <button className="chat-contact-item__unseen">{count}</button>}
       <button onClick={()=>{
           UI.setIsChat(true)
           chatActions.manageMessage('recipient_email',email)
           chatActions.manageMessage('recipient_img',photoURL)
           chatActions.checkRead(email,userEmail)
-          chatActions.filterByEmail(email)
+          chatActions.filterByEmail(email,userEmail)
           userActions.lastChatRecipient(email,userId)
         }}>Contact</button>
     </div>

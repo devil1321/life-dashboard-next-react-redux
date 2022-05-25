@@ -20,7 +20,11 @@ const Controls:React.FC<ControlsProps> = ({isWrite,openMsg,closeMsg}) => {
         {!isWrite && <button onClick={()=>openMsg()} className="chat-window__write-msg-btn">Write</button>}
         {isWrite && <button onClick={()=>closeMsg()} className="chat-window__close-msg-btn">Close</button>}
         {isWrite && <button className="chat-window__send-msg-btn" onClick={()=>{
+            const date = new Date()
+            const isoDate = date.toISOString()
+            chatActions.manageMessage('date', isoDate)
             chatActions.sendMessage(message.recipient_email,message)
+            chatActions.setMessages(message.sender_email)
             setTimeout(()=>{
               chatActions.manageMessage('msg','')
             },100)

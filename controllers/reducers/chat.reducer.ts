@@ -18,6 +18,7 @@ const initData:ChatParams = {
         recipient_email:'',
         sender_email:'',
         msg:'',
+        date:'',
     }
 }
 
@@ -43,6 +44,11 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 messagesByEmail:action.messagesByEmail
+            }
+        case ChatTypes.TRACE_CHANGES: 
+            return {
+                ...state,
+                messages:action.messages
             }
         default:
             return {

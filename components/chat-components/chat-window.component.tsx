@@ -10,7 +10,7 @@ import { Message } from '../../interfaces'
 const MainWindow = () => {
 
   const { isChat } = useSelector((state:State) => state.ui)
-  const { messagesByEmail } = useSelector((state:State) => state.chat)
+  const { messagesByEmail, message, allMessages } = useSelector((state:State) => state.chat)
   const { email, last_chat_recipient } = useSelector((state:State) => state.user.userDetails)
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const dispatch = useDispatch()
@@ -35,13 +35,16 @@ const MainWindow = () => {
       chatActions.setMessages(email)
       setIsLoad(true)
     }
-    if(isLoad){
+    if(isLoad && messagesByEmail.length === 0){
       setTimeout(()=>{
-        chatActions.filterByEmail(last_chat_recipient)
+        chatActions.filterByEmail(last_chat_recipient,email)
         chatActions.manageMessage('recipient_email',last_chat_recipient)
       },2000)
     }
-  },[isLoad])
+    if(message.recipient_email !== ''){
+      chatActions.filterByEmail(message.recipient_email,email)
+    }
+  },[isLoad,allMessages])
 
   return (
     <div className="chat-window">

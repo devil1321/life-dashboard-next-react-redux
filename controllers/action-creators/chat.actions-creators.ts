@@ -19,7 +19,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 const db = getFirestore() 
 const colRefChat = collection(db,'chat')
-
+const q = query(colRefChat)
 
 
 export const setMessages = (email:string) => async (dispatch:Dispatch<any>) => {
@@ -74,9 +74,14 @@ export const sendMessage = (email:string,message:any) => (dispatch:Dispatch<any>
         })
         .catch(err => console.log(err)) 
 }
-export const filterByEmail = (recipient:string) => (dispatch:Dispatch<any>) => {
+export const filterByEmail = (recipient:string,sender:string) => (dispatch:Dispatch<any>) => {
     const messages:any[] = store.getState().chat.allMessages
-    const filtered = messages.filter((m:any)=> m.recipient_email === recipient)
+    let filtered = messages.filter((m:any)=> Object.values(m).includes(recipient) && Object.values(m).includes(sender))
+    filtered = filtered.sort((a,b)=>{
+        const dateA:any = new Date(a.date)
+        const dateB:any = new Date(b.date)
+        return dateB - dateA
+    })
     dispatch({
         type:ChatTypes.FILTER_BY_EMAIL,
         messagesByEmail:filtered,
@@ -85,7 +90,7 @@ export const filterByEmail = (recipient:string) => (dispatch:Dispatch<any>) => {
 
 export const checkRead = (sender_email:string,user_email:string) => (dispatch:Dispatch<any>)=>{
         const messages:any[] = store.getState().chat.allMessages
-        const filtered = messages.filter((m:any) => m.recipient_email === user_email && m.sender_email)
+        const filtered = messages.filter((m:any) => m.recipient_email === user_email && m.sender_email === sender_email)
         filtered.forEach((m:any)=>{
             const docRef = doc(db,'chat',m.id)
             updateDoc(docRef,{
@@ -93,8 +98,27 @@ export const checkRead = (sender_email:string,user_email:string) => (dispatch:Di
             }).then(()=>{
                 dispatch({
                     type:ChatTypes.CHECK_READ,
-                    messagesByEmail:filtered,
                 })
             }).catch(err => console.log(err))
         })
+}
+
+
+export const traceChanges = () => (dispatch:Dispatch<any>)=>{
+    let messages:any[] = []
+    new Promise((resolve,reject)=>{
+        onSnapshot(q,(snapshot)=>{
+            messages = [];
+            snapshot.docs.forEach((doc:any)=>{
+                messages.push({...doc.data(), id:doc.id})
+            })
+        })
+        resolve(messages)
+    }).then((messages)=>{
+        dispatch({
+            type:ChatTypes.TRACE_CHANGES,
+            messages:messages
+        })
+    })
+    .catch((err)=> console.log(err))
 }
