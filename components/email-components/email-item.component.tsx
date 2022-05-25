@@ -21,7 +21,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
 
   const [isEmail,setIsEmail] = useState<boolean>(true)
   
-  if(email){
+  if(email !== 'loading'){
     var { uid, subject, date } = email
     var name = email?.from?.value[0].name
   }
@@ -37,7 +37,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
               <h3>{email && name}</h3>
               <p>{email && subject}</p>
           </div>
-          <p>{email && date.slice(0,10)} {email && date.slice(11,19)}</p>
+          <p>{email && date?.slice(0,10)} {email && date?.slice(11,19)}</p>
           {!isView 
            ? <div className="email-item__close" onClick={()=>setIsEmail(false)}>
             <Player
