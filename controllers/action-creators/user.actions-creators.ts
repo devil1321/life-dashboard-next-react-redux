@@ -319,7 +319,7 @@ export const sendEmail = (email:string, password:string, message:any) => (dispat
     }
 }
 
-export const setNotifications = (allMessages:any[]) => (dispatch:Dispatch<any>) =>{
+export const setNotifications = (allMessages:any[],userEmail:string) => (dispatch:Dispatch<any>) =>{
     const unreed = allMessages.filter((m:any)=>{
         if(m !== null && m !== undefined){
             if(m.isRead === false){
@@ -341,6 +341,7 @@ export const setNotifications = (allMessages:any[]) => (dispatch:Dispatch<any>) 
         const dateB:any = new Date(b.date)
         return dateA - dateB
     })
+    notifications = notifications.filter((n:any)=> n.person !== userEmail)
     dispatch({
         type:UserTypes.SET_NOTIFICATIONS,
         notifications:notifications,
@@ -348,7 +349,7 @@ export const setNotifications = (allMessages:any[]) => (dispatch:Dispatch<any>) 
     })
 
 }
-export const setNotificationsRead = () => (dispatch:Dispatch<any>) =>{
+export const setNotificationsRead = (userEmail:string) => (dispatch:Dispatch<any>) =>{
     const { allMessages } = store.getState().chat
     const unreadedNotifications = allMessages.filter((m:any)=>{
         if(m !== undefined && m !== null){
@@ -357,7 +358,7 @@ export const setNotificationsRead = () => (dispatch:Dispatch<any>) =>{
             }
         }
     })
-    const converted = unreadedNotifications.map((n:any)=>{
+    let converted = unreadedNotifications.map((n:any)=>{
         const notification = {
             isRead:n.isRead,
             person:n.sender_email,
@@ -366,6 +367,7 @@ export const setNotificationsRead = () => (dispatch:Dispatch<any>) =>{
         }
         return notification
     })
+    converted = converted.filter((n:any) => n.person !== userEmail)
     dispatch({
         type:UserTypes.SET_NOTIFICATIONS_READ,
         notifications:converted,

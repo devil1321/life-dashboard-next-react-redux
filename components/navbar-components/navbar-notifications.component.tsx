@@ -16,7 +16,7 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const dispatch = useDispatch()
   const userActions = bindActionCreators(UserActions,dispatch)
-  const { notifications,notificationsCount } = useSelector((state:State) => state.user)
+  const { notifications,notificationsCount,userDetails:{ email } } = useSelector((state:State) => state.user)
   const { allMessages } = useSelector((state:State) => state.chat)
 
   useEffect(()=>{
@@ -24,7 +24,7 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
       setIsLoad(true)
     }
     if(isLoad){
-      userActions.setNotifications(allMessages)
+      userActions.setNotifications(allMessages,email)
     }
   },[isLoad,allMessages.length])
 
@@ -33,7 +33,7 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
     <div className="navbar__notifications-icon">
       <FontAwesomeIcon icon ={faBell} onClick={()=>{
           handleMenu(innerRef)
-          userActions.setNotificationsRead()
+          userActions.setNotificationsRead(email)
         }}/>
         <span className="navbar__notifications-count">
           {notificationsCount}

@@ -48,6 +48,9 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
         }
       },2000)
     }
+    if(!user){
+      router.push('/')
+    }
     userActions.traceChanges()
     if(user && userDetails === null){
       userActions.setUserDetails(user.email)
