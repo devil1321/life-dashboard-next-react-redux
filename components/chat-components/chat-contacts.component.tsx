@@ -9,7 +9,7 @@ import { Contact } from '../../interfaces'
 const Contacts = () => {
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const [tempContacts,setTempContacts] = useState<Contact[]>([])
-  const { userDetails } = useSelector((state:State)=>state.user)
+  const { userDetails, unknownContacts } = useSelector((state:State)=>state.user)
 
 
   const comesIn = (el:string | HTMLDivElement) => {
@@ -49,6 +49,11 @@ const Contacts = () => {
           <Search contacts={userDetails?.contacts} setContacts={setTempContacts} />
         </div>
         <div className="chat-contacts__inner">
+        
+            <React.Fragment>
+              <h3>Unknown</h3>
+              {unknownContacts.map((contact:Contact) => <Chat.ContactItem isUnknown={true} key={contact.id} contact={contact} />)}
+            </React.Fragment>
           {tempContacts?.length > 0 && tempContacts.map((contact:Contact) => <Chat.ContactItem key={contact.id} contact={contact} />)}
         </div>
     </div>

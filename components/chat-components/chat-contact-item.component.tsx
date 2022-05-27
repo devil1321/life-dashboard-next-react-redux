@@ -9,10 +9,11 @@ import * as UserActions from '../../controllers/action-creators/user.actions-cre
 import * as UIActions from '../../controllers/action-creators/ui.actions-creators'
 
 interface ContactItemProps{
-  contact:Contact
+  contact:Contact;
+  isUnknown?:boolean;
 }
 
-const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
+const ContactItem:React.FC<ContactItemProps> = ({contact,isUnknown}) => {
   const [count,setCount] = useState<number>(0)
   const { allMessages,messagesByEmail } = useSelector((state:State) => state.chat)
   const { id:userId, email:userEmail } = useSelector((state:State) => state.user.userDetails)
@@ -27,10 +28,12 @@ const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
   }
 
   const handleUnseen = () =>{
-    const unseenCount = allMessages
-      .filter((m:any)=>m.sender_email === email && m.recipient_email === userEmail)
-      .filter((msg:any)=>msg.isRead === false)
+    if(allMessages.length > 0){
+      const unseenCount = allMessages
+        .filter((m:any)=>m?.sender_email === email && m?.recipient_email === userEmail)
+        .filter((msg:any)=>msg.isRead === false)
       setCount(unseenCount.length)
+    }
   }
 
   useEffect(()=>{
@@ -50,7 +53,7 @@ const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
       </div>
       {phoneNumber && <h3>Nr. {phoneNumber}</h3>}
       {count !== 0 && <button className="chat-contact-item__unseen">{count}</button>}
-      <button onClick={()=>{
+      <button className={isUnknown ? "chat-contact-item__unknown" : ""} onClick={()=>{
           UI.setIsChat(true)
           chatActions.manageMessage('recipient_email',email)
           chatActions.manageMessage('recipient_img',photoURL)

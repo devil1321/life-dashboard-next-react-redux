@@ -28,6 +28,7 @@ const InvoicesPage:NextPage = () => {
     const { formData,fields,invoice,invoices } = useSelector((state:State) => state.invoices)
     const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
 
+    const [tempInvoices,setTempInvoices] = useState<any[]>()
     const [isLoad,setIsLoad] = useState<boolean>(false)
     const [isAdd,setIsAdd] = useState<boolean>(false)
     const [isAnim,setIsAnim] = useState<boolean>(false)
@@ -147,6 +148,7 @@ const InvoicesPage:NextPage = () => {
         invoicesActions.setInvoices()
         if(isLoad){
           setFile(invoice.file)
+          setTempInvoices(invoices)
         }
         setTimeout(()=>{
           comesFromDown('.invoice-item')
@@ -200,7 +202,7 @@ const InvoicesPage:NextPage = () => {
                   },3000)
                 }
               }}>Hide Form</button>}
-              <Search />
+              <Search contacts={invoices} setContacts={setTempInvoices} />
             </div>
             <div className="invoices__inner">
               <div className="invoices__left-panel">

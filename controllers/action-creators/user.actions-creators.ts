@@ -202,7 +202,30 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
 }
 
 
-
+export const setUnknowContacts = () => (dispatch:Dispatch<any>) => {
+    const { allMessages } = store.getState().chat
+    const { contacts } = store.getState().user.userDetails
+    const { contacts:allContacts } = store.getState().contacts
+    const tempContacts:any[] = []
+    const unknowMessages:any[] = [] 
+    const userEmails = contacts.map((c:any)=>c.email)
+    allMessages.forEach((m:any)=>{
+            if(!userEmails.includes(m.sender_email)){
+                unknowMessages.push(m)
+            }
+        })
+    unknowMessages.forEach((m:any)=>{
+        allContacts.forEach((c:any)=>{
+            if(m.sender_email === c.email){
+                tempContacts.push(c)
+            }
+        })
+    })
+    dispatch({
+        type:UserTypes.SET_UKNOWN_CONTACTS,
+        unknownContacts:tempContacts
+    })
+}
 
 
 export const setEmail = (email:any) => (dispatch:Dispatch<any>) => {
@@ -295,6 +318,60 @@ export const sendEmail = (email:string, password:string, message:any) => (dispat
             .catch((err:any) => console.log(err))  
         })
     }
+}
+
+export const setNotifications = (allMessages:any[]) => (dispatch:Dispatch<any>) =>{
+    const unreed = allMessages.filter((m:any)=>{
+        if(m !== null && m !== undefined){
+            if(m.isRead === false){
+                return m
+            }
+        }
+    })
+    let notifications = unreed.map((m:any)=>{
+        const notification = {
+            isRead:m.isRead,
+            person:m.sender_email,
+            date:m.date,
+            photoURL:m.sender_img
+        }
+        return notification
+    })
+    notifications = notifications.sort((a:any,b:any)=>{
+        const dateA:any = new Date(a.date)
+        const dateB:any = new Date(b.date)
+        return dateA - dateB
+    })
+    dispatch({
+        type:UserTypes.SET_NOTIFICATIONS,
+        notifications:notifications,
+        notificationsCount:notifications.length
+    })
+
+}
+export const setNotificationsRead = () => (dispatch:Dispatch<any>) =>{
+    const { allMessages } = store.getState().chat
+    const unreadedNotifications = allMessages.filter((m:any)=>{
+        if(m !== undefined && m !== null){
+            if(m.isRead === false){
+                return m
+            }
+        }
+    })
+    const converted = unreadedNotifications.map((n:any)=>{
+        const notification = {
+            isRead:n.isRead,
+            person:n.sender_email,
+            date:n.date,
+            photoURL:n.sender_img
+        }
+        return notification
+    })
+    dispatch({
+        type:UserTypes.SET_NOTIFICATIONS_READ,
+        notifications:converted,
+        notificationsCount:converted.length
+    })
 }
 
 export const lastChatRecipient = (email:string,id:string) => (dispatch:Dispatch<any>) => {

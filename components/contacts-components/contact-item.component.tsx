@@ -41,6 +41,7 @@ const Item:React.FC<ContactItemProps> = ({contact}) => {
             <button onClick={()=>{
                 userActions.updateUserContacts(userDetails?.id,contact)
                 chatActions.manageMessage('sender_email',userDetails.email)
+                chatActions.manageMessage('recipient_email',email)
                 chatActions.manageMessage('sender_img',userDetails.photoURL)
                 chatActions.manageMessage('sender_id',userDetails.id)
                 userActions.lastChatRecipient(email,id)

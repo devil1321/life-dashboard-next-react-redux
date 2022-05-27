@@ -66,18 +66,44 @@
         @include pos-relative()
     }
     &__notifications-menu{
-      @include menu();
+        @include menu();
         width: 200px;
+        min-height:40px;
+        max-height:340px;
+        padding:5px;
+        background-color:$item;
+        overflow-y: scroll;
+        & > h3{
+            cursor: pointer;
+            border-radius: 15px;
+            padding:10px;
+            text-align:center;
+            &:hover{
+                background-color: $light-green !important;
+            }
+        }
+    }
+    &__notifications-icon{
+        position: relative;
+        top:0px;
+        left:-10px;
+    }
+    &__notifications-count{
+        position: absolute;
+        top:-10px;
+        right:-15px;
+        font-weight:bold;
     }
     &__notification{
         cursor: pointer;
         margin:10px 0px;
         background-color: $item;
         border-radius: 15px;
-        @include createFlex(row, center,center,null);
+        padding:10px;
+        @include createFlex(row, flex-start,center,null);
         img{
-            width: 20%;
-            margin-right: 15px;
+            width:30px;
+            margin-right: 8px;
         }
         h3,p{
             margin:3px 0px;

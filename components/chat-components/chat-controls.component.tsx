@@ -25,9 +25,7 @@ const Controls:React.FC<ControlsProps> = ({isWrite,openMsg,closeMsg}) => {
             chatActions.manageMessage('date', isoDate)
             chatActions.sendMessage(message.recipient_email,message)
             chatActions.setMessages(message.sender_email)
-            setTimeout(()=>{
-              chatActions.manageMessage('msg','')
-            },100)
+            chatActions.manageMessage('msg','')
           }}>Send</button>}
     </div>  
   )

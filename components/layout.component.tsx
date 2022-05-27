@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as UserActions from '../controllers/action-creators/user.actions-creators'
 import * as ContactsActions from '../controllers/action-creators/contacts.actions-creators'
+import * as ChatActions from '../controllers/action-creators/chat.actions-creators'
 
 interface LayoutProps{
   title:string,
@@ -23,6 +24,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const userActions = bindActionCreators(UserActions,dispatch)
   const contactsActions = bindActionCreators(ContactsActions,dispatch)
+  const chatActions = bindActionCreators(ChatActions,dispatch)
 
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
@@ -50,7 +52,10 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     }
     if(isLoad && user && userDetails !== null){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
+      userActions.setUnknowContacts()
       contactsActions.setContacts()
+      chatActions.setMessages(userDetails.email)
+      
     }
   },[user,isLocked,userDetails])
 

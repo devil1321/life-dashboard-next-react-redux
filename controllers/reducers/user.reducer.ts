@@ -6,7 +6,10 @@ interface UserParams {
     access_token:string;
     error:string;
     msg:string; 
+    unknownContacts:any[];
     emails:any[];
+    notifications:any[];
+    notificationsCount:number;
     email:any;
     replyDetails:{
         email:string,
@@ -20,7 +23,10 @@ const initData:UserParams = {
     access_token:'',
     error:'',
     msg:'',
+    unknownContacts:[],
     emails:['loading'],
+    notifications:[],
+    notificationsCount:0,
     email:null,
     replyDetails:{
         email:'',
@@ -67,6 +73,11 @@ export default (state = initData, action:any) =>{
                     ...state,
                     emails:action.emails
                 }
+            case UserTypes.SET_UKNOWN_CONTACTS: 
+                return {
+                    ...state,
+                    unknownContacts:action.unknownContacts
+                }
       
             case UserTypes.SET_EMAIL: 
                 return {
@@ -85,6 +96,18 @@ export default (state = initData, action:any) =>{
             case UserTypes.SEND_EMAIL: 
                 return {
                     ...state,
+                }
+            case UserTypes.SET_NOTIFICATIONS: 
+                return {
+                    ...state,
+                    notifications:action.notifications,
+                    notificationsCount:action.notificationsCount
+                }
+            case UserTypes.SET_NOTIFICATIONS_READ: 
+                return {
+                    ...state,
+                    notificationsCount:action.notificationsCount,
+                    notifications:action.notifications,
                 }
         case UserTypes.UPDATE_PROFILE: 
             return {

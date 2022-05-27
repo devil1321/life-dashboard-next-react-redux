@@ -1,7 +1,11 @@
-import React, { MutableRefObject } from 'react'
+import React, { useEffect, MutableRefObject, useState } from 'react'
 import Nav from './navbar.components';
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSelector, useDispatch } from 'react-redux'
+import { State } from '../../controllers/reducers'
+import { bindActionCreators } from 'redux'
+import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 
 interface NotificationsProps{
     innerRef:MutableRefObject<HTMLDivElement>
@@ -9,13 +13,36 @@ interface NotificationsProps{
 }
 
 const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
+  const [isLoad,setIsLoad] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const userActions = bindActionCreators(UserActions,dispatch)
+  const { notifications,notificationsCount } = useSelector((state:State) => state.user)
+  const { allMessages } = useSelector((state:State) => state.chat)
+
+  useEffect(()=>{
+    if(allMessages && !isLoad){
+      setIsLoad(true)
+    }
+    if(isLoad){
+      userActions.setNotifications(allMessages)
+    }
+  },[isLoad,allMessages.length])
+
   return (
     <div className="navbar__notifications">
-    <FontAwesomeIcon icon ={faBell} onClick={()=>handleMenu(innerRef)}/>
+    <div className="navbar__notifications-icon">
+      <FontAwesomeIcon icon ={faBell} onClick={()=>{
+          handleMenu(innerRef)
+          userActions.setNotificationsRead()
+        }}/>
+        <span className="navbar__notifications-count">
+          {notificationsCount}
+        </span>
+    </div>
     <div className="navbar__notifications-menu --close-modifier" ref={innerRef}>
-        <Nav.Notification img="/assets/user.png" person="Julia McCrudy" subject="Infinite to meeting"  date="2022-01-23" />
-        <Nav.Notification img="/assets/user.png" person="Julia McCrudy" subject="Infinite to meeting"  date="2022-01-23" />
-        <Nav.Notification img="/assets/user.png" person="Julia McCrudy" subject="Infinite to meeting"  date="2022-01-23" />
+      {notifications.length > 0 
+        ? notifications.map((n:any)=><Nav.Notification img={n.photoURL !== null ? n.photoURL : "/assets/user.png"} person={n.person}   date={n.date.slice(0,10) + ' ' + n.date.slice(12,16)} />)
+        : <h3>Empty</h3>}
     </div>
 </div>
   )

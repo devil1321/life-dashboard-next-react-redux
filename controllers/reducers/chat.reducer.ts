@@ -47,6 +47,7 @@ export default (state = initData, action:any) =>{
                 ...state,
                 allMessages:action.allMessages
             }
+  
         default:
             return {
                 ...state

@@ -56,4 +56,11 @@
         position:relative;
         right:-70px;
     }
+    &__unknown{
+        background:linear-gradient(45deg,orange,red) !important;
+        @include createIsomorphicConvex(black,orange) ;
+        &:hover{
+            background:linear-gradient(45deg,red,orange) !important;
+        }
+    }
 }
