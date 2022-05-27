@@ -41,7 +41,7 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
     </div>
     <div className="navbar__notifications-menu --close-modifier" ref={innerRef}>
       {notifications.length > 0 
-        ? notifications.map((n:any)=><Nav.Notification img={n.photoURL !== null ? n.photoURL : "/assets/user.png"} person={n.person}   date={n.date.slice(0,10) + ' ' + n.date.slice(12,16)} />)
+        ? notifications.map((n:any,index:number)=><Nav.Notification key={index} img={n.photoURL !== null ? n.photoURL : "/assets/user.png"} person={n.person}   date={n.date.slice(0,10) + ' ' + n.date.slice(12,16)} />)
         : <h3>Empty</h3>}
     </div>
 </div>
