@@ -52,7 +52,7 @@ const ContactItem:React.FC<ContactItemProps> = ({contact,isUnknown}) => {
         {email && <p>{email}</p>}
       </div>
       {phoneNumber && <h3>Nr. {phoneNumber}</h3>}
-      {count !== 0 && <button className="chat-contact-item__unseen">{count}</button>}
+      {count !== 0 && <button className={`chat-contact-item__unseen ${isUnknown ? "chat-contact-item__unknown" : ""}`}>{count}</button>}
       <button className={isUnknown ? "chat-contact-item__unknown" : ""} onClick={()=>{
           UI.setIsChat(true)
           chatActions.manageMessage('recipient_email',email)

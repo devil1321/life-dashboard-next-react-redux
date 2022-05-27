@@ -20,8 +20,11 @@ interface LayoutProps{
 const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const dispatch = useDispatch()
   const { user, userDetails } = useSelector((state:State) => state.user)
+  const { contacts } = useSelector((state:State) => state.contacts)
+  const { allMessages } = useSelector((state:State) => state.chat)
   const { isLocked } = useSelector((state:State) => state.ui)
   const [isLoad,setIsLoad] = useState<boolean>(false)
+  const [isSet,setIsSet] = useState<boolean>(false)
   const userActions = bindActionCreators(UserActions,dispatch)
   const contactsActions = bindActionCreators(ContactsActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
@@ -50,14 +53,16 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       userActions.setUserDetails(user.email)
       setIsLoad(true)
     }
-    if(isLoad && user && userDetails !== null){
+    if(isLoad && user && userDetails !== null && !isSet){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
-      userActions.setUnknowContacts()
       contactsActions.setContacts()
       chatActions.setMessages(userDetails.email)
-      
+      setIsSet(true)
     }
-  },[user,isLocked,userDetails])
+    if(isSet){
+      userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+    }
+  },[user,isLocked,userDetails,allMessages,isSet])
 
   return (
     <React.Fragment>

@@ -9,6 +9,7 @@ import { Contact } from '../../interfaces'
 const Contacts = () => {
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const [tempContacts,setTempContacts] = useState<Contact[]>([])
+  const [tempUnknown,setTempUnknown] = useState<any[]>([])
   const { userDetails, unknownContacts } = useSelector((state:State)=>state.user)
 
 
@@ -37,6 +38,7 @@ const Contacts = () => {
           comesIn('.chat-contact-item')
         },800)
         setTempContacts(userDetails?.contacts)
+        setTempUnknown(unknownContacts)
         setIsLoad(true)
       }if(isLoad){
         comesIn('.chat-contact-item')
@@ -46,15 +48,19 @@ const Contacts = () => {
   return (
     <div className="chat-contacts">
         <div className="chat-contacts__controls">
-          <Search contacts={userDetails?.contacts} setContacts={setTempContacts} />
+          <Search contacts={userDetails?.contacts} setContacts={setTempContacts} unknownContacts={unknownContacts} setTempUnknown={setTempUnknown} />
         </div>
         <div className="chat-contacts__inner">
-        
+          {tempUnknown.length > 0 &&
             <React.Fragment>
-              <h3>Unknown</h3>
-              {unknownContacts.map((contact:Contact) => <Chat.ContactItem isUnknown={true} key={contact.id} contact={contact} />)}
-            </React.Fragment>
-          {tempContacts?.length > 0 && tempContacts.map((contact:Contact) => <Chat.ContactItem key={contact.id} contact={contact} />)}
+              <h3>Unknown Messages</h3>
+              {tempUnknown.map((contact:Contact) => <Chat.ContactItem isUnknown={true} key={contact.id} contact={contact} />)}
+            </React.Fragment>}
+          {tempContacts?.length > 0 && 
+           <React.Fragment>
+            <h3>Your Contacts</h3>
+            {tempContacts.map((contact:Contact) => <Chat.ContactItem key={contact.id} contact={contact} />)}
+           </React.Fragment>}
         </div>
     </div>
   )

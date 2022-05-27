@@ -202,16 +202,15 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
 }
 
 
-export const setUnknowContacts = () => (dispatch:Dispatch<any>) => {
-    const { allMessages } = store.getState().chat
-    const { contacts } = store.getState().user.userDetails
-    const { contacts:allContacts } = store.getState().contacts
-    const tempContacts:any[] = []
-    const unknowMessages:any[] = [] 
-    const userEmails = contacts.map((c:any)=>c.email)
+export const setUnknowContacts = (allMessages:any[],userContacts:any[],allContacts:any[],userEmail:string) => (dispatch:Dispatch<any>) => {
+    let tempContacts:any[] = []
+    let unknowMessages:any[] = [] 
+    const userEmails = userContacts.map((c:any)=>c.email)
     allMessages.forEach((m:any)=>{
-            if(!userEmails.includes(m.sender_email)){
-                unknowMessages.push(m)
+            if(m !== undefined && m !== null){
+                if(!userEmails.includes(m.sender_email) && m.sender_email !== userEmail){
+                    unknowMessages.push(m)
+                }
             }
         })
     unknowMessages.forEach((m:any)=>{

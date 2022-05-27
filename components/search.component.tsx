@@ -3,10 +3,12 @@ import { Contact } from '../interfaces'
 
 interface SearchParams {
     contacts:Contact[],
+    unknownContacts?:any[],
     setContacts:(state:any) => any
+    setTempUnknown?:(state:any) => any
 }
 
-const Search:React.FC<SearchParams> = ({contacts,setContacts}) => {
+const Search:React.FC<SearchParams> = ({contacts,setContacts,unknownContacts,setTempUnknown}) => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
   const [searchVal,setSearchVal] = useState<string>('')
 
@@ -16,15 +18,30 @@ const Search:React.FC<SearchParams> = ({contacts,setContacts}) => {
         return c.email.match(regex)
     })
     setContacts(matches)
+    if(unknownContacts){
+      const matchesUnkown = unknownContacts.filter((c:any)=>{
+        return c.email.match(regex)
+      })
+      // @ts-ignore
+      setTempUnknown(matchesUnkown)
+    }
   } 
 
   const handleFilterAZ = () => {
     setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)))
+    if(unknownContacts){
+      // @ts-ignore
+      setTempUnknown(unknownContacts.sort((a, b) => a.email.localeCompare(b.email)))
+    }
     setIsFilter(false)
   }
   const handleFilterZA = () => {
     setIsFilter(true)
     setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())
+    if(unknownContacts){
+      // @ts-ignore
+      setTempUnknown(unknownContacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())
+    }
   }
 
   return (
