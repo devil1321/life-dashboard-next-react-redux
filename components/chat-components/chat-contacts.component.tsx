@@ -7,13 +7,10 @@ import { State } from '../../controllers/reducers'
 import { Contact } from '../../interfaces'
 
 const Contacts = () => {
-
-  const [isFilter,setIsFilter] = useState<boolean>(false)
+  const [isLoad,setIsLoad] = useState<boolean>(false)
+  const [tempContacts,setTempContacts] = useState<Contact[]>([])
   const { userDetails } = useSelector((state:State)=>state.user)
 
-  if(userDetails){
-    var { contacts } = userDetails
-  }
 
   const comesIn = (el:string | HTMLDivElement) => {
     
@@ -34,23 +31,25 @@ const Contacts = () => {
       })
   }
  
-  const filterContacts = () => {
-      setIsFilter(!isFilter)
-  }
-
   useEffect(()=>{
+    if(!isLoad){
       setTimeout(()=>{
           comesIn('.chat-contact-item')
         },800)
-  },[])
+        setTempContacts(userDetails?.contacts)
+        setIsLoad(true)
+      }if(isLoad){
+        comesIn('.chat-contact-item')
+      }
+  },[userDetails,tempContacts])
 
   return (
     <div className="chat-contacts">
         <div className="chat-contacts__controls">
-          <Search  />
+          <Search contacts={userDetails?.contacts} setContacts={setTempContacts} />
         </div>
         <div className="chat-contacts__inner">
-          {contacts?.length > 0 && contacts.map((contact:Contact) => <Chat.ContactItem key={contact.id} contact={contact} />)}
+          {tempContacts?.length > 0 && tempContacts.map((contact:Contact) => <Chat.ContactItem key={contact.id} contact={contact} />)}
         </div>
     </div>
   )

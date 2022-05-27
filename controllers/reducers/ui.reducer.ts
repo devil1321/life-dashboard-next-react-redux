@@ -4,6 +4,7 @@ interface DateParams {
     isEdit:boolean
     isLocked:boolean;
     isContact:boolean;
+    isPreview:boolean;
     isChat:boolean;
 }
 
@@ -11,6 +12,7 @@ const initData:DateParams = {
    isEdit:false,
    isLocked:false,
    isContact:false,
+   isPreview:false,
    isChat:false,
 }
 
@@ -25,6 +27,11 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 isContact:action.isContact
+            }
+        case UITypes.SET_IS_PREVIEW: 
+            return {
+                ...state,
+                isPreview:action.isPreview
             }
         case UITypes.SET_IS_CHAT: 
             return {

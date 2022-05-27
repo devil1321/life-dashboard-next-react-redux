@@ -16,6 +16,14 @@ export const setIsContact = (state: boolean) => (dispatch:Dispatch<any>) => {
     })
 }
 
+export const setIsPreview = (state: boolean) => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:UITypes.SET_IS_PREVIEW,
+        isPreview:state
+    })
+}
+
+
 export const setIsChat = (state: boolean) => (dispatch:Dispatch<any>) => {
     dispatch({
         type:UITypes.SET_IS_CHAT,

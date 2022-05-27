@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useEffect,useState } from 'react'
 import gsap from 'gsap'
 import Layout from '../components/layout.component'
 import Email from '../components/email-components/email.components'
@@ -15,11 +15,11 @@ const EmailsPage = () => {
 
   const dispatch = useDispatch()
   const { emails, userDetails } = useSelector((state:State) => state.user)
-  const { isContact } = useSelector((state:State) => state.ui)
-  const userActions = bindActionCreators(UserActions,dispatch)
+  const { isContact, isPreview } = useSelector((state:State) => state.ui)
   const UI = bindActionCreators(UIActions,dispatch)
 
-  const [isPreview,setIsPreview] = useState<boolean>(false)
+  const [tempContacts,setTempContacts] = useState<Contact[]>([])
+  const [isLoad,setIsLoad] = useState<boolean>(false)
 
   const comesFromLeft = (el:string) => {
     gsap.fromTo(el,{x:-400},{x:0, stagger: { 
@@ -40,27 +40,32 @@ const EmailsPage = () => {
 
   const handlePreviewFn = () =>{
     UI.setIsContact(true)
-    setIsPreview(false)
+    UI.setIsPreview(false)
   }
 
   const handleHideFn = () =>{
-    setIsPreview(false)
+    UI.setIsPreview(false)
     UI.setIsContact(false)
   }
   
   const handleEmailItemIsPreviewFn = () => {
-    setIsPreview(true)
+    UI.setIsPreview(true)
   }
 
   useEffect(()=>{
-    setTimeout(()=>{
+    if(!isLoad){
+      setTimeout(()=>{
+        comesFromLeft('.email-contact-item')
+      },2000)
+      setTimeout(()=>{
+        comesFromDown('.email-item')
+      },2000)
+      setTempContacts(userDetails.contacts)
+      setIsLoad(true)
+    }else{
       comesFromLeft('.email-contact-item')
-    },2000)
-    setTimeout(()=>{
-      comesFromDown('.email-item')
-    },2000)
-
-  },[userDetails])
+    }
+  },[userDetails,tempContacts])
 
   return (
       <Layout title="Emails">
@@ -69,14 +74,14 @@ const EmailsPage = () => {
           ? <React.Fragment>
             <div className="emails__search">
               <button className="emails__write-btn" onClick={()=>{
-                   setIsPreview(false)
+                    UI.setIsPreview(false)
               }}>Write Message</button>
-              <Search />
+              <Search contacts={userDetails?.contacts} setContacts={setTempContacts} />
             </div>
             <div className="emails__main">
               <div className="emails__contacts-wrapper">
                 <div className="emails__contacts">
-                  {userDetails?.contacts?.map((contact:Contact) => <Email.ContactItem key={contact.id} contact={contact} />)}
+                  {tempContacts.length > 0 && tempContacts.map((contact:Contact) => <Email.ContactItem key={contact.id} contact={contact} />)}
                 </div>
               </div>
               <div className="emails__emails-wrapper">

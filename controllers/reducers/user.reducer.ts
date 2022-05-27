@@ -67,6 +67,7 @@ export default (state = initData, action:any) =>{
                     ...state,
                     emails:action.emails
                 }
+      
             case UserTypes.SET_EMAIL: 
                 return {
                     ...state,

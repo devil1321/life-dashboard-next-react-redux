@@ -33,6 +33,7 @@ const MainWindow = () => {
   useEffect(()=>{
     if(!isLoad){
       chatActions.setMessages(email)
+      chatActions.traceMessages()
       setIsLoad(true)
     }
     if(isLoad && messagesByEmail.length === 0){

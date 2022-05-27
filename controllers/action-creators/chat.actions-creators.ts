@@ -4,7 +4,8 @@ import { Dispatch } from 'redux';
 import store from '../store'
 import { initializeApp } from 'firebase/app'
 import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query,where,getDoc,updateDoc } from 'firebase/firestore'
-
+import * as CryptoJS from 'crypto-js'
+import { JsonFormatter } from '../../modules/json-formatter.module'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPB_ibh5yK49GwSHCAHGlCEhGlVBuq2i0",
@@ -40,6 +41,9 @@ export const setMessages = (email:string) => async (dispatch:Dispatch<any>) => {
                 }                
             })
             if(isValid){
+                msg.msg = CryptoJS.AES.decrypt(msg.msg, "Message", {
+                    format: JsonFormatter
+                }).toString(CryptoJS.enc.Utf8);
                 return msg
             }
         })
@@ -61,15 +65,13 @@ export const manageMessage = (key:string,val:string) => (dispatch:Dispatch<any>)
 }
 
 export const sendMessage = (email:string,message:any) => (dispatch:Dispatch<any>) => {
-    const messages:any[] = store.getState().chat.allMessages
-    messages.push(message)
-    const filtered = messages.filter((m:any)=> m.recipient_email === email)
+    message.msg = CryptoJS.AES.encrypt(message.msg, "Message", {
+        format: JsonFormatter
+   }).toString();
     addDoc(colRefChat,message)
         .then(()=>{
             dispatch({
                 type:ChatTypes.SEND_MESSAGE,
-                allMessages:messages,
-                messagesByEmail:filtered
             })
         })
         .catch(err => console.log(err)) 
@@ -80,7 +82,7 @@ export const filterByEmail = (recipient:string,sender:string) => (dispatch:Dispa
     filtered = filtered.sort((a,b)=>{
         const dateA:any = new Date(a.date)
         const dateB:any = new Date(b.date)
-        return dateB - dateA
+        return dateA - dateB
     })
     dispatch({
         type:ChatTypes.FILTER_BY_EMAIL,
@@ -90,7 +92,7 @@ export const filterByEmail = (recipient:string,sender:string) => (dispatch:Dispa
 
 export const checkRead = (sender_email:string,user_email:string) => (dispatch:Dispatch<any>)=>{
         const messages:any[] = store.getState().chat.allMessages
-        const filtered = messages.filter((m:any) => m.recipient_email === user_email && m.sender_email === sender_email)
+        let filtered = messages.filter((m:any) => m.recipient_email === user_email && m.sender_email === sender_email)
         filtered.forEach((m:any)=>{
             const docRef = doc(db,'chat',m.id)
             updateDoc(docRef,{
@@ -103,22 +105,21 @@ export const checkRead = (sender_email:string,user_email:string) => (dispatch:Di
         })
 }
 
-
-export const traceChanges = () => (dispatch:Dispatch<any>)=>{
-    let messages:any[] = []
-    new Promise((resolve,reject)=>{
-        onSnapshot(q,(snapshot)=>{
-            messages = [];
-            snapshot.docs.forEach((doc:any)=>{
-                messages.push({...doc.data(), id:doc.id})
-            })
+export const traceMessages = () => (dispatch:Dispatch<any>) => {
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const messages:any = [];
+        querySnapshot.forEach((doc) => {
+            messages.push({...doc.data(),id:doc.id});
+        });
+        const tempMessages = messages.map((msg:any)=>{
+            msg.msg = CryptoJS.AES.decrypt(msg.msg, "Message", {
+                format: JsonFormatter
+            }).toString(CryptoJS.enc.Utf8);
+            return msg
         })
-        resolve(messages)
-    }).then((messages)=>{
         dispatch({
-            type:ChatTypes.TRACE_CHANGES,
-            messages:messages
+            type:ChatTypes.UPDATE_MESSAGES,
+            allMessages:tempMessages
         })
-    })
-    .catch((err)=> console.log(err))
+      });
 }

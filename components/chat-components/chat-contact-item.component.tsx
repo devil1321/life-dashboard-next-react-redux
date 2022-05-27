@@ -14,7 +14,7 @@ interface ContactItemProps{
 
 const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
   const [count,setCount] = useState<number>(0)
-  const { allMessages } = useSelector((state:State) => state.chat)
+  const { allMessages,messagesByEmail } = useSelector((state:State) => state.chat)
   const { id:userId, email:userEmail } = useSelector((state:State) => state.user.userDetails)
   const dispatch = useDispatch()
   const chatActions = bindActionCreators(ChatActions,dispatch)
@@ -35,7 +35,7 @@ const ContactItem:React.FC<ContactItemProps> = ({contact}) => {
 
   useEffect(()=>{
     handleUnseen()
-  },[allMessages])
+  },[allMessages,messagesByEmail])
 
   return (
     <div className="chat-contact-item">

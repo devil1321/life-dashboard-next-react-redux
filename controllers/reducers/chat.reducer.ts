@@ -32,8 +32,6 @@ export default (state = initData, action:any) =>{
         case ChatTypes.SEND_MESSAGE: 
             return {
                 ...state,
-                messages:action.messages,
-                messagesByEmail:action.messagesByEmail   
             }
         case ChatTypes.FILTER_BY_EMAIL: 
             return {
@@ -43,12 +41,11 @@ export default (state = initData, action:any) =>{
         case ChatTypes.CHECK_READ: 
             return {
                 ...state,
-                messagesByEmail:action.messagesByEmail
             }
-        case ChatTypes.TRACE_CHANGES: 
+        case ChatTypes.UPDATE_MESSAGES: 
             return {
                 ...state,
-                messages:action.messages
+                allMessages:action.allMessages
             }
         default:
             return {

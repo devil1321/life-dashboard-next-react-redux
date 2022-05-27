@@ -48,7 +48,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       userActions.setUserDetails(user.email)
       setIsLoad(true)
     }
-    if(user && userDetails !== null){
+    if(isLoad && user && userDetails !== null){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
     }

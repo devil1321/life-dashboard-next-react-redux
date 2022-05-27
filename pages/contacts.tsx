@@ -4,12 +4,13 @@ import Search from '../components/search.component'
 import Contact from '../components/contacts-components/contact.components'
 import gsap from 'gsap'
 import { Contact as ContactType } from '../interfaces'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector} from 'react-redux'
 import { State } from '../controllers/reducers'
 
 const ContactsPage = () => {
   
   const { contacts }:{ contacts:ContactType[] } = useSelector((state:State) => state.contacts)
+  const [tempContacts,setTempContacts] = useState<ContactType[]>([])
   const [isLoad,setIsLoad] = useState<boolean>(false)
 
 
@@ -30,16 +31,19 @@ const ContactsPage = () => {
     setTimeout(()=>{
       setIsLoad(true)
     },4000)
-  },[isLoad])
+    if(!isLoad){
+      setTempContacts(contacts)
+    }
+  },[isLoad,contacts,tempContacts])
 
   return (
       <Layout title="Contacts">
         <div className="contacts">
           <div className="contacts__search">
-            <Search />
+            <Search contacts={contacts} setContacts={setTempContacts} />
           </div>
           <div className="contacts__contacts">
-            {isLoad && contacts.map((contact:ContactType) => <Contact.Item  key={contact.id} contact={contact} />)}
+            {isLoad && tempContacts.map((contact:ContactType) => <Contact.Item  key={contact.id} contact={contact} />)}
           </div>
         </div>
       </Layout>

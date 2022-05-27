@@ -104,7 +104,7 @@ const DashboardPage:NextPage = () => {
                 width="650"
                 />
               <div className="dashboard__emails">
-                {emails.length > 0 && !emails.includes('loading') && emails?.slice(0,3).map((email:any) => <Email.Item isView={false} key={email.id} img="/assets/user.png" email={email} />)}
+                {emails.length > 0 && !emails.includes('loading') && emails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
                 
               </div>
             </div>

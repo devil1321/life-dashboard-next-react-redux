@@ -1,10 +1,12 @@
 import React,{ Dispatch, SetStateAction, useState } from 'react'
+import { useRouter } from 'next/router'
 import { Player } from '@lottiefiles/react-lottie-player';
 import trash from '../../animations/icons-json/185-trash-bin.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from '../../controllers/reducers'
 import { bindActionCreators } from 'redux'
-import * as UserActions from '../../controllers/action-creators/user.actions-creators'
+import * as UserActions from '../../controllers/action-creators/user.actions-creators' 
+import * as UIActions from '../../controllers/action-creators/ui.actions-creators' 
 
 interface EmailProps{
     img:string;
@@ -16,9 +18,10 @@ interface EmailProps{
 const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}) => {
 
   const dispatch = useDispatch()
+  const router = useRouter()
   const userActions = bindActionCreators(UserActions,dispatch)
+  const UI = bindActionCreators(UIActions,dispatch)
   const { userDetails } = useSelector((state:State) => state.user)
-
   const [isEmail,setIsEmail] = useState<boolean>(true)
   
   if(email !== 'loading'){
@@ -50,10 +53,16 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
           </div>
           : <React.Fragment>
                <button className="email-item__view-btn" onClick={()=>{
+                if(router.asPath === '/dashboard'){
+                  userActions.setEmail(email)
+                  UI.setIsPreview(true)
+                  router.push('/emails')
+                 }
                if(handleEmailItemIsPreviewFn){
                  // @ts-ignore
                  handleEmailItemIsPreviewFn()
                  userActions.setEmail(email)
+          
                }
              }}>View</button>
             <div className="email-item__close" onClick={()=>setIsEmail(false)}>

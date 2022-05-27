@@ -171,7 +171,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
     const contacts  = store.getState().user.userDetails?.contacts
     const { userDetails } = store.getState().user
     if(userDetails?.email !== contact.email && userDetails !== null){
-        if(!contacts.includes(contact)){
+        if(contacts.filter((c:any)=>c.email === contact.email).length === 0){
             contacts.push(contact)
             const docRef = doc(db,'users',id)
             updateDoc(docRef,userDetails)
@@ -218,6 +218,7 @@ export const setReplyDetails = (email:string,subject:string) => (dispatch:Dispat
         replyDetails:{ email, subject }
     })
 }
+
 
 export const setEmails = (email:string,password:string) => (dispatch:Dispatch<any>) => {
         if(password){

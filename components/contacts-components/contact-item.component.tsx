@@ -44,6 +44,10 @@ const Item:React.FC<ContactItemProps> = ({contact}) => {
                 chatActions.manageMessage('sender_img',userDetails.photoURL)
                 chatActions.manageMessage('sender_id',userDetails.id)
                 userActions.lastChatRecipient(email,id)
+                UI.setIsChat(true)
+                setTimeout(()=>{
+                  router.push('/chat')
+                },1000)
             }}>Chat</button>
             <button onClick={(e)=>{
                 userActions.setReplyDetails(email,'')
