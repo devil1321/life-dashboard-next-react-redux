@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import { NextPage } from 'next'
 import Layout from '../components/layout.component'
 import Dashboard from '../components/dashboard-components/dashboard.components'
@@ -8,6 +8,7 @@ import error from '../animations/icons-json/1140-error.json'
 import income from '../animations/icons-json/453-savings-pig.json'
 import { State } from '../controllers/reducers'
 import { useSelector } from 'react-redux'
+import { Task } from '../interfaces'
 
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -20,6 +21,10 @@ interface SeriesOptions{
 const DashboardPage:NextPage = () => {
 
   const { emails } = useSelector((state:State) => state.user)
+  const { invoices } = useSelector((state:State) => state.invoices)
+  const { tasks } = useSelector((state:State) => state.todo)
+  const [todo,setTodo] = useState<Task[]>([])
+  
 
   const series:SeriesOptions[] = [{
     name: 'Orders',
@@ -82,14 +87,16 @@ const DashboardPage:NextPage = () => {
     }
   }
 
-
+useEffect(()=>{
+  setTodo(tasks.filter((t:Task) => t.completed === false))
+},[tasks])
 
   return (
     <Layout title="Dashboard">
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
-              <Dashboard.ProfilePanel projects={100}  emails={124} earnings={3200} tasks={6}/>
+              <Dashboard.ProfilePanel invoices={invoices.length}  emails={emails.length} earnings={3200} tasks={todo.length}/>
               <Dashboard.MonthlyEarningPanel series={[12]} all={3456} percentage={12}   />
             </div>
             <div className="dashboard__right-panel">

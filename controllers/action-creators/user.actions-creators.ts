@@ -5,11 +5,15 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendEmailVerification ,updateProfile,    } from 'firebase/auth'
 import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query,where,getDoc,updateDoc } from 'firebase/firestore'
 import axios from 'axios'
-import store from '../store'
 import * as CryptoJS from 'crypto-js'
 import { JsonFormatter } from '../../modules/json-formatter.module'
 import { Contact } from '../../interfaces';
-{/* @ts-igonre */}
+import store from '../store'
+import { bindActionCreators } from 'redux'
+import * as ChatActions from './chat.actions-creators'
+
+const dispatch = store.dispatch
+const chatActions = bindActionCreators(ChatActions,dispatch)
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPB_ibh5yK49GwSHCAHGlCEhGlVBuq2i0",
@@ -149,22 +153,27 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
 
  export const updateUserProfile = (id:string,user:any) => (dispatch:Dispatch<any>) => {
      if(user !== undefined){
-         var encrypted = CryptoJS.AES.encrypt(user.inbox_password, "Password", {
-             format: JsonFormatter
-        });
+         if(user.inbox_password !== undefined  || user.inbox_password !== '' ){
+            var encrypted = CryptoJS.AES.encrypt(user.inbox_password, "Password", {
+                format: JsonFormatter
+            });   
+        }
+        const docRef = doc(db,'users',id)
+        updateDoc(docRef,{...user,inbox_password:encrypted.toString()})
+        .then(()=>{
+            dispatch({
+                type:UserTypes.UPDATE_PROFILE,
+                userDetails:{
+                  id:id,
+                  ...user,
+                  inbox_password:encrypted
+              }
+          })
+        }).then(()=>{
+              chatActions.updateChatProfileImg(user.email,user.photoURL)
+        }).catch(err => console.log(err))
     }
-    const docRef = doc(db,'users',id)
-      updateDoc(docRef,{...user,inbox_password:encrypted.toString()})
-      .then(()=>{
-          dispatch({
-          type:UserTypes.UPDATE_PROFILE,
-          userDetails:{
-              id:id,
-              ...user,
-              inbox_password:encrypted
-          }
-      })
-  }).catch(err => console.log(err))
+   
 }
 
  export const updateUserContacts = (id:string,contact:Contact) => (dispatch:Dispatch<any>) => {
@@ -284,6 +293,29 @@ export const deleteEmail = (email:string,password:string,uid:string) => (dispatc
                     .then((res:any)=>{
                         dispatch({
                             type:UserTypes.REMOVE_EMAIL,
+                        })
+            })    
+        })
+    }   
+}
+export const markSeenEmail = (email:string,password:string,uid:string) => (dispatch:Dispatch<any>) => {
+        if(password){
+            const decrypted = CryptoJS.AES.decrypt(password, "Password", {
+                format: JsonFormatter
+            });
+            new Promise((resolve:any,reject:any)=>{
+                const pass = decrypted.toString(CryptoJS.enc.Utf8)
+                resolve(pass)
+            }).then((pass:any)=>{
+                const reqBody = { email, password:pass, uid }
+                axios.post('/api/mark-email-seen',reqBody,{
+                    headers:{
+                        'Content-Type': 'application/json'
+                        }
+                })
+                    .then((res:any)=>{
+                        dispatch({
+                            type:UserTypes.MARK_EMAIL_SEEN,
                         })
             })    
         })

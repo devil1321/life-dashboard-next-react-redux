@@ -26,6 +26,7 @@ const InvoicesPage:NextPage = () => {
 
     const dispatch = useDispatch()
     const { formData,fields,invoice,invoices } = useSelector((state:State) => state.invoices)
+    const { userDetails } = useSelector((state:State) => state.user)
     const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
 
     const [tempInvoices,setTempInvoices] = useState<any[]>()
@@ -145,7 +146,7 @@ const InvoicesPage:NextPage = () => {
 
 
       useEffect(()=>{
-        invoicesActions.setInvoices()
+        invoicesActions.setInvoices(userDetails?.id)
         if(isLoad){
           setFile(invoice.file)
           setTempInvoices(invoices)
@@ -202,7 +203,7 @@ const InvoicesPage:NextPage = () => {
                   },3000)
                 }
               }}>Hide Form</button>}
-              <Search contacts={invoices} setContacts={setTempInvoices} />
+              <Search contacts={invoices} setContacts={setTempInvoices} name="Search All Invoices" />
             </div>
             <div className="invoices__inner">
               <div className="invoices__left-panel">
@@ -214,7 +215,7 @@ const InvoicesPage:NextPage = () => {
               </div>
               <div className="invoices__right-panel">
                 {invoices.map((item:any)=>(
-                  <Invoice.Item key={item} fn={handleItemFn} invoice={item} setInvoices={invoicesActions.setInvoices} removeInvoice={invoicesActions.removeInvoice} comesIn = {comesIn}  />
+                  <Invoice.Item key={item} id={userDetails?.id} fn={handleItemFn} invoice={item} setInvoices={invoicesActions.setInvoices} removeInvoice={invoicesActions.removeInvoice} comesIn = {comesIn}  />
                 ))}
               </div>
             </div>

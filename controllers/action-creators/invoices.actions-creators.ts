@@ -41,13 +41,14 @@ export const handleFormData = (name:string,val:string) => (dispatch:Dispatch<any
         })    
 }
 
-export const setInvoices = () => (dispatch:Dispatch<any>) => {
+export const setInvoices = (id:string) => (dispatch:Dispatch<any>) => {
     getDocs(colRefInvoices)
     .then((snapshot)=>{
-            let invoices:any = []
+            let invoices = [] as any[]
             snapshot.docs.forEach(doc => {
                 invoices.push({...doc.data(),firebaseId:doc.id})
             })
+            invoices = invoices.filter((i:Invoice) => i.userId === id)
             dispatch({
                 type:InvoicesTypes.SET_INVOICES,
                 invoices:invoices

@@ -20,7 +20,10 @@ const initData:InvoicesFormDataParams = {
     },
     fields:[],
     invoices:[],
-    invoice:''
+    invoice:'',
+    earnings:0,
+    monthlyEarnings:0,
+    percentFromLastMonth:0,
 }
 export default (state = initData, action:any) =>{
     switch(action.type){

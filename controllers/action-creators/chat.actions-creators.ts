@@ -138,3 +138,28 @@ export const traceMessages = () => (dispatch:Dispatch<any>) => {
       });
 }
 
+export const updateChatProfileImg = (email:string,profilePic:string) => (dispatch:Dispatch<any>) => {
+    const { allMessages } = store.getState().chat
+    const allUserMessages = allMessages.filter((m:any)=> m.recipient_email === email || m.sender_email)
+    allUserMessages.forEach((m:any)=>{
+        const docRef = doc(db,'chat',m.id)
+        if(m.sender_img === email){
+            updateDoc(docRef,{sender_img:profilePic})
+            .then(()=>{
+                dispatch({
+                    type:ChatTypes.UPDATE_CHAT_PROFILE_IMG,
+                })
+            })
+            .catch(err => console.log(err))
+        }else{
+            updateDoc(docRef,{recipient_img:profilePic})
+            .then(()=>{
+                dispatch({
+                    type:ChatTypes.UPDATE_CHAT_PROFILE_IMG,
+                })
+            })
+            .catch(err => console.log(err))
+        }
+    
+    })
+}

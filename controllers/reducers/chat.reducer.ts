@@ -48,6 +48,11 @@ export default (state = initData, action:any) =>{
                 allMessages:action.allMessages
             }
   
+        case ChatTypes.UPDATE_CHAT_PROFILE_IMG: 
+            return {
+                ...state,
+            }
+  
         default:
             return {
                 ...state

@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import React, { MutableRefObject } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as UIActions from '../../controllers/action-creators/ui.actions-creators'
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'
+import { State } from '../../controllers/reducers'
 
 interface ProfileProps {
     innerRef:MutableRefObject<HTMLDivElement>
@@ -15,11 +17,14 @@ const Profile:React.FC<ProfileProps> = ({innerRef,handleMenu}) => {
   const dispatch = useDispatch()
   const UI = bindActionCreators(UIActions,dispatch)
   const userActions = bindActionCreators(UserActions,dispatch)
+  const { userDetails } = useSelector((state:State) => state.user)
 
   return (
     <div className="navbar__profile">
         <div className="navbar__profile-info" onClick={()=>handleMenu(innerRef)}>
-            <img src="/assets/user.png" alt="" />
+                {userDetails?.photoURL === null
+                    ?  <img src="/assets/user.png" alt="" />
+                    :  <img src={userDetails?.photoURL} alt="" />}
             <div className="navbar__profile-btn">Profile</div>
         </div>
         <div className="navbar__profile-menu --close-modifier" ref={innerRef}>

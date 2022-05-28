@@ -48,7 +48,7 @@ const Contacts = () => {
   return (
     <div className="chat-contacts">
         <div className="chat-contacts__controls">
-          <Search contacts={userDetails?.contacts} setContacts={setTempContacts} unknownContacts={unknownContacts} setTempUnknown={setTempUnknown} />
+          <Search name="Search Contacts" contacts={userDetails?.contacts} setContacts={setTempContacts} unknownContacts={unknownContacts} setTempUnknown={setTempUnknown} />
         </div>
         <div className="chat-contacts__inner">
           {tempUnknown.length > 0 &&

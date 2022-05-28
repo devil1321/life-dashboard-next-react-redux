@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux'
 import * as UserActions from '../controllers/action-creators/user.actions-creators'
 import * as ContactsActions from '../controllers/action-creators/contacts.actions-creators'
 import * as ChatActions from '../controllers/action-creators/chat.actions-creators'
+import * as InvoicesActions from '../controllers/action-creators/invoices.actions-creators'
 
 interface LayoutProps{
   title:string,
@@ -28,6 +29,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const userActions = bindActionCreators(UserActions,dispatch)
   const contactsActions = bindActionCreators(ContactsActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
+  const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
 
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
@@ -48,24 +50,29 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
         }
       },2000)
     }
-    if(!user){
-      router.push('/')
-    }
+    setTimeout(()=>{
+      if(!user){
+        router.push('/')
+      }
+    },1000)
     userActions.traceChanges()
     if(user && userDetails === null){
       userActions.setUserDetails(user.email)
-      setIsLoad(true)
+      setTimeout(()=>{
+        setIsLoad(true)
+      },500)
     }
     if(isLoad && user && userDetails !== null && !isSet){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
       chatActions.setMessages(userDetails.email)
+      invoicesActions.setInvoices(userDetails?.id)
       setIsSet(true)
     }
     if(isSet){
       userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
     }
-  },[user,isLocked,userDetails,allMessages,isSet])
+  },[user,isLocked,userDetails,allMessages,isSet,isLoad])
 
   return (
     <React.Fragment>

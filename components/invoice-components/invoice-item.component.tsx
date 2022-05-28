@@ -4,14 +4,15 @@ import { faFileInvoice } from '@fortawesome/free-solid-svg-icons'
 import { Invoice } from '../../interfaces'
 
 interface InvoiceItemProps{
+    id:string;
     fn:(e:any,id:any) => void
     comesIn:(item:string) => void
     invoice:Invoice;
-    setInvoices:() => any
+    setInvoices:(id:string) => any
     removeInvoice:(id:any) => any
 }
 
-const Item:React.FC<InvoiceItemProps> = ({fn,comesIn,invoice,setInvoices,removeInvoice}) => {
+const Item:React.FC<InvoiceItemProps> = ({id,fn,comesIn,invoice,setInvoices,removeInvoice}) => {
 
     const { firebaseId, invoiceNR, firstName, lastName, money, date } = invoice
   
@@ -29,7 +30,7 @@ const Item:React.FC<InvoiceItemProps> = ({fn,comesIn,invoice,setInvoices,removeI
         <div className="invoice-item__controls">
             <button className="invoice-item__remove-btn" onClick={()=>{
                 removeInvoice(firebaseId as string)
-                setInvoices()
+                setInvoices(id)
                 }}>Remove</button>
             <button onClick={(e:any)=>{
                fn(e,firebaseId as string)

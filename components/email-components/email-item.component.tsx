@@ -55,6 +55,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
                <button className="email-item__view-btn" onClick={()=>{
                 if(router.asPath === '/dashboard'){
                   userActions.setEmail(email)
+                  userActions.markSeenEmail(userDetails?.email,userDetails?.inbox_password,uid)
                   UI.setIsPreview(true)
                   router.push('/emails')
                  }
@@ -62,6 +63,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
                  // @ts-ignore
                  handleEmailItemIsPreviewFn()
                  userActions.setEmail(email)
+                 userActions.markSeenEmail(userDetails?.email,userDetails?.inbox_password,uid)
           
                }
              }}>View</button>

@@ -43,6 +43,9 @@ export interface InvoicesFormDataParams {
     fields:Field[]
     invoices:any;
     invoice:string;
+    earnings:number,
+    monthlyEarnings:number,
+    percentFromLastMonth:number,
 }
 
 export interface Field {
@@ -52,6 +55,7 @@ export interface Field {
 }
 
 export interface Invoice{
+    userId:string;
     firebaseId?:string;
     invoiceNR:string;
     firstName:string;

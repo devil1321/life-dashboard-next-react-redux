@@ -19,6 +19,7 @@ const EmailsPage = () => {
   const UI = bindActionCreators(UIActions,dispatch)
 
   const [tempContacts,setTempContacts] = useState<Contact[]>([])
+  const [tempEmails,setTempEmails] = useState<any[]>([])
   const [isLoad,setIsLoad] = useState<boolean>(false)
 
   const comesFromLeft = (el:string) => {
@@ -52,6 +53,8 @@ const EmailsPage = () => {
     UI.setIsPreview(true)
   }
 
+      
+ 
   useEffect(()=>{
     if(!isLoad){
       setTimeout(()=>{
@@ -60,12 +63,16 @@ const EmailsPage = () => {
       setTimeout(()=>{
         comesFromDown('.email-item')
       },2000)
-      setTempContacts(userDetails.contacts)
+      if(userDetails?.contacts?.length > 0){
+        setTempContacts(userDetails?.contacts)
+      }
+      if(emails.length > 0 ){
+        setTempEmails(emails)
+      }
       setIsLoad(true)
-    }else{
-      comesFromLeft('.email-contact-item')
     }
-  },[userDetails,tempContacts])
+    comesFromLeft('.email-contact-item')
+  },[userDetails,emails,tempContacts])
 
   return (
       <Layout title="Emails">
@@ -76,7 +83,8 @@ const EmailsPage = () => {
               <button className="emails__write-btn" onClick={()=>{
                     UI.setIsPreview(false)
               }}>Write Message</button>
-              <Search contacts={userDetails?.contacts} setContacts={setTempContacts} />
+              <Search name="Search Contacts" contacts={userDetails?.contacts} setContacts={setTempContacts} />
+              <Search name="Search Emails" emails={emails} setEmails={setTempEmails} />
             </div>
             <div className="emails__main">
               <div className="emails__contacts-wrapper">
@@ -92,7 +100,7 @@ const EmailsPage = () => {
                     ? <div className="emails__not-connected">
                         <h1>Inbox Empty</h1>
                       </div>
-                    : !isPreview && !isContact && emails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
+                    : !isPreview && !isContact && tempEmails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
                   {isPreview && !isContact && <Email.Preview handlePreviewFn={handlePreviewFn} handleHideFn={handleHideFn} />}
                   {isContact && !isPreview && <Email.Write handleHideFn={handleHideFn} />}
                 </div>

@@ -88,6 +88,10 @@ export default (state = initData, action:any) =>{
                 return {
                     ...state,
                 }
+            case UserTypes.MARK_EMAIL_SEEN: 
+                return {
+                    ...state,
+                }
             case UserTypes.SET_REPLY_EMAIL: 
                 return {
                     ...state,

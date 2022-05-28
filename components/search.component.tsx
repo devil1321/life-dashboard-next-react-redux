@@ -2,23 +2,32 @@ import React,{Dispatch, useState} from 'react'
 import { Contact } from '../interfaces'
 
 interface SearchParams {
-    contacts:Contact[],
+    name:string;
+    emails?:any[],
+    contacts?:Contact[],
     unknownContacts?:any[],
-    setContacts:(state:any) => any
+    setEmails?:(state:any) => any
+    setContacts?:(state:any) => any
     setTempUnknown?:(state:any) => any
 }
 
-const Search:React.FC<SearchParams> = ({contacts,setContacts,unknownContacts,setTempUnknown}) => {
+const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContacts,unknownContacts,setTempUnknown}) => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
   const [searchVal,setSearchVal] = useState<string>('')
 
   const handleSearch = (val:string) =>{
     const regex = new RegExp(`^${val}`,'gi')
-    const matches = contacts.filter((c:any)=>{
+    if(emails && setEmails){
+      const matches = emails.filter((e:any)=> e.from.value[0].address.match(regex) || e.from.value[0].name.match(regex))
+      setEmails(matches)
+    }
+    if(contacts && setContacts){
+      const matches = contacts.filter((c:any)=>{
         return c.email.match(regex)
-    })
-    setContacts(matches)
-    if(unknownContacts){
+      })
+      setContacts(matches)
+    }
+    if(unknownContacts && setTempUnknown){
       const matchesUnkown = unknownContacts.filter((c:any)=>{
         return c.email.match(regex)
       })
@@ -28,8 +37,13 @@ const Search:React.FC<SearchParams> = ({contacts,setContacts,unknownContacts,set
   } 
 
   const handleFilterAZ = () => {
-    setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)))
-    if(unknownContacts){
+    if(emails && setEmails){
+      setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)))
+    }
+    if(contacts && setContacts){
+      setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)))
+    }
+    if(unknownContacts && setTempUnknown){
       // @ts-ignore
       setTempUnknown(unknownContacts.sort((a, b) => a.email.localeCompare(b.email)))
     }
@@ -37,8 +51,14 @@ const Search:React.FC<SearchParams> = ({contacts,setContacts,unknownContacts,set
   }
   const handleFilterZA = () => {
     setIsFilter(true)
-    setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())
-    if(unknownContacts){
+    if(emails && setEmails){
+      setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)).reverse())
+    }
+    
+    if(contacts && setContacts){
+      setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())
+    }
+    if(unknownContacts && setTempUnknown){
       // @ts-ignore
       setTempUnknown(unknownContacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())
     }
@@ -55,7 +75,7 @@ const Search:React.FC<SearchParams> = ({contacts,setContacts,unknownContacts,set
                 }}>Z-A</button>}
                 {/* @ts-ignore */}
         <input type="text" value={searchVal} onChange={(e)=>setSearchVal(e.target.value)} />
-        <button className="search__search-all-contacts" onClick={()=>handleSearch(searchVal)}>Search Contacts</button>
+        <button className="search__search-all-contacts" onClick={()=>handleSearch(searchVal)}>{name}</button>
     </div>
   )
 }
