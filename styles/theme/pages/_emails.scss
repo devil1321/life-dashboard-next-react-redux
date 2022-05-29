@@ -54,6 +54,18 @@
         }
         animation:fadeIn 1s ease-in-out forwards;
     }
+    &__tab-headings{
+        margin-bottom:10px;
+        @include createFlex(row,flex-start,center,null);
+        h3{
+            cursor:pointer;
+            margin-right:20px;
+            transition:all 0.5s ease-in-out;
+            &.active{
+                color:yellowgreen;
+            }
+        }
+    }
     &__preview-item{
         position:relative;
         top:0px;
@@ -98,8 +110,13 @@
     }
     &__write-controls{
         margin-left:auto;
-        width: 180px;
+        width: 380px;
         @include createFlex(row,flex-start,center,null);
+        .invoices__input-file{
+            cursor: pointer;
+            border-bottom:1px solid $strong-green !important;
+            border-radius: 15px;
+        }
     }
     &__write-btn{
         background:linear-gradient(45deg, $neon-green,yellowgreen);

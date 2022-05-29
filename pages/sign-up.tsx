@@ -43,7 +43,7 @@ const SignUpPage:NextPage = () => {
           }).then(()=>  setTimeout(()=>{userActions.loginUser(formData.email,formData.password)},100) )
     }    
     useEffect(()=>{
-      if(user){
+      if(user !== null){
           router.push('/dashboard')
       }
     },[user])

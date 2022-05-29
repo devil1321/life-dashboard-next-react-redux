@@ -5,22 +5,24 @@ import * as Converter from '../../modules/convert.module'
 
 interface FileProps{
     type:string;
-    label:string;
+    label?:string;
     iconName:string;
     id:string;
     name:string;
-    accept:string;
+    accept?:string;
+    multiple?:boolean;
     onChange?:(name:string,val:string,blob:any) => void;
     handleChange?:(e:any,data:string)=>any
+    attachChange?:(e:any) => any
 }
 
-const File:React.FC<FileProps> = ({type,label,iconName,id,name,accept,onChange,handleChange}) => {
+const File:React.FC<FileProps> = ({type,label,iconName,id,name,accept,multiple,onChange,handleChange,attachChange}) => {
   return (
     <div className="invoices__field">
-    <label htmlFor="file">{label}</label>
+    {label && <label htmlFor="file">{label}</label>}
     <label htmlFor="" className="invoices__input-file">
       <FontAwesomeIcon icon ={faFileInvoice} />{iconName}
-      <input type={type} id={id} name={name} accept={accept} onChange={async(e)=>{
+      <input multiple={multiple ? multiple : false} type={type} id={id} name={name} accept={accept} onChange={async(e)=>{
         // @ts-ignore
         const data = await Converter.getBase64(e.target.files[0]).then((data:any) =>data)
         const blob = await Converter.base64toUrl(data)
@@ -29,6 +31,9 @@ const File:React.FC<FileProps> = ({type,label,iconName,id,name,accept,onChange,h
         }
         if(handleChange){
           handleChange(e,data)
+        }
+        if(attachChange){
+          attachChange(e)
         }
       }} />
     </label>

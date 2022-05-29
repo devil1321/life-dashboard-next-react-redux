@@ -225,7 +225,9 @@ export const setUnknowContacts = (allMessages:any[],userContacts:any[],allContac
     unknowMessages.forEach((m:any)=>{
         allContacts.forEach((c:any)=>{
             if(m.sender_email === c.email){
-                tempContacts.push(c)
+                if(!tempContacts.includes(c)){
+                    tempContacts.push(c)
+                }
             }
         })
     })
@@ -267,9 +269,34 @@ export const setEmails = (email:string,password:string) => (dispatch:Dispatch<an
                         }
                 })
                     .then((res:any)=>{
+                        const emails = res?.data?.length > 0 && res.data !== undefined ? [...res.data] : ['loading']
                         dispatch({
                             type:UserTypes.SET_EMAILS,
-                            emails:[...res.data]
+                            emails:emails
+                        })
+            })    
+        })
+    }   
+}
+export const setUnseenEmails = (email:string,password:string) => (dispatch:Dispatch<any>) => {
+        if(password){
+            const decrypted = CryptoJS.AES.decrypt(password, "Password", {
+                format: JsonFormatter
+            });
+            new Promise((resolve:any,reject:any)=>{
+                const pass = decrypted.toString(CryptoJS.enc.Utf8)
+                resolve(pass)
+            }).then((pass:any)=>{
+                const reqBody = JSON.stringify({ email, password:pass })
+                axios.post('/api/unseen-emails',reqBody,{
+                    headers:{
+                        'Content-Type': 'application/json'
+                        }
+                })
+                    .then((res:any)=>{
+                        dispatch({
+                            type:UserTypes.SET_UNSEEN_EMAILS,
+                            unseenEmails:[...res.data]
                         })
             })    
         })

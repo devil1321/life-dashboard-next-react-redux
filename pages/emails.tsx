@@ -14,13 +14,16 @@ import Spinner from '../components/spinner.component'
 const EmailsPage = () => {
 
   const dispatch = useDispatch()
-  const { emails, userDetails } = useSelector((state:State) => state.user)
+  const { unseenEmails,emails, userDetails } = useSelector((state:State) => state.user)
   const { isContact, isPreview } = useSelector((state:State) => state.ui)
   const UI = bindActionCreators(UIActions,dispatch)
 
   const [tempContacts,setTempContacts] = useState<Contact[]>([])
-  const [tempEmails,setTempEmails] = useState<any[]>([])
+  const [currentEmails,setCurrentEmails] = useState<any[]>([])
+  const [previousEmails,setPreviousEmails] = useState<any[]>([])
+
   const [isLoad,setIsLoad] = useState<boolean>(false)
+  const [isSet,setIsSet] = useState<boolean>(false)
 
   const comesFromLeft = (el:string) => {
     gsap.fromTo(el,{x:-400},{x:0, stagger: { 
@@ -53,7 +56,22 @@ const EmailsPage = () => {
     UI.setIsPreview(true)
   }
 
-      
+  const handleTab = (e:any) =>{
+    const type:string = e.target.dataset.type
+    const headings = document.querySelectorAll('.emails__tab-headings h3') as NodeListOf<HTMLHeadingElement>
+    headings.forEach((h:HTMLHeadingElement)=> h.classList.remove('active'))
+    e.target.classList.add('active')
+    switch(type){
+      case 'all':
+        setCurrentEmails(emails)
+        setPreviousEmails(emails)
+        break
+      case 'unseen':
+        setCurrentEmails(unseenEmails)
+        setPreviousEmails(unseenEmails)
+        break
+    }
+  }
  
   useEffect(()=>{
     if(!isLoad){
@@ -66,13 +84,14 @@ const EmailsPage = () => {
       if(userDetails?.contacts?.length > 0){
         setTempContacts(userDetails?.contacts)
       }
-      if(emails.length > 0 ){
-        setTempEmails(emails)
-      }
       setIsLoad(true)
     }
     comesFromLeft('.email-contact-item')
-  },[userDetails,emails,tempContacts])
+    if(emails.length > 0 && !isSet){
+      setCurrentEmails(emails)
+      setIsSet(true)
+    }
+  },[userDetails,emails,unseenEmails,tempContacts,currentEmails])
 
   return (
       <Layout title="Emails">
@@ -82,9 +101,10 @@ const EmailsPage = () => {
             <div className="emails__search">
               <button className="emails__write-btn" onClick={()=>{
                     UI.setIsPreview(false)
+                    UI.setIsContact(true)
               }}>Write Message</button>
               <Search name="Search Contacts" contacts={userDetails?.contacts} setContacts={setTempContacts} />
-              <Search name="Search Emails" emails={emails} setEmails={setTempEmails} />
+              <Search name="Search Emails" emails={previousEmails} setEmails={setCurrentEmails} />
             </div>
             <div className="emails__main">
               <div className="emails__contacts-wrapper">
@@ -100,14 +120,25 @@ const EmailsPage = () => {
                     ? <div className="emails__not-connected">
                         <h1>Inbox Empty</h1>
                       </div>
-                    : !isPreview && !isContact && tempEmails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
+                    : !isPreview && !isContact && 
+                      <React.Fragment>
+                        {currentEmails.length > 0 && 
+                          <div className="emails__tab">
+                            <div className="emails__tab-headings">
+                              <h3 data-type="all" className="active" onClick={(e)=>handleTab(e)}>All</h3>
+                              <h3 data-type="unseen" onClick={(e)=>handleTab(e)}>Unseen From Yesterday</h3>
+                            </div>
+                            {currentEmails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
+                          </div>}
+                      </React.Fragment>}
                   {isPreview && !isContact && <Email.Preview handlePreviewFn={handlePreviewFn} handleHideFn={handleHideFn} />}
                   {isContact && !isPreview && <Email.Write handleHideFn={handleHideFn} />}
                 </div>
               </div>
             </div>
           </React.Fragment>
-          : <div className="emails__not-connected">
+          : !isPreview && !isContact && 
+           <div className="emails__not-connected">
               <h1>Inbox Not Connected</h1>
            </div>}
         </div>

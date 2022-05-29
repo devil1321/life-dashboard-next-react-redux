@@ -20,7 +20,7 @@ interface SeriesOptions{
 
 const DashboardPage:NextPage = () => {
 
-  const { emails } = useSelector((state:State) => state.user)
+  const { unseenEmails } = useSelector((state:State) => state.user)
   const { invoices } = useSelector((state:State) => state.invoices)
   const { tasks } = useSelector((state:State) => state.todo)
   const [todo,setTodo] = useState<Task[]>([])
@@ -96,7 +96,7 @@ useEffect(()=>{
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
-              <Dashboard.ProfilePanel invoices={invoices.length}  emails={emails.length} earnings={3200} tasks={todo.length}/>
+              <Dashboard.ProfilePanel invoices={invoices.length}  emails={unseenEmails.length} earnings={3200} tasks={todo.length}/>
               <Dashboard.MonthlyEarningPanel series={[12]} all={3456} percentage={12}   />
             </div>
             <div className="dashboard__right-panel">
@@ -111,7 +111,7 @@ useEffect(()=>{
                 width="650"
                 />
               <div className="dashboard__emails">
-                {emails.length > 0 && !emails.includes('loading') && emails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
+                {unseenEmails.length > 0 && unseenEmails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
                 
               </div>
             </div>

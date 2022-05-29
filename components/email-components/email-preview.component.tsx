@@ -25,18 +25,20 @@ const Preview:React.FC<PreviewProps>= ({handlePreviewFn,handleHideFn}) => {
 
 
   return (
-    <div className="emails__preview-item">
-       <h3>From : <span>{address} | {name}</span></h3>
-       <h3>Subject: <span>{subject}</span></h3>
-       <div className="emails__msg-html" dangerouslySetInnerHTML={{ __html:mail}}></div>
-       <div className="emails__preview-controls">
-         <button className="emails__write-btn" onClick={()=>{
-           handlePreviewFn()
-           userActions.setReplyDetails(address,subject)
-           }}>Reply</button>
-         <button className="emails__hide-btn" onClick={()=>handleHideFn()}>Hide</button>
+    <React.Fragment>
+      <div className="emails__preview-item">
+         <h3>From : <span>{address} | {name}</span></h3>
+         <h3>Subject: <span>{subject}</span></h3>
+         <div className="emails__msg-html" dangerouslySetInnerHTML={{ __html:mail}}></div>
        </div>
-     </div>
+       <div className="emails__preview-controls">
+           <button className="emails__write-btn" onClick={()=>{
+             handlePreviewFn()
+             userActions.setReplyDetails(address,subject)
+            }}>Reply</button>
+           <button className="emails__hide-btn" onClick={()=>handleHideFn()}>Hide</button>
+        </div>
+    </React.Fragment>
   )
 }
 

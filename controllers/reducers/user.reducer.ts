@@ -8,6 +8,7 @@ interface UserParams {
     msg:string; 
     unknownContacts:any[];
     emails:any[];
+    unseenEmails:any[];
     notifications:any[];
     notificationsCount:number;
     email:any;
@@ -25,6 +26,7 @@ const initData:UserParams = {
     msg:'',
     unknownContacts:[],
     emails:['loading'],
+    unseenEmails:[],
     notifications:[],
     notificationsCount:0,
     email:null,
@@ -72,6 +74,11 @@ export default (state = initData, action:any) =>{
                 return {
                     ...state,
                     emails:action.emails
+                }
+            case UserTypes.SET_UNSEEN_EMAILS: 
+                return {
+                    ...state,
+                    unseenEmails:action.unseenEmails
                 }
             case UserTypes.SET_UKNOWN_CONTACTS: 
                 return {

@@ -42,7 +42,7 @@ const IndexPage:NextPage = () => {
        })      
   }
   useEffect(()=>{
-    if(user){
+    if(user !== null){
         router.push('/dashboard')
     }
   },[user])

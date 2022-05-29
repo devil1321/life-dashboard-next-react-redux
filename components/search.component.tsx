@@ -21,6 +21,7 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
       const matches = emails.filter((e:any)=> e.from.value[0].address.match(regex) || e.from.value[0].name.match(regex))
       setEmails(matches)
     }
+   
     if(contacts && setContacts){
       const matches = contacts.filter((c:any)=>{
         return c.email.match(regex)
@@ -40,6 +41,7 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
     if(emails && setEmails){
       setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)))
     }
+   
     if(contacts && setContacts){
       setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)))
     }
@@ -54,6 +56,7 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
     if(emails && setEmails){
       setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)).reverse())
     }
+    
     
     if(contacts && setContacts){
       setContacts(contacts.sort((a, b) => a.email.localeCompare(b.email)).reverse())

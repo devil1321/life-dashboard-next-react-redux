@@ -35,9 +35,9 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const router = useRouter()
   
   useEffect(()=>{
-    if(isLoad && user === null && router.asPath !== 'sign-in' && router.asPath !== '/'){
-      router.push('/')
-    }
+    // if(isLoad && !user && router.asPath !== '/' && router.asPath !== '/sign-in'){
+    //   router.push('/')
+    // }
     if(!isLocked){
       setTimeout(()=>{
           setLoading(false)
@@ -50,20 +50,16 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
         }
       },2000)
     }
-    setTimeout(()=>{
-      if(!user){
-        router.push('/')
-      }
-    },1000)
     userActions.traceChanges()
     if(user && userDetails === null){
       userActions.setUserDetails(user.email)
       setTimeout(()=>{
         setIsLoad(true)
-      },500)
+      },1000)
     }
     if(isLoad && user && userDetails !== null && !isSet){
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
+      userActions.setUnseenEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
       chatActions.setMessages(userDetails.email)
       invoicesActions.setInvoices(userDetails?.id)
@@ -71,6 +67,9 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     }
     if(isSet){
       userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+    }
+    if(!user && router.asPath !== 'sign-in' && router.asPath !== '/'){
+      router.push('/')
     }
   },[user,isLocked,userDetails,allMessages,isSet,isLoad])
 
@@ -102,3 +101,4 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
 }
 
 export default Layout
+
