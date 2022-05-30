@@ -1,27 +1,32 @@
-import React, { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { State } from '../../controllers/reducers'
 import moment from 'moment';
 import { Task } from '../../interfaces';
 
 interface TaskFormProps {
+    isOrder:boolean;
     handleTaskFn:() => void
     addTask:(task:Task)=>void
 }
 
 interface NewTaskState{
+    userId:string;
+    isOrder:boolean,
     name:string;
     description:string;
     completed:boolean;
     date:Date;
 }
 
-const TaskForm:React.FC<TaskFormProps>= ({handleTaskFn,addTask}) => {
+const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
 
     const { date } = useSelector((state:State) => state.date)
+    const { userDetails } = useSelector((state:State) => state.user)
 
     const [newTask,setNewTask] = useState<NewTaskState>({
+        userId:'',
+        isOrder:isOrder,
         name:'',
         description:'',
         completed:false,
@@ -47,6 +52,8 @@ const TaskForm:React.FC<TaskFormProps>= ({handleTaskFn,addTask}) => {
            },2000)
         }
         setNewTask({
+         userId:userDetails.id,
+         isOrder:isOrder,
          name:'',
          description:'',
          completed:false,
@@ -54,17 +61,26 @@ const TaskForm:React.FC<TaskFormProps>= ({handleTaskFn,addTask}) => {
         })
       }
 
+    useEffect(()=>{
+      setNewTask((prevState) => ({
+        ...prevState,
+        userId:userDetails.id,
+        isOrder:isOrder
+      }))
+    },[isOrder,userDetails])
+
+
   return (
     <div className="todo__form">
     <div className={`todo__field`}>
-      <input className={err ? "todo__err" : ""} type="text" data-name="name" value={newTask.name} onChange={(e:any)=>handleNewTask(e)} placeholder='Add Task...' />
+      <input className={err ? "todo__err" : ""} type="text" data-name="name" value={newTask.name} onChange={(e:any)=>handleNewTask(e)} placeholder={isOrder ? "Add Order..." : 'Add Task...'} />
       <div className={`todo__date ${err ? "todo__err" : ""}`} >
         <input className={err ? "todo__err" : ""} type="date" name="" id="" data-name="date"  onChange={(e:any)=>handleNewTask(e)}/>
       </div>
       <button onClick={(e)=>{
             handleTaskFn()
             handleAddTask(newTask)
-        }}>Add Task</button>
+        }}>{!isOrder ? "Add Task" : "Add Order"}</button>
     </div>
 </div>
   )

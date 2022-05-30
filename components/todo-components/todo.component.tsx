@@ -16,7 +16,9 @@ import { SetStateAction } from 'react';
 
 
 interface TaskFormData{
+  userId:string;
   firebaseId:string;
+  isOrder:boolean;
   name:string;
   description:string;
   completed:boolean;
@@ -24,27 +26,24 @@ interface TaskFormData{
 }
 
 
-interface TodoProps{
-  isUpdated:boolean;
-  setIsUpdated:Dispatch<SetStateAction<boolean>>
-}
 
-const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
+const TodoMainComponent:React.FC = () => {
 
   const dispatch = useDispatch()
   const todoActions = bindActionCreators(TodoActions,dispatch)
   const UI = bindActionCreators(UIActions,dispatch)
   const { tasks,tempTasks, task, isFiltered } = useSelector((state:State) => state.todo)
   const { date } = useSelector((state:State) => state.date)
-  const { isEdit } = useSelector((state:State) => state.ui)
+  const { isEdit, isOrders } = useSelector((state:State) => state.ui)
+  const { userDetails } = useSelector((state:State) => state.user)
 
   const activeBtnRef = useRef<HTMLButtonElement | null>(null)
-
-  const [isLoad,setIsLoad] = useState<boolean>(false)
   const [isFilteredByActive,setIsFilteredByActive] = useState<boolean>(false)
   const [isFilteredByCompleted,setIsFilteredByCompleted] = useState<boolean>(false)
  
   const [taskFormData,setTaskFormData] = useState<TaskFormData>({
+    userId:'',
+    isOrder:false,
     firebaseId:'',
     name:"",
     description:"",
@@ -76,15 +75,27 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
 
  const handleFilter = () =>{  
    if(isFiltered){
-    todoActions.filterByDate(date)
+     if(isOrders){
+       todoActions.filterByDate(date,tasks.filter((t:Task)=> t.isOrder === true))
+      }else{
+       todoActions.filterByDate(date,tasks.filter((t:Task)=> t.isOrder === false))
+      }
   }}
 
   const handleFilterByCompletedOrActive = () => {
      if(!isFiltered && isFilteredByActive){
-       todoActions.filterActive(tasks)
+       if(isOrders){
+         todoActions.filterActive(tasks.filter((t:Task)=> t.isOrder === true))
+        }else{
+          todoActions.filterActive(tasks.filter((t:Task)=> t.isOrder === false))
+        }
      }
      if(!isFiltered && isFilteredByCompleted){
-       todoActions.filterCompleted(tasks)
+      if(isOrders){
+        todoActions.filterCompleted(tasks.filter((t:Task)=> t.isOrder === true))
+       }else{
+         todoActions.filterCompleted(tasks.filter((t:Task)=> t.isOrder === false))
+       }
      }
   }
 
@@ -97,7 +108,7 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   }
 
   const handleTaskFn = () =>{
-    setIsUpdated(!isUpdated)
+    todoActions.setTasks(userDetails?.id)
     handleFilter()
     handleFilterByCompletedOrActive()
   }
@@ -116,7 +127,11 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
  
   const handleActiveButtonFn = (e:any) =>{
     handleBtn(e)
-    todoActions.filterActive(tasks)
+    if(isOrders){
+      todoActions.filterActive(tasks.filter((t:Task) => t.isOrder === true))
+    }else{
+      todoActions.filterActive(tasks.filter((t:Task) => t.isOrder === false))
+    }
     setIsFilteredByActive(true)
     setIsFilteredByCompleted(false)
     UI.setIsEdit(false)
@@ -124,7 +139,11 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
   const handleCompletedButtonFn = (e:any) =>{
     handleBtn(e)
     UI.setIsEdit(false)
-    todoActions.filterCompleted(tasks)
+    if(isOrders){
+      todoActions.filterCompleted(tasks.filter((t:Task) => t.isOrder === true))
+    }else{
+      todoActions.filterCompleted(tasks.filter((t:Task) => t.isOrder === false))
+    }
     setIsFilteredByActive(false)
     setIsFilteredByCompleted(true)
   }
@@ -133,14 +152,31 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
     UI.setIsEdit(false)
     setIsFilteredByActive(false)
     setIsFilteredByCompleted(false)
-    todoActions.filterAll(tasks)
+    if(isOrders){
+      todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === true))
+    }else{
+      todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === false))
+    }
   }
+ 
+  const handleType = () => {
+    const btns = document.querySelectorAll('button') as NodeListOf<HTMLButtonElement>
+    btns.forEach((btn:HTMLButtonElement) => {
+      btn.classList.remove('active')
+    })
+    btns[4].classList.add('active')
+     if(isOrders){
+      todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === true))
+    }else{
+      todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === false))
+    }
+  }
+
   const handleClearButtonFn = (e:any) =>{
     handleBtn(e)
     UI.setIsEdit(false)
     setIsFilteredByActive(false)
     setIsFilteredByCompleted(false)
-    setIsUpdated(!isUpdated)
     todoActions.removeAll()
   }
   
@@ -148,12 +184,10 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
     if(isFiltered){
       handleFilter()
     }
-    if(!isLoad){
-      todoActions.setTasks()
-      setIsLoad(true)
-    }
     if(task.firebaseId){
       setTaskFormData({
+        userId:task.userId,
+        isOrder:task.isOrder,
         firebaseId:task.firebaseId,
         name:task.name,
         description:task.description,
@@ -161,15 +195,19 @@ const TodoMainComponent:React.FC<TodoProps> = ({isUpdated,setIsUpdated}) => {
         date:moment(task.date).format('MM-DD-YYYY')
       })
     }
-    console.log(taskFormData)
-  },[isEdit,task])
+    if(!isFiltered){
+      handleType()
+    }
+    handleFilterByCompletedOrActive()
+
+  },[isEdit,task,isOrders,userDetails,tasks])
     
 
  
   return (
     <div className="todo">
-        <Todo.Heading isEdit={isEdit} handleTodoSaveFn={handleTodoSaveFn} />
-        {!isEdit && <Todo.TaskForm handleTaskFn={handleTaskFn} addTask={todoActions.addTask}/>}
+        <Todo.Heading isEdit={isEdit}  handleTodoSaveFn={handleTodoSaveFn} setIsOrders={UI.setIsOrders} />
+        {!isEdit && <Todo.TaskForm isOrder={isOrders} handleTaskFn={handleTaskFn} addTask={todoActions.addTask}/>}
           <div className="todo__body">
               {!isEdit && tempTasks.length > 0 && tempTasks.map((task:TaskFormData,index:number) => <Todo.Item key={task.name}  task={task} handleEdit={UI.setIsEdit} /> )}
               {isEdit && 

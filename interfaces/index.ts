@@ -1,5 +1,7 @@
 export interface Task {
     firebaseId?:string;
+    userId:string;
+    isOrder:boolean;
     name: string;
     description: string;
     completed: boolean;

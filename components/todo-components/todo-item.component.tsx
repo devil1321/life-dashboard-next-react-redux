@@ -23,7 +23,7 @@ interface TodoItemProps {
 
 const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   
-    const { firebaseId , name, completed, date } = task
+    const { firebaseId ,isOrder, name, completed, date } = task
     const dispatch = useDispatch()
     const todoActions = bindActionCreators(TodoActions,dispatch) 
 
@@ -56,6 +56,7 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                 <h3>{name}</h3>
             </div>
             <div className="todo-item__info">
+                <span className="todo-item__order">{isOrder ? "Order" : "Task"}</span>
                 <span>{moment(date).format('MM-DD-YYYY')}</span>
                     {completed
                         ? <div className="todo-item__completed"><FontAwesomeIcon icon ={faCheckDouble} /></div>

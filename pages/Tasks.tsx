@@ -15,16 +15,15 @@ interface TasksProps {
 
 const TasksPage:NextPage<TasksProps> = ({data}) => {
 
-  const [isUpdated,setIsUpdated] = useState<boolean>(false)
 
   return(
     <Layout title="Tasks">
         <div className="tasks">
             <div className="tasks__left-panel">
-                <TodoMainComponent isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
+                <TodoMainComponent />
             </div>
             <div className="tasks__right-panel">
-                <CalendarWrapper isUpdated={isUpdated} />
+                <CalendarWrapper  />
                 <WheatherWidget data={data.wheather}/>
             </div>
         </div>

@@ -10,9 +10,51 @@
         top:0px;
         left:0px;
         width: 100%;
-        @include createFlex(row,center,center,null);
+        @include createFlex(row,space-between,center,null);
+    }
+    &__player{
+        margin-right:auto;
+        margin-left:10px;
+    }
+    &__type-controls{
+        position:relative;
+        top:0px;
+        left:0px;
+        margin-right:auto;
+        button{
+            cursor: pointer;
+            margin-left:10px;
+            margin-right: 10px;
+            height:39px;
+            padding:0px 20px;
+            border-radius: 10px;
+            border:0px;
+            font-weight: bold;
+            color:white;
+            background:linear-gradient(45deg,orange,red);
+            &:hover{
+                background:linear-gradient(45deg,red,orange);
+            }
+        }
+    }
+    &__types{
+        @include menu();
+        position:absolute;
+        top:50px;
+        left:0px;
+        z-index:3;
+        padding:10px;
+        border-radius:15px;
+        background-color:$cornflower-blue;
         div{
-            margin-left: 20px;
+            cursor:pointer;
+            font-weight:bold;
+            margin:5x 0px;
+            padding:10px 30px;
+            border-radius:15px;
+            &:hover{
+                background-color: $light-green;
+            }
         }
     }
     &__err{

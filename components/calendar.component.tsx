@@ -8,24 +8,26 @@ import * as DateActions from '../controllers/action-creators/date.actions-creato
 import { State } from '../controllers/reducers';
 import { Task } from '../interfaces';
 
-interface CalendarWrapperProps{
-  isUpdated:boolean;
-}
 
-const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
+const CalendarWrapper:React.FC = () => {
   
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const [date,setDate] = useState<Date>(new Date())
 
   const dispatch = useDispatch()
   const { tasks } = useSelector((state:State) => state.todo)
+  const { isOrders } = useSelector((state:State) => state.ui)
   const todoActions = bindActionCreators(TodoActions,dispatch)
   const dateActions = bindActionCreators(DateActions,dispatch)
 
   const handlePreviewTask = (e:any) => {
     const date = e.target.querySelector('abbr').getAttribute('aria-label')
     dateActions.setDate(moment(date).format('MM-DD-YYYY'))
-    todoActions.filterByDate(moment(date).format('MM-DD-YYYY'))
+    if(isOrders){
+      todoActions.filterByDate(date,tasks.filter((t:Task)=> t.isOrder === true))
+     }else{
+      todoActions.filterByDate(date,tasks.filter((t:Task)=> t.isOrder === false))
+     }
   }
 
   const handleEvents = () =>{
@@ -71,7 +73,7 @@ const CalendarWrapper:React.FC<CalendarWrapperProps> = ({isUpdated}) => {
       },500)
     }
     handleEvents()  
-  },[isUpdated,isLoad,date])
+  },[tasks,isLoad,date])
 
   return (
     <Calendar   

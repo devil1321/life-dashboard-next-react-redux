@@ -20,25 +20,24 @@ const firebaseConfig = {
 initializeApp(firebaseConfig)
 const db = getFirestore() 
 const colRefTasks = collection(db,'tasks')
+const q = query(colRefTasks)
 
-
-export const setTasks = () => async (dispatch:Dispatch<any>) => {
+export const setTasks = (id:string) => async (dispatch:Dispatch<any>) => {
     let tasks:Task[] = []
     getDocs(colRefTasks)
         .then((snapshot)=>{
             tasks = [];
             snapshot.docs.forEach((doc:any)=>{
                 tasks.push({...doc.data(), firebaseId:doc.id})
-                console.log(tasks)
-           
+            })
+        }).then(()=>{
+            const finalTasks = tasks.filter((t:Task) => t.userId === id)
+            dispatch({
+                type:TodoTypes.SET_TASKS,
+                tasks:finalTasks,
+                tempTasks:finalTasks,
+            })
         })
-    }).then(()=>{
-        dispatch({
-            type:TodoTypes.SET_TASKS,
-            tasks:tasks,
-            tempTasks:tasks,
-        })
-    })
 }
 
 export const setCompleted = (id:string) => (dispatch:Dispatch<any>) => {
@@ -72,14 +71,10 @@ export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
 }
 
 export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks
-    tasks.push(task)
     addDoc(colRefTasks,task)
         .then(()=>{
             dispatch({
                 type:TodoTypes.ADD_TASK,
-                tempTasks:tasks,
-                tasks:tasks,
             })
         })
         .catch(err => console.log(err)) 
@@ -92,11 +87,11 @@ export const editTask = (id:string ) => (dispatch:Dispatch<any>) => {
         task:task
     })
 }
-export const filterByDate = (date: Date) => (dispatch:Dispatch<any>) => {
-    const tasks:Task[] = store.getState().todo.tasks.filter((task:Task) => moment(task.date).format('MM-DD-YYYY') === date)
+export const filterByDate = (date: Date,tasks: Task[]) => (dispatch:Dispatch<any>) => {
+    const tempTasks:Task[] = tasks.filter((task:Task) => moment(task.date).format('MM-DD-YYYY') === date)
     dispatch({
         type:TodoTypes.FILTER_BY_DATE,
-        tempTasks:tasks,
+        tempTasks:tempTasks,
         isFiltered:true,
     })
 }
@@ -131,7 +126,6 @@ export const removeTask = (id: string) => (dispatch:Dispatch<any>) => {
         .then(()=>{
             dispatch({
                 type:TodoTypes.REMOVE_TASK,
-                tempTasks:tasks,
                 tasks:tasks
             })
         })
@@ -179,3 +173,22 @@ export const removeAll = () => (dispatch:Dispatch<any>) => {
         isFiltered:false,
     })
 }
+
+export const traceChanges = (id:string) => (dispatch:Dispatch<any>) => {
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        let tasks:any = [];
+        new Promise((resolve,reject)=>{
+            querySnapshot.forEach((doc) => {
+                tasks.push({...doc.data(),firebaseId:doc.id});
+            })
+            resolve(tasks)
+        }).then((tasks:any)=>{
+            const finalTasks = tasks.filter((t:Task) => t.userId  === id) as Task[]
+            dispatch({
+                type:TodoTypes.TRACK_TASKS,
+                tasks:finalTasks
+            })
+        })
+      });
+}
+

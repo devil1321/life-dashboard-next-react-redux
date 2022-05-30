@@ -12,6 +12,7 @@ import * as UserActions from '../controllers/action-creators/user.actions-creato
 import * as ContactsActions from '../controllers/action-creators/contacts.actions-creators'
 import * as ChatActions from '../controllers/action-creators/chat.actions-creators'
 import * as InvoicesActions from '../controllers/action-creators/invoices.actions-creators'
+import * as TodoActions from '../controllers/action-creators/todo.actions-creators'
 
 interface LayoutProps{
   title:string,
@@ -30,6 +31,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
   const contactsActions = bindActionCreators(ContactsActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
   const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
+  const todoActions = bindActionCreators(TodoActions,dispatch)
 
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
@@ -38,11 +40,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     // if(isLoad && !user && router.asPath !== '/' && router.asPath !== '/sign-in'){
     //   router.push('/')
     // }
-    if(!isLocked){
-      setTimeout(()=>{
-          setLoading(false)
-      },2000)
-    }else{
+    if(isLocked){
       setLoading(true)
       setTimeout(()=>{
         if(userDetails !== null){
@@ -58,6 +56,8 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       },1000)
     }
     if(isLoad && user && userDetails !== null && !isSet){
+      todoActions.setTasks(userDetails?.id)
+      todoActions.traceChanges(userDetails?.id)
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       userActions.setUnseenEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
@@ -67,10 +67,14 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     }
     if(isSet){
       userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+      setTimeout(()=>{
+        setLoading(false)
+      },2500)
+      if(!user && router.asPath !== 'sign-in' && router.asPath !== '/'){
+        router.push('/')
+      }
     }
-    if(!user && router.asPath !== 'sign-in' && router.asPath !== '/'){
-      router.push('/')
-    }
+  
   },[user,isLocked,userDetails,allMessages,isSet,isLoad])
 
   return (

@@ -26,7 +26,8 @@ export enum UITypes {
     SET_IS_CONTACT = "SET_IS_CONTACT",
     SET_IS_PREVIEW = "SET_IS_PREVIEW",
     SET_IS_CHAT = "SET_IS_CHAT",
-    HANDLE_LOCK = "HANDLE_LOCK"
+    SET_IS_ORDERS = "SET_IS_ORDERS",
+    HANDLE_LOCK = "HANDLE_LOCK",
 }
 
 export enum DateTypes{
@@ -48,7 +49,7 @@ export enum TodoTypes {
     SAVE_TASK = "SAVE_TASK",
     REMOVE_TASK = "REMOVE_TASK",    
     REMOVE_ALL = "REMOVE_ALL",
-    CHECK_IS_AVAIBLE = "CHECK_IS_AVAIBLE"
+    CHECK_IS_AVAIBLE = "CHECK_IS_AVAIBLE",
 }
 
 

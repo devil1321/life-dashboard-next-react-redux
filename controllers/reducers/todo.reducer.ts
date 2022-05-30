@@ -13,6 +13,8 @@ const initData:TodoState = {
     tasks:[],
     tempTasks:[],
     task:{
+        isOrder:false,
+        userId:'',
         firebaseId:'',
         name:'',
         description:'',
@@ -49,8 +51,6 @@ export default (state = initData, action:any) =>{
         case TodoTypes.ADD_TASK: 
             return {
                 ...state,
-                tempTasks:action.tempTasks,
-                tasks:action.tasks
             }
         case TodoTypes.EDIT_TASK: 
             return {
@@ -72,7 +72,6 @@ export default (state = initData, action:any) =>{
         case TodoTypes.REMOVE_TASK: 
             return {
                 ...state,
-                tempTasks:action.tempTasks,
                 tasks:action.tasks,
                 isFiltered:action.isFiltered
             }
@@ -100,6 +99,7 @@ export default (state = initData, action:any) =>{
                 tempTasks:action.tempTasks,
                 isFiltered:action.isFiltered
             }
+   
         default:
             return {
                 ...state

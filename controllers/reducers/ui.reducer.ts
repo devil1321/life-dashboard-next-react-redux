@@ -6,6 +6,7 @@ interface DateParams {
     isContact:boolean;
     isPreview:boolean;
     isChat:boolean;
+    isOrders:boolean;
 }
 
 const initData:DateParams = {
@@ -14,6 +15,7 @@ const initData:DateParams = {
    isContact:false,
    isPreview:false,
    isChat:false,
+   isOrders:true,
 }
 
 export default (state = initData, action:any) =>{
@@ -42,6 +44,11 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 isLocked:action.isLocked
+            }
+        case UITypes.SET_IS_ORDERS: 
+            return {
+                ...state,
+                isOrders:action.isOrders
             }
         default:
             return {

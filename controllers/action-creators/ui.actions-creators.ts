@@ -37,3 +37,9 @@ export const handleLock = (isLocked:boolean) => (dispatch:Dispatch<any>) => {
         isLocked:isLocked,
     })
 }
+export const setIsOrders = (isOrders:boolean) => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:UITypes.SET_IS_ORDERS,
+        isOrders:isOrders,
+    })
+}
