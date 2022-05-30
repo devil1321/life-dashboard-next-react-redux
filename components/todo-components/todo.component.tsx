@@ -177,7 +177,11 @@ const TodoMainComponent:React.FC = () => {
     UI.setIsEdit(false)
     setIsFilteredByActive(false)
     setIsFilteredByCompleted(false)
-    todoActions.removeAll()
+    if(isOrders){
+      todoActions.removeAll(tasks.filter((t:Task) => t.isOrder === true))
+    }else{
+      todoActions.removeAll(tasks.filter((t:Task) => t.isOrder === false))
+    }
   }
   
   useEffect(()=>{

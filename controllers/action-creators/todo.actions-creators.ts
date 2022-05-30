@@ -6,6 +6,8 @@ import  store  from '../store'
 import moment from 'moment'
 import { initializeApp } from 'firebase/app'
 import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query,where,getDoc,updateDoc } from 'firebase/firestore'
+import * as CryptoJS from 'crypto-js'
+import { JsonFormatter } from '../../modules/json-formatter.module'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPB_ibh5yK49GwSHCAHGlCEhGlVBuq2i0",
@@ -30,8 +32,17 @@ export const setTasks = (id:string) => async (dispatch:Dispatch<any>) => {
             snapshot.docs.forEach((doc:any)=>{
                 tasks.push({...doc.data(), firebaseId:doc.id})
             })
-        }).then(()=>{
-            const finalTasks = tasks.filter((t:Task) => t.userId === id)
+        }).then(async()=>{
+            const encryptedTasks = tasks.filter((t:Task) => t.userId === id)
+            const finalTasks =  await Promise.all(encryptedTasks.map(async(t:Task)=>{
+                t.name = await CryptoJS.AES.decrypt(t.name, "Task", {
+                    format: JsonFormatter
+                }).toString(CryptoJS.enc.Utf8);
+                t.description = await CryptoJS.AES.decrypt(t.description, "Task", {
+                    format: JsonFormatter
+                }).toString(CryptoJS.enc.Utf8);
+                return t
+            }))
             dispatch({
                 type:TodoTypes.SET_TASKS,
                 tasks:finalTasks,
@@ -71,6 +82,12 @@ export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
 }
 
 export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
+    task.name = CryptoJS.AES.encrypt(task.name, "Task", {
+        format: JsonFormatter
+   }).toString();
+    task.description = CryptoJS.AES.encrypt(task.description, "Task", {
+        format: JsonFormatter
+   }).toString();
     addDoc(colRefTasks,task)
         .then(()=>{
             dispatch({
@@ -96,24 +113,26 @@ export const filterByDate = (date: Date,tasks: Task[]) => (dispatch:Dispatch<any
     })
 }
 
-export const saveTask = (id: string,task: Task,) => (dispatch:Dispatch<any>) => {
+export const saveTask =  (id: string,task: Task,) => async(dispatch:Dispatch<any>) => {
     const tasks:Task[] = store.getState().todo.tasks
     const tempTask:Task = tasks.find((item:Task) => item.firebaseId === id) as Task
-    tempTask.name = task.name
-    tempTask.description = task.description
     tempTask.completed = task.completed
     tempTask.date = task.date
-
+    tempTask.name = await CryptoJS.AES.encrypt(task.name, "Task", {
+        format: JsonFormatter
+   }).toString();
+   tempTask.description = await CryptoJS.AES.encrypt(task.description, "Task", {
+        format: JsonFormatter
+   }).toString();
     const docRef = doc(db,'tasks',id)
-    updateDoc(docRef,{
-        name:task.name,
-        description:task.description,
-        completed:task.completed,
-        date:task.date,
+    await updateDoc(docRef,{
+        name:tempTask.name,
+        description:tempTask.description,
+        completed:tempTask.completed,
+        date:tempTask.date,
     }).then(()=>{
          dispatch({
             type:TodoTypes.SAVE_TASK,
-            tempTasks:tasks
         })
     })
    
@@ -159,8 +178,7 @@ export const filterAll = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
 }
 
 
-export const removeAll = () => (dispatch:Dispatch<any>) => {
-     const tasks:Task[] = store.getState().todo.tasks
+export const removeAll = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
      tasks.forEach((task:Task) => {
          const id:string = task.firebaseId as string
          const docRef = doc(db,"tasks",id)
@@ -168,8 +186,6 @@ export const removeAll = () => (dispatch:Dispatch<any>) => {
      })
     dispatch({
         type:TodoTypes.REMOVE_ALL,
-        tempTasks:[],
-        tasks:[],
         isFiltered:false,
     })
 }
@@ -182,8 +198,18 @@ export const traceChanges = (id:string) => (dispatch:Dispatch<any>) => {
                 tasks.push({...doc.data(),firebaseId:doc.id});
             })
             resolve(tasks)
-        }).then((tasks:any)=>{
-            const finalTasks = tasks.filter((t:Task) => t.userId  === id) as Task[]
+        }).then(async(tasks:any)=>{
+            const encryptedTasks = tasks.filter((t:Task) => t.userId === id)
+            const finalTasks =  await Promise.all(encryptedTasks.map(async(t:Task)=>{
+                t.name = await CryptoJS.AES.decrypt(t.name, "Task", {
+                    format: JsonFormatter
+                }).toString(CryptoJS.enc.Utf8);
+                t.description = await CryptoJS.AES.decrypt(t.description, "Task", {
+                    format: JsonFormatter
+                }).toString(CryptoJS.enc.Utf8);
+                return t
+            }))
+
             dispatch({
                 type:TodoTypes.TRACK_TASKS,
                 tasks:finalTasks

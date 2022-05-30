@@ -12,8 +12,8 @@ import { Task } from '../interfaces';
 const CalendarWrapper:React.FC = () => {
   
   const [isLoad,setIsLoad] = useState<boolean>(false)
+  const [elements,setElements] = useState<any>(null)
   const [date,setDate] = useState<Date>(new Date())
-
   const dispatch = useDispatch()
   const { tasks } = useSelector((state:State) => state.todo)
   const { isOrders } = useSelector((state:State) => state.ui)
@@ -64,16 +64,21 @@ const CalendarWrapper:React.FC = () => {
   }
 
   useEffect(()=>{
-    handleEvent(null,document.querySelectorAll('.react-calendar__tile'),'click',handlePreviewTask)
-    handleEvent(null,document.querySelectorAll('button'),'click',handleEvents)
+ 
     if(!isLoad){
       handleEvents()  
       setTimeout(()=>{
         setIsLoad(true)
       },500)
+    }else{
+        if(elements === null){
+          setElements(document.querySelectorAll('.react-calendar__tile'))
+        }else{
+          handleEvent(null,elements,'click',handlePreviewTask)
+        }
     }
     handleEvents()  
-  },[tasks,isLoad,date])
+  },[tasks,isLoad,date,elements])
 
   return (
     <Calendar   

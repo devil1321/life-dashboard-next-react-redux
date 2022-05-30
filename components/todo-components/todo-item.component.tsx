@@ -14,6 +14,7 @@ interface TodoItemProps {
     handleEdit:any,
     task:{
         firebaseId?:string;
+        isOrder:boolean;
         name:string;
         description:string;
         completed:boolean;

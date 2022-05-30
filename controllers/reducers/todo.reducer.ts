@@ -60,7 +60,6 @@ export default (state = initData, action:any) =>{
         case TodoTypes.SAVE_TASK: 
             return {
                 ...state,
-                tempTasks:action.tempTasks
             }
         case TodoTypes.FILTER_BY_DATE: 
             return {
@@ -78,8 +77,6 @@ export default (state = initData, action:any) =>{
         case TodoTypes.REMOVE_ALL: 
             return {
                 ...state,
-                tasks:action.tasks,
-                tempTasks:action.tempTasks,
                 isFiltered:action.isFiltered
             }
         case TodoTypes.FILTER_ACTIVE: 
