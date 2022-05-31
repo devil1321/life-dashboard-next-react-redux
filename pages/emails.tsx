@@ -94,10 +94,14 @@ const EmailsPage = () => {
     }
     if(JSON.stringify(previousEmails) === JSON.stringify(emails)){
       const target = document.querySelector('.emails_set-active-all') as HTMLHeadingElement
-      target.classList.add('active')
+      if(target){
+        target.classList.add('active')
+      }
     }else{
       const target = document.querySelector('.emails_set-active-unseen') as HTMLHeadingElement
-      target.classList.add('active')
+      if(target){
+        target.classList.add('active')
+      }
     }
   },[userDetails,emails,unseenEmails,tempContacts,currentEmails])
 
