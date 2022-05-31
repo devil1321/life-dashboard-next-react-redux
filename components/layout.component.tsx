@@ -54,6 +54,10 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       setTimeout(()=>{
         setIsLoad(true)
       },1000)
+    }else{
+      setTimeout(()=>{
+        setIsLoad(true)
+      },1000)
     }
     if(isLoad && user && userDetails !== null && !isSet){
       todoActions.setTasks(userDetails?.id)
@@ -63,10 +67,17 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       contactsActions.setContacts()
       chatActions.setMessages(userDetails.email)
       invoicesActions.setInvoices(userDetails?.id)
+      invoicesActions.trackInvoices(userDetails?.id)
       setIsSet(true)
+    }else{
+      if(!user && isLoad && !isSet){
+        setIsSet(true)
+      }
     }
     if(isSet){
-      userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+      if(user && userDetails !== null){
+        userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+      }
       setTimeout(()=>{
         setLoading(false)
       },2500)

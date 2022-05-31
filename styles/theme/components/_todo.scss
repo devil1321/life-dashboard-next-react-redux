@@ -11,10 +11,14 @@
         left:0px;
         width: 100%;
         @include createFlex(row,space-between,center,null);
+        h2{
+            transform:translateX(-20px);
+        }
     }
     &__player{
         margin-right:auto;
         margin-left:10px;
+        transform:translateX(-20px);
     }
     &__type-controls{
         position:relative;

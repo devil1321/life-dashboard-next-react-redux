@@ -115,8 +115,9 @@ const InvoicesPage:NextPage = () => {
       setIsInvoice(true)
       setIsInvoiceLoad(true)
       setIsCustomInvoice(false)
-      setPdfUrl(file)
       setIsAdd(false)
+      setPdfUrl(file)
+
       invoicesActions.viewInvoice(id)
       if(isAnim){
           comesIn('.invoice-item')
@@ -127,6 +128,7 @@ const InvoicesPage:NextPage = () => {
           },3000)
           
       }
+
     }
 
     const setInnerContainer = (size:string):void => {
@@ -147,14 +149,22 @@ const InvoicesPage:NextPage = () => {
 
       useEffect(()=>{
         invoicesActions.setInvoices(userDetails?.id)
+        if(isInvoice && isInvoiceLoad && !isCustomInvoice && !isAdd){
+          setPdfUrl(file)
+        }
         if(isLoad){
-          setFile(invoice.file)
+          setTimeout(()=>{
+            setFile(invoice.file)
+          },1000)
           setTempInvoices(invoices)
         }
-        setTimeout(()=>{
-          comesFromDown('.invoice-item')
-        },2000)
-      },[invoice,isLoad])
+        if(!isLoad){
+          setTimeout(()=>{
+            comesFromDown('.invoice-item')
+            setIsLoad(true)
+          },2000)
+        }
+      },[invoice,isLoad,file])
 
     return (
       <Layout title="Invoices">
@@ -214,9 +224,15 @@ const InvoicesPage:NextPage = () => {
                 </div>              
               </div>
               <div className="invoices__right-panel">
-                {invoices.map((item:any)=>(
+                {invoices.length > 0 
+                  ? <React.Fragment>
+                 {invoices.map((item:any)=>(
                   <Invoice.Item key={item} id={userDetails?.id} fn={handleItemFn} invoice={item} setInvoices={invoicesActions.setInvoices} removeInvoice={invoicesActions.removeInvoice} comesIn = {comesIn}  />
-                ))}
+                    ))}
+                  </React.Fragment> 
+                  : <div className="invoices__empty">
+                      <h2>Invoices Empty</h2>
+                    </div>}
               </div>
             </div>
             <div className="invoices__pdf-viewer">

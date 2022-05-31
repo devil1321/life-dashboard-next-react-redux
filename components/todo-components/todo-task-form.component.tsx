@@ -62,11 +62,13 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
       }
 
     useEffect(()=>{
-      setNewTask((prevState) => ({
-        ...prevState,
+      if(userDetails !== null){
+        setNewTask((prevState) => ({
+          ...prevState,
         userId:userDetails.id,
         isOrder:isOrder
-      }))
+        }))
+      }
     },[isOrder,userDetails])
 
 

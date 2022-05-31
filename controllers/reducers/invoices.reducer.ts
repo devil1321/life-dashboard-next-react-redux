@@ -45,7 +45,6 @@ export default (state = initData, action:any) =>{
         case InvoicesTypes.ADD_INVOICE: 
             return {
                 ...state,
-                invoices:action.invoices
             }
         case InvoicesTypes.REMOVE_INVOICE:
             return{
@@ -56,6 +55,11 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 invoice:action.invoice
+            }
+        case InvoicesTypes.TRACK_IVOICES: 
+            return {
+                ...state,
+                invoices:action.invoices
             }
         default:
             return {

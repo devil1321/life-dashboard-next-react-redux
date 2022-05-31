@@ -164,4 +164,8 @@
             animation: fadeIn 1s ease-in-out forwards;
         }
     }
+    &__empty{
+        height:80vh;
+        @include createFlex(row,center,center,null);
+    }
 }
