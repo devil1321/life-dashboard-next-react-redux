@@ -63,8 +63,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
                  // @ts-ignore
                  handleEmailItemIsPreviewFn()
                  userActions.setEmail(email)
-                 userActions.markSeenEmail(userDetails?.email,userDetails?.inbox_password,uid)
-          
+                 userActions.markSeenEmail(userDetails.email,userDetails.inbox_password,uid)
                }
              }}>View</button>
             <div className="email-item__close" onClick={()=>setIsEmail(false)}>

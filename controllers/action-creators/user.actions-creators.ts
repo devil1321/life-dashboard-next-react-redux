@@ -335,12 +335,13 @@ export const markSeenEmail = (email:string,password:string,uid:string) => (dispa
                 resolve(pass)
             }).then((pass:any)=>{
                 const reqBody = { email, password:pass, uid }
-                axios.post('/api/mark-email-seen',reqBody,{
+                axios.post('/api/mark-email-read',reqBody,{
                     headers:{
                         'Content-Type': 'application/json'
                         }
                 })
                     .then((res:any)=>{
+                        const emails = store.getState().user.emails.fiter((e:any) => e.uid !== uid)
                         dispatch({
                             type:UserTypes.MARK_EMAIL_SEEN,
                         })

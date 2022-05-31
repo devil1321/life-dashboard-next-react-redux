@@ -87,9 +87,17 @@ const EmailsPage = () => {
       setIsLoad(true)
     }
     comesFromLeft('.email-contact-item')
-    if(emails.length > 0 && !isSet){
+    if(emails.length > 1 && !isSet){
+    
       setCurrentEmails(emails)
       setIsSet(true)
+    }
+    if(JSON.stringify(previousEmails) === JSON.stringify(emails)){
+      const target = document.querySelector('.emails_set-active-all') as HTMLHeadingElement
+      target.classList.add('active')
+    }else{
+      const target = document.querySelector('.emails_set-active-unseen') as HTMLHeadingElement
+      target.classList.add('active')
     }
   },[userDetails,emails,unseenEmails,tempContacts,currentEmails])
 
@@ -125,8 +133,8 @@ const EmailsPage = () => {
                         {currentEmails.length > 0 && 
                           <div className="emails__tab">
                             <div className="emails__tab-headings">
-                              <h3 data-type="all" className="active" onClick={(e)=>handleTab(e)}>All</h3>
-                              <h3 data-type="unseen" onClick={(e)=>handleTab(e)}>Unseen From Yesterday</h3>
+                              <h3 className="emails_set-active-all" data-type="all" onClick={(e)=>handleTab(e)}>All</h3>
+                              <h3 className="emails_set-active-unseen" data-type="unseen" onClick={(e)=>handleTab(e)}>Unseen From Yesterday</h3>
                             </div>
                             {currentEmails.map((email:any) => <Email.Item key={email.id} isView={true} handleEmailItemIsPreviewFn={handleEmailItemIsPreviewFn} img="/assets/user.png" email={email} />)}
                           </div>}
