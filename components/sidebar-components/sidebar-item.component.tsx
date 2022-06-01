@@ -20,21 +20,21 @@ const Item:React.FC<ItemProps> = ({src,href,title}) => {
   }
  
   return (
-    <div className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(iconRef)}>
-    <span className="sidebar__icon">
-    <Player
-     ref={iconRef}
-      loop
-      hover={true}
-      src={src}
-      style={{ height: '40px', width: '40px' }}
-    >
-    </Player>
-    </span>
-    <Link href={href} passHref={true}>
-      <a className="sidebar__link">{title}</a>
+      <Link href={href} passHref={true}>
+        <a className="sidebar__menu-item"  onMouseEnter={()=>handleIcon(iconRef)}>
+          <span className="sidebar__icon">
+            <Player
+             ref={iconRef}
+              loop
+              hover={true}
+              src={src}
+              style={{ height: '40px', width: '40px' }}
+            >
+            </Player>
+          </span>
+          <span className="sidebar__link">{title}</span>
+      </a>
     </Link>
-  </div>
   )
 }
 

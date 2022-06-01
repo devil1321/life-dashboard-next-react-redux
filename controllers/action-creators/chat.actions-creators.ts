@@ -24,7 +24,7 @@ const q = query(colRefChat)
 
 
 export const setMessages = (email:string) => async (dispatch:Dispatch<any>) => {
-    let messages:any[] = []
+    let messages:Message[] = []
     getDocs(colRefChat)
         .then((snapshot)=>{
             messages = [];
@@ -32,7 +32,7 @@ export const setMessages = (email:string) => async (dispatch:Dispatch<any>) => {
                 messages.push({...doc.data(), id:doc.id})
         })
         return messages
-    }).then((messages:any)=>{
+    }).then((messages:Message[])=>{
         const { contacts } = store.getState().contacts
         const tempMessages = messages.map((msg:any)=>{
             let isValid = false
@@ -67,7 +67,7 @@ export const manageMessage = (key:string,val:string) => (dispatch:Dispatch<any>)
     })
 }
 
-export const sendMessage = (email:string,message:any) => (dispatch:Dispatch<any>) => {
+export const sendMessage = (message:Message) => (dispatch:Dispatch<any>) => {
     message.msg = CryptoJS.AES.encrypt(message.msg, "Message", {
         format: JsonFormatter
    }).toString();
@@ -80,8 +80,8 @@ export const sendMessage = (email:string,message:any) => (dispatch:Dispatch<any>
         .catch(err => console.log(err)) 
 }
 export const filterByEmail = (recipient:string,sender:string) => (dispatch:Dispatch<any>) => {
-    const messages:any[] = store.getState().chat.allMessages
-    let filtered = messages.filter((m:any)=> {
+    const messages:Message[] = store.getState().chat.allMessages
+    let filtered = messages.filter((m:Message)=> {
         if(m !== undefined && m !== null){
             return Object.values(m).includes(recipient) && Object.values(m).includes(sender)
         }
@@ -98,8 +98,8 @@ export const filterByEmail = (recipient:string,sender:string) => (dispatch:Dispa
 }
 
 export const checkRead = (sender_email:string,user_email:string) => (dispatch:Dispatch<any>)=>{
-        const messages:any[] = store.getState().chat.allMessages
-        let filtered = messages.filter((m:any) => m.recipient_email === user_email && m.sender_email === sender_email)
+        const messages:Message[] = store.getState().chat.allMessages
+        let filtered = messages.filter((m:Message) => m.recipient_email === user_email && m.sender_email === sender_email)
         filtered.forEach((m:any)=>{
             const docRef = doc(db,'chat',m.id)
             updateDoc(docRef,{
@@ -114,19 +114,19 @@ export const checkRead = (sender_email:string,user_email:string) => (dispatch:Di
 
 export const traceMessages = () => (dispatch:Dispatch<any>) => {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const messages:any = [];
+        const messages: any[] = [];
         querySnapshot.forEach((doc) => {
             messages.push({...doc.data(),id:doc.id});
         });
         new Promise((resolve,reject)=>{
-            const tempMessages = messages.map((msg:any)=>{
+            const tempMessages = messages.map((msg:Message)=>{
                 if(msg !== undefined && msg !== null){    
                     msg.msg = CryptoJS.AES.decrypt(msg.msg, "Message", {
                         format: JsonFormatter
                     }).toString(CryptoJS.enc.Utf8);
                     return msg
                 }})
-                const validMessages = tempMessages.filter((msg:any) => msg !== undefined && msg !== null)
+                const validMessages = tempMessages.filter((msg:Message | any) => msg !== undefined && msg !== null)
                 resolve(validMessages)
             
         }).then((validMessages:any)=>{
@@ -140,7 +140,7 @@ export const traceMessages = () => (dispatch:Dispatch<any>) => {
 
 export const updateChatProfileImg = (email:string,profilePic:string) => (dispatch:Dispatch<any>) => {
     const { allMessages } = store.getState().chat
-    const allUserMessages = allMessages.filter((m:any)=> m.recipient_email === email || m.sender_email)
+    const allUserMessages = allMessages.filter((m:Message)=> m.recipient_email === email || m.sender_email)
     allUserMessages.forEach((m:any)=>{
         const docRef = doc(db,'chat',m.id)
         if(m.sender_img === email){

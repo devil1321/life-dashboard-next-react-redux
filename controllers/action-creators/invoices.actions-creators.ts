@@ -47,7 +47,7 @@ export const handleFormData = (name:string,val:string) => (dispatch:Dispatch<any
 export const setInvoices = (id:string) => (dispatch:Dispatch<any>) => {
     getDocs(colRefInvoices)
     .then((snapshot)=>{
-        let invoices = [] as any[]
+        let invoices = [] as any[] 
             snapshot.docs.forEach(doc => {
                 invoices.push({...doc.data(),firebaseId:doc.id})
             })
@@ -67,7 +67,7 @@ export const setInvoices = (id:string) => (dispatch:Dispatch<any>) => {
         }).catch(err => console.log(err))
 }
 
-export const addInvoice = (invoice:any,dataFile:any,userId:string) => (dispatch:Dispatch<any>) => {
+export const addInvoice = (invoice:Invoice,dataFile:any,userId:string) => (dispatch:Dispatch<any>) => {
     let { file, invoiceNR, firstName, lastName, money, date } = invoice
     file = CryptoJS.AES.encrypt(file, "Invoice", {
         format: JsonFormatter
@@ -122,7 +122,7 @@ export const trackInvoices = (id:string) => (dispatch:Dispatch<any>) => {
                 invoices.push({...doc.data(),firebaseId:doc.id});
             })
             resolve(invoices)
-        }).then(async(tasks:any)=>{
+        }).then(async(invoices:any)=>{
             const encryptedInvoices = invoices.filter((i:Invoice) => i.userId === id)
             const finalInvoices =  await Promise.all(encryptedInvoices.map(async(i:Invoice)=>{
                 i.file = await CryptoJS.AES.decrypt(i.file, "Invoice", {

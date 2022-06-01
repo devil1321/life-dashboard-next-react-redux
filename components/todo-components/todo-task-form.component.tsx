@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { State } from '../../controllers/reducers'
-import moment from 'moment';
 import { Task } from '../../interfaces';
 
 interface TaskFormProps {

@@ -23,7 +23,7 @@ const Controls:React.FC<ControlsProps> = ({isWrite,openMsg,closeMsg}) => {
             const date = new Date()
             const isoDate = date.toISOString()
             chatActions.manageMessage('date', isoDate)
-            chatActions.sendMessage(message.recipient_email,message)
+            chatActions.sendMessage(message)
             chatActions.setMessages(message.sender_email)
             chatActions.manageMessage('msg','')
           }}>Send</button>}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { State } from '../../controllers/reducers'
@@ -11,7 +11,7 @@ interface ChatMessageProps {
 
 const Message:React.FC<ChatMessageProps> = ({windowMessage}) => {
 
-  const { message } = useSelector((state:State) => state.chat)
+  const { message }:{ message:Message } = useSelector((state:State) => state.chat)
   const { email } = useSelector((state:State) => state.user.userDetails)
   
   if(windowMessage){

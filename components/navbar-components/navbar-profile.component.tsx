@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import * as UIActions from '../../controllers/action-creators/ui.actions-creators'
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 import { State } from '../../controllers/reducers'
+import { UserDetails } from '../../interfaces'
 
 interface ProfileProps {
     innerRef:MutableRefObject<HTMLDivElement>
@@ -17,7 +18,7 @@ const Profile:React.FC<ProfileProps> = ({innerRef,handleMenu}) => {
   const dispatch = useDispatch()
   const UI = bindActionCreators(UIActions,dispatch)
   const userActions = bindActionCreators(UserActions,dispatch)
-  const { userDetails } = useSelector((state:State) => state.user)
+  const { userDetails }:{ userDetails:UserDetails } = useSelector((state:State) => state.user)
 
   return (
     <div className="navbar__profile">

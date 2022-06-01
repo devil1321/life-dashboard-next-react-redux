@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 import Form from '../form-components/form.components'
 import { getBase64 } from '../../modules/convert.module'
+import { EmailAttachement } from '../../interfaces'
 
 interface WriteProps{
     handleHideFn:() => void;
@@ -15,7 +16,7 @@ interface FormData{
   to:string,
   subject:string,
   text:string,
-  attachments:any[];
+  attachments:EmailAttachement[] | any[];
 }
 
 const Write:React.FC<WriteProps> = ({handleHideFn}) => {
@@ -45,8 +46,8 @@ const Write:React.FC<WriteProps> = ({handleHideFn}) => {
     tempFiles.forEach(async(f:any)=>{
       const base64 = await getBase64(f)
       const attachment = {
-        filename:f.name,
-        content:base64,
+        filename:f.name as string,
+        content:base64 as string,
         encoding: 'base64'
       }
       tempAttachments.push(attachment)

@@ -22,9 +22,9 @@ const File:React.FC<FileProps> = ({type,label,iconName,id,name,accept,multiple,o
     {label && <label htmlFor="file">{label}</label>}
     <label htmlFor="" className="invoices__input-file">
       <FontAwesomeIcon icon ={faFileInvoice} />{iconName}
-      <input multiple={multiple ? multiple : false} type={type} id={id} name={name} accept={accept} onChange={async(e)=>{
+      <input required multiple={multiple ? multiple : false} type={type} id={id} name={name} accept={accept} onChange={async(e)=>{
         // @ts-ignore
-        const data = await Converter.getBase64(e.target.files[0]).then((data:any) =>data)
+        const data = await Converter.getBase64(e.target.files[0]).then((data:string) =>data)
         const blob = await Converter.base64toUrl(data)
         if(onChange){
           onChange(e.target.name,data,blob)

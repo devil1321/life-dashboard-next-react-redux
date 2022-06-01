@@ -89,3 +89,37 @@ export interface Message {
     sender_email:string;
     date:string,
 }
+
+export interface EmailAttachement {
+    filenamee:string,
+    content:string,
+    encoding: string
+}
+
+export interface UserDetails{
+    inbox_password:string,
+    last_chat_recipient:string;
+    email:string;
+    name:string;
+    surname:string;
+    nip:string;
+    photoURL:null | string;
+    id:string;
+    lock_screen_password:string;
+    inbox_email:string;
+    employee:string;
+    company:string;
+    phoneNumber:null | string;
+    is_online:boolean;
+    contacts:Contact[];
+    invoiceFields:Field[]
+
+
+}
+
+export interface Notification{
+    isRead:string;
+    person:string,
+    date:string,
+    photoURL:null | string
+}

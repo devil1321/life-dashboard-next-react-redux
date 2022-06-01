@@ -15,7 +15,7 @@ const Field:React.FC<FieldProps> = ({label,type,name,value,onChange,onChangeCust
   return (
     <div className="invoices__field">
         <label htmlFor="">{label}</label>
-        <input type={type} name={name} value={value} onChange={(e)=>{
+        <input required type={type} name={name} value={value} onChange={(e)=>{
           if(onChange){
             onChange(e.target.name,e.target.value)
           }

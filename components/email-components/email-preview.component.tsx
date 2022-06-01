@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { State } from '../../controllers/reducers'
-import { isGmail } from '../../modules/regex.module';
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux' 
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'

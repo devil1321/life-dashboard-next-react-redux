@@ -5,6 +5,20 @@ import { bindActionCreators } from 'redux'
 import { State } from '../../controllers/reducers'
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'
 
+interface FormDataParams{
+    name:string,
+    surname:string,
+    email:string,
+    employee:string,
+    company:string,
+    lock_screen_password:string,
+    phoneNumber:string,
+    nip:string,
+    inbox_email:string,
+    inbox_password:string,
+    photoURL:null | string
+}
+
 const SettingsForm = () => {
  
  const dispatch = useDispatch()
@@ -12,7 +26,7 @@ const SettingsForm = () => {
  const { userDetails } = useSelector((state:State) => state.user)
  const { id, name, surname, email, employee, company, lock_screen_password, phoneNumber, nip, inbox_email, inbox_password, photoURL } = userDetails
 
- const [formData,setFormData] = useState({
+ const [formData,setFormData] = useState<FormDataParams>({
      name:'',
      surname:'',
      email:'',

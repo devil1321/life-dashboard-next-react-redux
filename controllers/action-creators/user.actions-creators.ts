@@ -7,7 +7,7 @@ import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query
 import axios from 'axios'
 import * as CryptoJS from 'crypto-js'
 import { JsonFormatter } from '../../modules/json-formatter.module'
-import { Contact } from '../../interfaces';
+import { Contact, Field, Message,  Notification, UserDetails } from '../../interfaces';
 import store from '../store'
 import { bindActionCreators } from 'redux'
 import * as ChatActions from './chat.actions-creators'
@@ -134,14 +134,14 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
 }
 
  export const setUserDetails = (email:string) => (dispatch:Dispatch<any>) => {
-    let users:any[] = [];
+    let users:UserDetails[] = [];
     getDocs(colRefUsers)
     .then((snapshot)=>{
         snapshot.docs.forEach((doc:any)=>{
             users.push({...doc.data(), id:doc.id})
         })
     }).then(()=>{
-        const user:any = users.find((u:any) => u.email === email)
+        const user = users.find((u:any) => u.email === email) as UserDetails
         dispatch({
             type:UserTypes.SET_USER_DETAILS,
             userDetails:user
@@ -180,7 +180,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
     const contacts  = store.getState().user.userDetails?.contacts
     const { userDetails } = store.getState().user
     if(userDetails?.email !== contact.email && userDetails !== null){
-        if(contacts.filter((c:any)=>c.email === contact.email).length === 0){
+        if(contacts.filter((c:Contact)=>c.email === contact.email).length === 0){
             contacts.push(contact)
             const docRef = doc(db,'users',id)
             updateDoc(docRef,userDetails)
@@ -194,7 +194,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
     }
 }
 
- export const updateUserInvoiceFields = (id:string,fields:any[]) => (dispatch:Dispatch<any>) => {
+ export const updateUserInvoiceFields = (id:string,fields:Field[]) => (dispatch:Dispatch<any>) => {
     const { userDetails } = store.getState().user
     const docRef = doc(db,'users',id)
       updateDoc(docRef,{invoice_fields:fields})
@@ -211,19 +211,19 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
 }
 
 
-export const setUnknowContacts = (allMessages:any[],userContacts:any[],allContacts:any[],userEmail:string) => (dispatch:Dispatch<any>) => {
-    let tempContacts:any[] = []
-    let unknowMessages:any[] = [] 
-    const userEmails = userContacts.map((c:any)=>c.email)
-    allMessages.forEach((m:any)=>{
+export const setUnknowContacts = (allMessages:Message[],userContacts:Contact[],allContacts:Contact[],userEmail:string) => (dispatch:Dispatch<any>) => {
+    let tempContacts:Contact[] = []
+    let unknowMessages:Message[] = [] 
+    const userEmails = userContacts.map((c:Contact)=>c.email)
+    allMessages.forEach((m:Message)=>{
             if(m !== undefined && m !== null){
                 if(!userEmails.includes(m.sender_email) && m.sender_email !== userEmail){
                     unknowMessages.push(m)
                 }
             }
         })
-    unknowMessages.forEach((m:any)=>{
-        allContacts.forEach((c:any)=>{
+    unknowMessages.forEach((m:Message)=>{
+        allContacts.forEach((c:Contact)=>{
             if(m.sender_email === c.email){
                 if(!tempContacts.includes(c)){
                     tempContacts.push(c)
@@ -238,7 +238,7 @@ export const setUnknowContacts = (allMessages:any[],userContacts:any[],allContac
 }
 
 
-export const setEmail = (email:any) => (dispatch:Dispatch<any>) => {
+export const setEmail = (email:string) => (dispatch:Dispatch<any>) => {
     dispatch({        
         type:UserTypes.SET_EMAIL,
         email:email,
@@ -379,15 +379,15 @@ export const sendEmail = (email:string, password:string, message:any) => (dispat
     }
 }
 
-export const setNotifications = (allMessages:any[],userEmail:string) => (dispatch:Dispatch<any>) =>{
-    const unreed = allMessages.filter((m:any)=>{
+export const setNotifications = (allMessages:Message[],userEmail:string) => (dispatch:Dispatch<any>) =>{
+    const unreed = allMessages.filter((m:Message)=>{
         if(m !== null && m !== undefined){
             if(m.isRead === false){
                 return m
             }
         }
     })
-    let notifications = unreed.map((m:any)=>{
+    let notifications = unreed.map((m:Message)=>{
         const notification = {
             isRead:m.isRead,
             person:m.sender_email,
@@ -396,7 +396,7 @@ export const setNotifications = (allMessages:any[],userEmail:string) => (dispatc
         }
         return notification
     })
-    notifications = notifications.sort((a:any,b:any)=>{
+    notifications = notifications.sort((a:any,b:any) : number =>{
         const dateA:any = new Date(a.date)
         const dateB:any = new Date(b.date)
         return dateA - dateB
@@ -411,14 +411,14 @@ export const setNotifications = (allMessages:any[],userEmail:string) => (dispatc
 }
 export const setNotificationsRead = (userEmail:string) => (dispatch:Dispatch<any>) =>{
     const { allMessages } = store.getState().chat
-    const unreadedNotifications = allMessages.filter((m:any)=>{
+    const unreadedNotifications = allMessages.filter((m:Message)=>{
         if(m !== undefined && m !== null){
             if(m.isRead === false){
                 return m
             }
         }
     })
-    let converted = unreadedNotifications.map((n:any)=>{
+    let converted = unreadedNotifications.map((n:Message)=>{
         const notification = {
             isRead:n.isRead,
             person:n.sender_email,
@@ -427,7 +427,7 @@ export const setNotificationsRead = (userEmail:string) => (dispatch:Dispatch<any
         }
         return notification
     })
-    converted = converted.filter((n:any) => n.person !== userEmail)
+    converted = converted.filter((n:Notification) => n.person !== userEmail)
     dispatch({
         type:UserTypes.SET_NOTIFICATIONS_READ,
         notifications:converted,

@@ -4,6 +4,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore,collection, getDocs,addDoc,deleteDoc,doc, onSnapshot,query,where,getDoc,updateDoc } from 'firebase/firestore'
 import { Dispatch } from 'redux';
+import { Contact } from '../../interfaces';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPB_ibh5yK49GwSHCAHGlCEhGlVBuq2i0",
@@ -25,8 +26,8 @@ const firebaseConfig = {
   }
 
 export const setContacts = () => (dispatch:Dispatch<any>) => {
-    let users:any = []
-    let contacts:any[] = []
+    let users:Contact[] = []
+    let contacts:Contact[] = []
     getDocs(colRefUsers)
         .then((snapshot)=>{
             snapshot.docs.forEach((doc:any)=>{

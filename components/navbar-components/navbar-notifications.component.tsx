@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { State } from '../../controllers/reducers'
 import { bindActionCreators } from 'redux'
 import * as UserActions from '../../controllers/action-creators/user.actions-creators'
+import { Message, UserDetails, Notification } from '../../interfaces'
 
 interface NotificationsProps{
     innerRef:MutableRefObject<HTMLDivElement>
@@ -16,8 +17,8 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const dispatch = useDispatch()
   const userActions = bindActionCreators(UserActions,dispatch)
-  const { notifications,notificationsCount,userDetails } = useSelector((state:State) => state.user)
-  const { allMessages } = useSelector((state:State) => state.chat)
+  const { notifications,notificationsCount,userDetails }:{ notifications:Notification[] ,notificationsCount:number, userDetails:UserDetails } = useSelector((state:State) => state.user)
+  const { allMessages }:{ allMessages:Message[] } = useSelector((state:State) => state.chat)
 
   useEffect(()=>{
     if(allMessages && !isLoad){
@@ -41,7 +42,7 @@ const Notifications:React.FC<NotificationsProps> = ({innerRef,handleMenu}) => {
     </div>
     <div className="navbar__notifications-menu --close-modifier" ref={innerRef}>
       {notifications.length > 0 
-        ? notifications.map((n:any,index:number)=><Nav.Notification key={index} img={n.photoURL !== null ? n.photoURL : "/assets/user.png"} person={n.person}   date={n.date.slice(0,10) + ' ' + n.date.slice(12,16)} />)
+        ? notifications.map((n:Notification,index:number)=><Nav.Notification key={index} img={n.photoURL !== null ? n.photoURL : "/assets/user.png"} person={n.person}   date={n.date.slice(0,10) + ' ' + n.date.slice(12,16)} />)
         : <h3>Empty</h3>}
     </div>
 </div>

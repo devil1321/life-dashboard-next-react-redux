@@ -1,11 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { State } from '../../controllers/reducers'
+import { UserDetails } from '../../interfaces'
 
 const Widget = () => {
-  const { user, userDetails } = useSelector((state:State) => state.user)
+  const {  userDetails }:{ userDetails:UserDetails } = useSelector((state:State) => state.user)
 
-  const { id, email , name, surname, company, employee , phoneNumber, photoURL } = userDetails
+  const {  email , name, surname, company, employee , phoneNumber, photoURL } = userDetails
 
   return (
     <div className="settings__widget">

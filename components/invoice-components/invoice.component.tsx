@@ -1,6 +1,6 @@
 import React from 'react'
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { InvoicesFormDataParams } from '../../interfaces';
+import { InvoicesFormDataParams, UserDetails } from '../../interfaces';
 
 const styles = StyleSheet.create({
     page: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   
   interface InvoicePDFProps {
       formData:InvoicesFormDataParams['formData']
-      userDetails:any;
+      userDetails:UserDetails;
   }
 
   const InvoicePDF:React.FC<InvoicePDFProps> = ({formData,userDetails}) => {
