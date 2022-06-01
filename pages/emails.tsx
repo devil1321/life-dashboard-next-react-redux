@@ -81,28 +81,30 @@ const EmailsPage = () => {
       setTimeout(()=>{
         comesFromDown('.email-item')
       },2000)
-      if(userDetails?.contacts?.length > 0){
-        setTempContacts(userDetails?.contacts)
-      }
       setIsLoad(true)
+    }
+    if(tempContacts.length === 0){
+      setTempContacts(userDetails?.contacts)
     }
     comesFromLeft('.email-contact-item')
     if(emails.length > 1 && !isSet){
-    
       setCurrentEmails(emails)
-      setIsSet(true)
-    }
-    if(JSON.stringify(previousEmails) === JSON.stringify(emails)){
-      const target = document.querySelector('.emails_set-active-all') as HTMLHeadingElement
-      if(target){
-        target.classList.add('active')
+      setPreviousEmails(emails)
+      if(JSON.stringify(previousEmails) === JSON.stringify(emails)){
+        const target = document.querySelector('.emails_set-active-all') as HTMLHeadingElement
+        if(target){
+          target.classList.add('active')
+          setIsSet(true)
+        }
+      }else{
+        const target = document.querySelector('.emails_set-active-unseen') as HTMLHeadingElement
+        if(target){
+          target.classList.add('active')
+          setIsSet(true)
+        }
       }
-    }else{
-      const target = document.querySelector('.emails_set-active-unseen') as HTMLHeadingElement
-      if(target){
-        target.classList.add('active')
-      }
     }
+
   },[userDetails,emails,unseenEmails,tempContacts,currentEmails])
 
   return (

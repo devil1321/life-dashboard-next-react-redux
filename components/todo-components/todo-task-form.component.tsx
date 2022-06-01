@@ -13,6 +13,7 @@ interface TaskFormProps {
 interface NewTaskState{
     userId:string;
     isOrder:boolean,
+    isRejected?:boolean;
     name:string;
     description:string;
     completed:boolean;
@@ -25,11 +26,11 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
     const { userDetails } = useSelector((state:State) => state.user)
 
     const [newTask,setNewTask] = useState<NewTaskState>({
+        completed:false,
         userId:'',
         isOrder:isOrder,
         name:'',
         description:'',
-        completed:false,
         date:date
       })
     const [err,setErr] = useState<boolean>(false)
@@ -40,33 +41,39 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
           ...prevState,
           [e.target.dataset.name]:e.target.value
         }))
+        if(isOrder){
+          setNewTask((prevState)=>({
+            ...prevState,
+            isRejected:false
+          }))
+        }
       }
 
       const handleAddTask = (task:Task) => {
         if(newTask.name.length > 0){
           addTask(task)
+          setNewTask((prevState) => ({
+            userId:userDetails.id,
+            isOrder:isOrder,
+            completed:false,
+            name:'',
+            description:'',
+            date:date
+          }))
         } else{
            setErr(true)
            setTimeout(()=>{
              setErr(false)
            },2000)
         }
-        setNewTask({
-         userId:userDetails.id,
-         isOrder:isOrder,
-         name:'',
-         description:'',
-         completed:false,
-         date:moment(date).format('MM-DD-YYYY')
-        })
       }
 
     useEffect(()=>{
       if(userDetails !== null){
         setNewTask((prevState) => ({
           ...prevState,
-        userId:userDetails.id,
-        isOrder:isOrder
+          userId:userDetails.id,
+          isOrder:isOrder
         }))
       }
     },[isOrder,userDetails])

@@ -18,6 +18,7 @@ import { SetStateAction } from 'react';
 interface TaskFormData{
   userId:string;
   firebaseId:string;
+  isRejected?:boolean;
   isOrder:boolean;
   name:string;
   description:string;
@@ -54,9 +55,9 @@ const TodoMainComponent:React.FC = () => {
   
  const handleTaskFormData = (e:any) =>{
    let val = e.target.value
-   if(e.target.value === 'false' && e.target.dataset.val === 'completed'){
+   if(e.target.value === 'false' && e.target.dataset.val === 'completed' || 'isRejected'){
      val = false
-   }else if(e.target.value === 'true' && e.target.dataset.val === 'completed'){
+   }else if(e.target.value === 'true' && e.target.dataset.val === 'completed' || 'isRejected'){
      val = true
    }
    setTaskFormData((prevState)=>({
@@ -64,6 +65,8 @@ const TodoMainComponent:React.FC = () => {
      [e.target.dataset.val]:val
    }))
  }
+
+
 
     const handleDate = (e:any) =>{
     setTaskFormData((prevState)=>({
@@ -147,6 +150,15 @@ const TodoMainComponent:React.FC = () => {
     setIsFilteredByActive(false)
     setIsFilteredByCompleted(true)
   }
+  const handleFullfiledButtonFn = (e:any) =>{
+    handleBtn(e)
+    UI.setIsEdit(false)
+    if(isOrders){
+      todoActions.filterFullfilled(tasks.filter((t:Task) => t.isOrder === true))
+    }
+    setIsFilteredByActive(false)
+    setIsFilteredByCompleted(true)
+  }
   const handleAllButtonFn = (e:any) =>{
     handleBtn(e)
     UI.setIsEdit(false)
@@ -158,17 +170,25 @@ const TodoMainComponent:React.FC = () => {
       todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === false))
     }
   }
+  const handleRejectedButtonFn = (e:any) =>{
+    handleBtn(e)
+    UI.setIsEdit(false)
+    setIsFilteredByActive(false)
+    setIsFilteredByCompleted(false)
+    todoActions.filterRejected(tasks.filter((t:Task) => t.isOrder === true))
+  }
  
   const handleType = () => {
     const btns = document.querySelectorAll('button') as NodeListOf<HTMLButtonElement>
     btns.forEach((btn:HTMLButtonElement) => {
       btn.classList.remove('active')
     })
-    btns[4].classList.add('active')
      if(isOrders){
       todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === true))
+      btns[6].classList.add('active')
     }else{
       todoActions.filterAll(tasks.filter((t:Task) => t.isOrder === false))
+      btns[4].classList.add('active')
     }
   }
 
@@ -196,7 +216,8 @@ const TodoMainComponent:React.FC = () => {
         name:task.name,
         description:task.description,
         completed:task.completed,
-        date:moment(task.date).format('MM-DD-YYYY')
+        date:moment(task.date).format('MM-DD-YYYY'),
+        ...(task.isRejected !== undefined) && { isRejected: task.isRejected}
       })
     }
     if(!isFiltered){
@@ -218,16 +239,31 @@ const TodoMainComponent:React.FC = () => {
                 <div className="todo__edit">
                   <Todo.EditHeading taskFormData={taskFormData} handleTaskFormData={handleTaskFormData} handleDate={handleDate} />
                   <Todo.EditDescription taskFormData={taskFormData} handleTaskFormData={handleTaskFormData} />
-                  {!taskFormData.completed 
-                    ? <Todo.EditCompletedButton handleTaskFormData={handleTaskFormData} />
-                    : <Todo.EditUncompletedButton handleTaskFormData={handleTaskFormData} />
-                  }
+                  <React.Fragment>
+                      {!taskFormData.completed !== undefined &&
+                      <React.Fragment>
+                       {!taskFormData?.completed 
+                          ? <Todo.EditCompletedButton text="Completed" dataVal="completed" handleTaskFormData={handleTaskFormData} />
+                          : <Todo.EditUncompletedButton text="Uncompleted" dataVal="completed" handleTaskFormData={handleTaskFormData} />
+                       }</React.Fragment>
+                      }</React.Fragment>
+                  <React.Fragment>
+                  {!taskFormData?.isRejected !== undefined && 
+                    <React.Fragment>
+                      {!taskFormData?.isRejected 
+                        ? <Todo.EditCompletedButton  text="Fullfilled" dataVal="isRejected" handleTaskFormData={handleTaskFormData} />
+                        : <Todo.EditUncompletedButton text="Rejected"  dataVal="isRejected" handleTaskFormData={handleTaskFormData} />
+                      }</React.Fragment>
+                  }</React.Fragment>
                 </div>}
               </div>
               <Todo.Footer 
+                isOrder = {isOrders}
                 innerRef={activeBtnRef}
                 handleAllButtonFn={handleAllButtonFn}
+                handleRejectedButtonFn={handleRejectedButtonFn}
                 handleCompletedButtonFn={handleCompletedButtonFn}
+                handleFullfiledButtonFn={handleFullfiledButtonFn}
                 handleActiveButtonFn={handleActiveButtonFn}
                 handleClearButtonFn={handleClearButtonFn}
               />

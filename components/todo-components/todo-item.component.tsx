@@ -14,6 +14,7 @@ interface TodoItemProps {
     handleEdit:any,
     task:{
         firebaseId?:string;
+        isRejected?:boolean;
         isOrder:boolean;
         name:string;
         description:string;
@@ -25,6 +26,7 @@ interface TodoItemProps {
 const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
   
     const { firebaseId ,isOrder, name, completed, date } = task
+    const isRejected = task?.isRejected 
     const dispatch = useDispatch()
     const todoActions = bindActionCreators(TodoActions,dispatch) 
 
@@ -59,10 +61,15 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
             <div className="todo-item__info">
                 <span className="todo-item__order">{isOrder ? "Order" : "Task"}</span>
                 <span>{moment(date).format('MM-DD-YYYY')}</span>
-                    {completed
-                        ? <div className="todo-item__completed"><FontAwesomeIcon icon ={faCheckDouble} /></div>
-                        : <div className="todo-item__pending"><FontAwesomeIcon icon ={faXmark} /></div>
-                    }
+                    <React.Fragment>
+                     {completed !== undefined && 
+                        <React.Fragment>{
+                            completed
+                            ? <div className="todo-item__completed"><FontAwesomeIcon icon ={faCheckDouble} /></div>
+                            : <div className="todo-item__pending"><FontAwesomeIcon icon ={faXmark} /></div>
+                        }</React.Fragment>
+                    }</React.Fragment>
+                    
                 <div className="todo-item__btn" ref={btnRef} onClick={()=>handleMenu()}>
                     <span></span>
                     <span></span>
@@ -79,22 +86,43 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                         <FontAwesomeIcon icon ={faPenToSquare} />
                         <h3>Edit</h3>
                     </div>
-                    {completed 
-                     ? <div className="todo-item__item-inner" onClick={()=>{
-                         todoActions.setUncompleted(firebaseId as string)
-                         handleMenuClose()
-                        }}> 
-                        <FontAwesomeIcon icon ={faXmark} />  
-                        <h3>Uncompleted</h3>
-                    </div>
-                     : <div className="todo-item__item-inner" onClick={()=>{
-                         handleMenuClose()
-                         todoActions.setCompleted(firebaseId as string)
-                     }}> 
-                        <FontAwesomeIcon icon ={faCheckDouble} />
-                        <h3>Completed</h3>
-                    </div>
-                    }
+                    {completed !== undefined &&
+                        <React.Fragment>
+                            {completed
+                              ? <div className="todo-item__item-inner" onClick={()=>{
+                                  todoActions.setUncompleted(firebaseId as string)
+                                  handleMenuClose()
+                                 }}> 
+                                 <FontAwesomeIcon icon ={faXmark} />  
+                                 <h3>Uncompleted</h3>
+                             </div>
+                              : <div className="todo-item__item-inner" onClick={()=>{
+                                  handleMenuClose()
+                                  todoActions.setCompleted(firebaseId as string)
+                                 }}> 
+                                 <FontAwesomeIcon icon ={faCheckDouble} />
+                                 <h3>Completed</h3>
+                             </div>
+                        }</React.Fragment>}
+                    {isRejected !== undefined &&
+                     <React.Fragment>
+                        {isRejected
+                             ? <div className="todo-item__item-inner" onClick={()=>{
+                                     todoActions.setOrderFullfiled(firebaseId as string)
+                                     todoActions.setCompleted(firebaseId as string)
+                                     handleMenuClose()
+                                    }}> 
+                                    <FontAwesomeIcon icon ={faCheckDouble} />
+                                    <h3>Fullfill</h3>
+                                </div>
+                             : <div className="todo-item__item-inner" onClick={()=>{
+                                    handleMenuClose()
+                                    todoActions.setOrderRejected(firebaseId as string)
+                                    }}> 
+                                    <FontAwesomeIcon icon ={faXmark} />  
+                                    <h3>Reject</h3>
+                                </div>
+                    }</React.Fragment>}
                     <div className="todo-item__item-inner" onClick={()=>{
                         todoActions.removeTask(firebaseId as string)
                         handleMenuClose()

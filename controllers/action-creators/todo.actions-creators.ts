@@ -80,6 +80,35 @@ export const setUncompleted = (id:string) => (dispatch:Dispatch<any>) => {
         })
     }).catch(err => console.log(err))
 }
+export const setOrderFullfiled = (id:string) => (dispatch:Dispatch<any>) => {
+    const tasks:Task[] = store.getState().todo.tasks
+    const task:(Task | any) = tasks.find(task => task.firebaseId === id)
+    task.isRejected = false
+    const docRef = doc(db,'tasks',id)
+    updateDoc(docRef,{
+        isRejected:false,
+    }).then(()=>{
+        dispatch({
+            type:TodoTypes.SET_ORDER_FULLFILLED,
+            tempTasks:tasks
+        })
+    }).catch(err => console.log(err))
+   
+}
+export const setOrderRejected = (id:string) => (dispatch:Dispatch<any>) => {
+    const tasks:Task[] = store.getState().todo.tasks
+    const task:(Task | any) = tasks.find(task => task.firebaseId === id)
+    task.isRejected = true
+    const docRef = doc(db,'tasks',id)
+    updateDoc(docRef,{
+        isRejected:true,
+    }).then(()=>{
+        dispatch({
+            type:TodoTypes.SET_ORDER_REJECTED,
+            tempTasks:tasks
+        })
+    }).catch(err => console.log(err))
+}
 
 export const addTask = (task: Task) => (dispatch:Dispatch<any>) => {
     task.name = CryptoJS.AES.encrypt(task.name, "Task", {
@@ -118,6 +147,9 @@ export const saveTask =  (id: string,task: Task,) => async(dispatch:Dispatch<any
     const tempTask:Task = tasks.find((item:Task) => item.firebaseId === id) as Task
     tempTask.completed = task.completed
     tempTask.date = task.date
+    if(task.isRejected){
+        tempTask.isRejected = task.isRejected
+    }
     tempTask.name = await CryptoJS.AES.encrypt(task.name, "Task", {
         format: JsonFormatter
    }).toString();
@@ -130,6 +162,7 @@ export const saveTask =  (id: string,task: Task,) => async(dispatch:Dispatch<any
         description:tempTask.description,
         completed:tempTask.completed,
         date:tempTask.date,
+        ...(tempTask.isRejected !== undefined) && { isRejected:tempTask.isRejected }
     }).then(()=>{
          dispatch({
             type:TodoTypes.SAVE_TASK,
@@ -168,11 +201,27 @@ export const filterCompleted = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
         isFiltered:false,
     })
 }
+export const filterFullfilled = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
+    const tempTasks:Task[] = tasks.filter((task:Task) => task.isRejected === false)
+    dispatch({
+        type:TodoTypes.FILTER_FULLFILLED,
+        tempTasks:tempTasks,
+        isFiltered:false,
+    })
+}
 
 export const filterAll = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
     dispatch({
         type:TodoTypes.FILTER_ALL,
         tempTasks:tasks,
+        isFiltered:false,
+    })
+}
+export const filterRejected = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
+    const tempTasks:Task[] = tasks.filter((task:Task) => task.isRejected === true)
+    dispatch({
+        type:TodoTypes.FILTER_REJECTED,
+        tempTasks:tempTasks,
         isFiltered:false,
     })
 }
@@ -187,6 +236,16 @@ export const removeAll = (tasks:Task[]) => (dispatch:Dispatch<any>) => {
     dispatch({
         type:TodoTypes.REMOVE_ALL,
         isFiltered:false,
+        tempTasks:[],
+    })
+}
+
+export const setRejected = () => (dispatch:Dispatch<any>) => {
+    const orders = store.getState().todo.tasks.filter((t:Task) => t.isOrder === true)
+    const rejections = orders.filter((o:Task) => o.isRejected === true)
+    dispatch({
+        type:TodoTypes.SET_REJECTED_ORDERS,
+        rejectedOrders:rejections
     })
 }
 

@@ -6,6 +6,7 @@ interface TodoState {
     tasks:Task[];
     tempTasks:Task[]
     task:Task;
+    rejectedOrders:Task[]
     isFiltered:boolean
 }
 
@@ -21,6 +22,7 @@ const initData:TodoState = {
         completed:false,
         date:new Date(),
     },
+    rejectedOrders:[],
     isFiltered:false
 }
 
@@ -38,12 +40,29 @@ export default (state = initData, action:any) =>{
                 tempTasks:action.tasks,
                 tasks:action.tasks
             }
+            case TodoTypes.SET_REJECTED_ORDERS: 
+            return {
+                ...state,
+                rejectedOrders:action.rejectedOrders
+            }
         case TodoTypes.SET_COMPLETED: 
             return {
                 ...state,
                 tempTasks:action.tempTasks
             }
+      
         case TodoTypes.SET_UNCOMPLETED: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks
+            }
+        case TodoTypes.SET_ORDER_FULLFILLED: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks
+            }
+      
+        case TodoTypes.SET_ORDER_REJECTED: 
             return {
                 ...state,
                 tempTasks:action.tempTasks
@@ -77,7 +96,8 @@ export default (state = initData, action:any) =>{
         case TodoTypes.REMOVE_ALL: 
             return {
                 ...state,
-                isFiltered:action.isFiltered
+                isFiltered:action.isFiltered,
+                tempTasks:action.tempTasks
             }
         case TodoTypes.FILTER_ACTIVE: 
             return {
@@ -88,9 +108,28 @@ export default (state = initData, action:any) =>{
         case TodoTypes.FILTER_COMPLETED: 
             return {
                 ...state,
-                tempTasks:action.tempTasks
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered,
+            }
+        case TodoTypes.FILTER_FULLFILLED: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered,
+            }
+        case TodoTypes.FILTER_REJECTED: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks,
+                 isFiltered:action.isFiltered,
             }
         case TodoTypes.FILTER_ALL: 
+            return {
+                ...state,
+                tempTasks:action.tempTasks,
+                isFiltered:action.isFiltered
+            }
+        case TodoTypes.FILTER_REJECTED: 
             return {
                 ...state,
                 tempTasks:action.tempTasks,

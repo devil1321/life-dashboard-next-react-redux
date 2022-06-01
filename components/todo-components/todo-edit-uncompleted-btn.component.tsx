@@ -4,13 +4,15 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface EditUcompletedButtonProps{
     handleTaskFormData:(e:any) => void
+    dataVal:string;
+    text:string;
 }
 
-const EditUncompletedButton:React.FC<EditUcompletedButtonProps> = ({handleTaskFormData}) => {
+const EditUncompletedButton:React.FC<EditUcompletedButtonProps> = ({text,dataVal,handleTaskFormData}) => {
   return (
-    <button className="todo__btn-pending" data-val="completed" value={"false"} onClick={(e)=>handleTaskFormData(e)}>
+    <button className="todo__btn-pending" data-val={dataVal}value={"false"} onClick={(e)=>handleTaskFormData(e)}>
      <FontAwesomeIcon icon ={faXmark} />  
-      Uncompleted
+     {text}
     </button>
   )
 }
