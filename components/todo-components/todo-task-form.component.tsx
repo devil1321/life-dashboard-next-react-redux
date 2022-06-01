@@ -13,7 +13,7 @@ interface TaskFormProps {
 interface NewTaskState{
     userId:string;
     isOrder:boolean,
-    isRejected?:boolean;
+    isRejected?:boolean | string;
     name:string;
     description:string;
     completed:boolean;
@@ -44,7 +44,7 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
         if(isOrder){
           setNewTask((prevState)=>({
             ...prevState,
-            isRejected:false
+            isRejected:'pending'
           }))
         }
       }

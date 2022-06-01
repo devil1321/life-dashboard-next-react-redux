@@ -104,9 +104,9 @@ const Item:React.FC<TodoItemProps> = ({task,handleEdit}) => {
                                  <h3>Completed</h3>
                              </div>
                         }</React.Fragment>}
-                    {isRejected !== undefined &&
+                    {isRejected !== undefined &&  
                      <React.Fragment>
-                        {isRejected
+                        {isRejected === 'pending' || isRejected
                              ? <div className="todo-item__item-inner" onClick={()=>{
                                      todoActions.setOrderFullfiled(firebaseId as string)
                                      todoActions.setCompleted(firebaseId as string)
