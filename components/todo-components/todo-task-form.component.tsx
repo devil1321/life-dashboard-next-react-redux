@@ -49,15 +49,15 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
       }
 
       const handleAddTask = (task:Task) => {
-        if(newTask.name.length > 0){
+        if(newTask.name.length > 0 && newTask.date !== undefined && newTask.date !== null){
           addTask(task)
           setNewTask((prevState) => ({
+            ...prevState,
             userId:userDetails.id,
             isOrder:isOrder,
             completed:false,
             name:'',
             description:'',
-            date:date
           }))
         } else{
            setErr(true)
@@ -67,6 +67,12 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
         }
       }
 
+      const handleSubmit = (e:any) => {
+        e.preventDefault()
+        handleTaskFn()
+        handleAddTask(newTask)
+      }
+
     useEffect(()=>{
       if(userDetails !== null){
         setNewTask((prevState) => ({
@@ -74,23 +80,24 @@ const TaskForm:React.FC<TaskFormProps>= ({isOrder,handleTaskFn,addTask}) => {
           userId:userDetails.id,
           isOrder:isOrder
         }))
+        setNewTask((prevState) => ({
+          ...prevState,
+          date:date
+        }))
       }
-    },[isOrder,userDetails])
+    },[isOrder,userDetails,date])
 
 
   return (
-    <div className="todo__form">
+    <form className="todo__form" onSubmit={(e)=>handleSubmit(e)}>
     <div className={`todo__field`}>
       <input className={err ? "todo__err" : ""} type="text" data-name="name" value={newTask.name} onChange={(e:any)=>handleNewTask(e)} placeholder={isOrder ? "Add Order..." : 'Add Task...'} />
       <div className={`todo__date ${err ? "todo__err" : ""}`} >
         <input className={err ? "todo__err" : ""} type="date" name="" id="" data-name="date"  onChange={(e:any)=>handleNewTask(e)}/>
       </div>
-      <button onClick={(e)=>{
-            handleTaskFn()
-            handleAddTask(newTask)
-        }}>{!isOrder ? "Add Task" : "Add Order"}</button>
+      <button>{!isOrder ? "Add Task" : "Add Order"}</button>
     </div>
-</div>
+</form>
   )
 }
 

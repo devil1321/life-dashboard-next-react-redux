@@ -42,10 +42,11 @@ const CalendarWrapper:React.FC = () => {
           wrapper.style.backgroundColor = 'rgb(15, 141, 108)'
         } 
         tasks?.length > 0 && tasks.map((task:Task) =>{
+          const uncompleted:Task[] = tasks.filter((t:Task) => t.completed === false && moment(t.date).format('MM-DD-YYYY') === moment(tempDate).format('MM-DD-YYYY'))
            if(moment(task.date).format('MM-DD-YYYY') === moment(tempDate).format('MM-DD-YYYY')){
              if(task.completed === false){
                wrapper.style.backgroundColor = 'red'
-              }else{
+              }else if(uncompleted.length === 0){
                wrapper.style.backgroundColor = 'yellowgreen'
               }
            }

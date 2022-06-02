@@ -33,7 +33,7 @@ export const setField = (field:Field) => (dispatch:Dispatch<any>) => {
     })
 }
 
-export const handleFormData = (name:string,val:string) => (dispatch:Dispatch<any>) => {
+export const handleFormData = (name:string,val:string | number) => (dispatch:Dispatch<any>) => {
     const formData = store.getState().invoices.formData
         dispatch({
             type:InvoicesTypes.HANDLE_FORM_DATA,
@@ -67,18 +67,18 @@ export const setInvoices = (id:string) => (dispatch:Dispatch<any>) => {
         }).catch(err => console.log(err))
 }
 
-export const addInvoice = (invoice:Invoice,dataFile:any,userId:string) => (dispatch:Dispatch<any>) => {
-    let { file, invoiceNR, firstName, lastName, money, date } = invoice
+export const addInvoice = (invoice:any,dataFile:any,userId:string) => (dispatch:Dispatch<any>) => {
+    let { file, invoiceNR, firstName, lastName, money, date,tax,bonuses } = invoice
     file = CryptoJS.AES.encrypt(file, "Invoice", {
         format: JsonFormatter
    }).toString();
-
+   const moneyWithTax = ((Number(money)  + Number(bonuses)) * (Number(tax) / 100)) + (Number(money) + Number(bonuses)) 
     addDoc(colRefInvoices,{
         userId,
         invoiceNR,
         firstName,
         lastName,
-        money,
+        money:moneyWithTax,
         date,
         file
     })
@@ -137,5 +137,91 @@ export const trackInvoices = (id:string) => (dispatch:Dispatch<any>) => {
             })
         })
       });
+}
+
+export const countMoneyAndUp = () => (dispatch:Dispatch<any>) => {
+    const invoices = store.getState().invoices.invoices
+    const year = new Date().getFullYear()
+    const startDate = new Date(year,0,1);
+    const endDate = new Date(year,11,31);
+    const thisYearInvoices = invoices.filter((i:Invoice) => {
+        const date = new Date(i.date);
+        return (date >= startDate && date <= endDate);
+    });
+    let moneyByMonth:number[]  = []
+    for(let i = 0; i <= 11; i++){
+        let money:number = 0
+        const startDate = new Date(year,i,1);
+        const endDate = new Date(year,i,31);
+        const thisMonthInvoices = thisYearInvoices.filter((i:Invoice) => {
+            const date = new Date(i.date);
+            return (date >= startDate && date <= endDate);
+        });
+        console.log(thisMonthInvoices)
+        thisMonthInvoices.forEach((i:Invoice)=>{
+            if(i.money !== undefined && i.money !== null && i.money > 0)
+                money+=i.money
+        })
+        moneyByMonth.push(money / 1000)
+    }
+    const allMoneyArr = invoices.map((i:Invoice)=> i.money)
+    if(allMoneyArr.length > 0){
+        var totalMoney:number = allMoneyArr.reduce((p:number,c:number) => p += c )
+    }else{
+        var totalMoney:number = 0
+    }
+    if(moneyByMonth.length > 0){
+        if(moneyByMonth[10]  !== 0 && moneyByMonth[10] !==0){
+            var upFromLastMonth:number = (moneyByMonth[10] / moneyByMonth[11]) / 100
+        }else{
+            var upFromLastMonth:number = 0
+        }
+    }else{
+        var upFromLastMonth:number = 0
+    }
+    if(moneyByMonth.length > 0){
+
+        var yearlyMoney:number = moneyByMonth.reduce((p:number,c:number) => p += c )
+    }else{
+        var yearlyMoney:number = 0
+    }
+    dispatch({
+        type:InvoicesTypes.COUNT_MONEY_AND_UP,
+        moneyByMonth:moneyByMonth,
+        yearlyMoney:yearlyMoney,
+        upFromLastMonth:upFromLastMonth,
+        totalMoney:totalMoney,
+    })
+}
+
+
+export const countMoneyYearlyByMonth = () => (dispatch:Dispatch<any>) => {
+    const { user } = store.getState().user
+    const invoices = store.getState().invoices.invoices
+    const startYear = new Date(user.createdAt).getFullYear()
+    const endYear = new Date().getFullYear()
+
+    let yearlyMoneyByMonth:number[]  = []
+    for(let y = startYear; y <= endYear; y++){
+     for(let m = 0; m <= 11; m++){
+         let money:number = 0
+         const startDate = new Date(y,m,1);
+         const endDate = new Date(y,m,31);
+         const thisMonthInvoices = invoices.filter((i:Invoice) => {
+             const date = new Date(i.date);
+             return (date >= startDate && date <= endDate);
+         });
+         thisMonthInvoices.forEach((i:Invoice)=>{
+             if(i.money !== undefined && i.money !== null && i.money > 0)
+                 money+=i.money
+         })
+            yearlyMoneyByMonth.push(money / 1000)
+        }
+    }
+   
+    dispatch({
+        type:InvoicesTypes.COUNT_MONEY_YEARLY_BY_MONTH,
+        yearlyMoneyByMonth:yearlyMoneyByMonth
+    })
 }
 

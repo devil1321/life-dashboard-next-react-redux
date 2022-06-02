@@ -20,14 +20,14 @@
     &__right-panel{
         box-sizing: border-box;
         padding:0px 50px;
-        width: 70%;
+        width: 73%;
         @include createFlex(row,space-between,center,wrap);
         & >  div:nth-of-type(4){
             margin-top: 20px;
         }
     }
    &__emails{
-        width: 100%;
+        width: 97.5%;
         @include createFlex(row,space-between,center,wrap);
     }
 }

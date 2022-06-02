@@ -1,17 +1,19 @@
 import React,{Dispatch, useState} from 'react'
-import { Contact } from '../interfaces'
+import { Contact, Invoice } from '../interfaces'
 
 interface SearchParams {
     name:string;
     emails?:any[],
     contacts?:Contact[],
     unknownContacts?:any[],
+    invoices?:Invoice[]
     setEmails?:(state:any) => any
     setContacts?:(state:any) => any
     setTempUnknown?:(state:any) => any
+    setInvoices?:(state:any) => any
 }
 
-const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContacts,unknownContacts,setTempUnknown}) => {
+const Search:React.FC<SearchParams> = ({name,emails,setEmails,invoices,setInvoices,contacts,setContacts,unknownContacts,setTempUnknown}) => {
   const [isFilter,setIsFilter] = useState<boolean>(false)
   const [searchVal,setSearchVal] = useState<string>('')
 
@@ -28,6 +30,12 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
       })
       setContacts(matches)
     }
+    if(invoices && setInvoices){
+      const matches = invoices.filter((i:Invoice)=>{
+        return i.firstName.match(regex) || i.lastName.match(regex)
+      })
+      setInvoices(matches)
+    }
     if(unknownContacts && setTempUnknown){
       const matchesUnkown = unknownContacts.filter((c:any)=>{
         return c.email.match(regex)
@@ -38,6 +46,9 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
   } 
 
   const handleFilterAZ = () => {
+    if(invoices && setInvoices){
+      setInvoices(invoices.sort((a, b) => a.lastName.localeCompare(b.lastName)))
+    }
     if(emails && setEmails){
       setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)))
     }
@@ -53,6 +64,9 @@ const Search:React.FC<SearchParams> = ({name,emails,setEmails,contacts,setContac
   }
   const handleFilterZA = () => {
     setIsFilter(true)
+    if(invoices && setInvoices){
+      setInvoices(invoices.sort((a, b) => a.lastName.localeCompare(b.lastName)).reverse())
+    }
     if(emails && setEmails){
       setEmails(emails.sort((a, b) => a.from.value[0].address.localeCompare(b.from.value[0].address)).reverse())
     }

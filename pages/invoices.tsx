@@ -29,7 +29,7 @@ const InvoicesPage:NextPage = () => {
     const { userDetails } = useSelector((state:State) => state.user)
     const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
 
-    const [tempInvoices,setTempInvoices] = useState<any[]>()
+    const [tempInvoices,setTempInvoices] = useState<any[]>([])
     const [isLoad,setIsLoad] = useState<boolean>(false)
     const [isAdd,setIsAdd] = useState<boolean>(false)
     const [isAnim,setIsAnim] = useState<boolean>(false)
@@ -164,7 +164,7 @@ const InvoicesPage:NextPage = () => {
             setIsLoad(true)
           },2000)
         }
-      },[invoice,isLoad,file])
+      },[invoice,invoices.length,isLoad,file])
 
     return (
       <Layout title="Invoices">
@@ -213,7 +213,7 @@ const InvoicesPage:NextPage = () => {
                   },3000)
                 }
               }}>Hide Form</button>}
-              <Search contacts={invoices} setContacts={setTempInvoices} name="Search All Invoices" />
+              <Search invoices={invoices} setInvoices={setTempInvoices} name="Search All Invoices" />
             </div>
             <div className="invoices__inner">
               <div className="invoices__left-panel">
@@ -224,9 +224,9 @@ const InvoicesPage:NextPage = () => {
                 </div>              
               </div>
               <div className="invoices__right-panel">
-                {invoices.length > 0 
+                {tempInvoices.length > 0 
                   ? <React.Fragment>
-                 {invoices.map((item:any)=>(
+                 {tempInvoices.map((item:any)=>(
                   <Invoice.Item key={item} id={userDetails?.id} fn={handleItemFn} invoice={item} setInvoices={invoicesActions.setInvoices} removeInvoice={invoicesActions.removeInvoice} comesIn = {comesIn}  />
                     ))}
                   </React.Fragment> 

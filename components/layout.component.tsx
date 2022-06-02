@@ -62,7 +62,6 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     if(isLoad && user && userDetails !== null && !isSet){
       todoActions.setTasks(userDetails?.id)
       todoActions.traceChanges(userDetails?.id)
-      todoActions.setRejected()
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       userActions.setUnseenEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
@@ -78,6 +77,8 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     if(isSet){
       if(user && userDetails !== null){
         userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+        invoicesActions.countMoneyAndUp()
+        todoActions.filterMonthly()
       }
       setTimeout(()=>{
         setLoading(false)

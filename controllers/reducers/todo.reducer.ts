@@ -6,13 +6,24 @@ interface TodoState {
     tasks:Task[];
     tempTasks:Task[]
     task:Task;
-    rejectedOrders:Task[]
     isFiltered:boolean
+    thisOrdersByMonthCount:number[],
+    thisRejectionsByMonthCount:number[] 
+    thisFullfilledByMonthCount:number[]
+    allOrdersMonthlyArr:number[],
+    allRejectionsMonthlyArr:number[]
+    allFullfilledMonthlyArr:number[]
 }
 
 const initData:TodoState = {
     tasks:[],
     tempTasks:[],
+    thisOrdersByMonthCount:[],
+    thisRejectionsByMonthCount:[],
+    thisFullfilledByMonthCount:[],
+    allOrdersMonthlyArr:[],
+    allRejectionsMonthlyArr:[],
+    allFullfilledMonthlyArr:[],
     task:{
         isOrder:false,
         userId:'',
@@ -22,7 +33,6 @@ const initData:TodoState = {
         completed:false,
         date:new Date(),
     },
-    rejectedOrders:[],
     isFiltered:false
 }
 
@@ -40,11 +50,7 @@ export default (state = initData, action:any) =>{
                 tempTasks:action.tasks,
                 tasks:action.tasks
             }
-            case TodoTypes.SET_REJECTED_ORDERS: 
-            return {
-                ...state,
-                rejectedOrders:action.rejectedOrders
-            }
+      
         case TodoTypes.SET_COMPLETED: 
             return {
                 ...state,
@@ -134,6 +140,21 @@ export default (state = initData, action:any) =>{
                 ...state,
                 tempTasks:action.tempTasks,
                 isFiltered:action.isFiltered
+            }
+   
+        case TodoTypes.SET_MONTHLY_ORDERS_AND_REJECTIONS: 
+            return {
+                ...state,
+                thisOrdersByMonthCount:action.thisOrdersByMonthCount,
+                thisRejectionsByMonthCount:action.thisRejectionsByMonthCount,
+                thisFullfilledByMonthCount:action.thisFullfilledByMonthCount
+            }
+        case TodoTypes.SET_YEARLY_BY_MONTH_REJECTIONS_AND_ORDERS: 
+            return {
+                ...state,
+                allOrdersMonthlyArr:action.allOrdersMonthlyArr,
+                allRejectionsMonthlyArr:action.allRejectionsMonthlyArr,
+                allFullfilledMonthlyArr:action.allFullfilledMonthlyArr,
             }
    
         default:

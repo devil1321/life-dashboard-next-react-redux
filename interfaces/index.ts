@@ -46,9 +46,11 @@ export interface InvoicesFormDataParams {
     fields:Field[]
     invoices:any;
     invoice:string;
-    earnings:number,
-    monthlyEarnings:number,
-    percentFromLastMonth:number,
+    totalMoney:number,
+    moneyByMonth:number[],
+    yearlyMoney:number,
+    upFromLastMonth:number,
+    yearlyMoneyByMonth:number[]
 }
 
 export interface Field {
@@ -66,6 +68,7 @@ export interface Invoice{
     money:number;
     date:string;
     file:string;
+    
 }
 
 

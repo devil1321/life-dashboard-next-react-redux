@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
                     <Text style={styles.tableCeil}>{invoiceNR}</Text>
                     <Text style={styles.tableCeil}>{tax}</Text>
                     <Text style={styles.tableCeil}>{bonuses}</Text>
-                    <Text style={styles.lastCeil}>{(Number(money)  + Number(bonuses)) - (Number(money) + Number(bonuses)) * (Number(tax) / 100)}</Text>
+                    <Text style={styles.lastCeil}>{((Number(money) + Number(bonuses)) * (Number(tax) / 100)) + (Number(money)  + Number(bonuses))}</Text>
                 </View>
             </View>
             <View>

@@ -15,98 +15,133 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface SeriesOptions{
   name:string;
+  type:string;
   data:number[]
 }
 
 const DashboardPage:NextPage = () => {
 
-  const { unseenEmails } = useSelector((state:State) => state.user)
-  const { invoices } = useSelector((state:State) => state.invoices)
-  const { tasks } = useSelector((state:State) => state.todo)
-  const [todo,setTodo] = useState<Task[]>([])
-  
+   
 
-  const series:SeriesOptions[] = [{
-    name: 'Orders',
-    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-  }, {
-    name: 'Rejections',
-    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-  }, {
-    name: 'Income',
-    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-  }]
+  const { unseenEmails } = useSelector((state:State) => state.user)
+  const { invoices,moneyByMonth,yearlyMoney,upFromLastMonth,totalMoney } = useSelector((state:State) => state.invoices)
+  const { tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,thisFullfilledByMonthCount } = useSelector((state:State) => state.todo)
+  const [todo,setTodo] = useState<Task[]>([])
+  const [allOrders,setAllOrders] = useState<number>(0)
+  const [allRejections,setAllRejections] = useState<number>(0)
+
+  const [tempSeries,setTempSeries] = useState<SeriesOptions[]>([{
+      name: 'Orders',
+       type: 'line',
+       data:[]
+    }, {
+      name: 'Rejections',
+       type: 'line',
+      data: []
+    }, {
+      name: 'Income',
+       type: 'column',
+      data: []
+    }])
 
   const options:any = {
     chart: {
-      type: 'bar',
+      type: 'line',
       height: 550,
       id: "basic-column",
       background:'#2a3042',
-      foreColor: '#ffffff'
+      foreColor: '#ffffff',
     },
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: '65%',
-        endingShape: 'rounded'
-      },
+        endingShape: 'rounded',
+        borderRadius:5,
+      }
     },
+
+    colors: ['#66DA26','#ffa500','#2E93fA','#FF0000'],
     dataLabels: {
-      enabled: false
+      enabled: true,
+      offsetY: -12
     },
     stroke: {
       show: true,
-      width: 3,
-      colors: ['transparent']
+      width:[5,5,5,0],
+      colors: ['#66DA26','#ffa500','#2E93fA','#FF0000'],
+
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+      categories: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
     },
     yaxis: {
+      tickAmount:10,
       title: {
-        text: '$ (thousands)'
+        text: 'Count / Income - Thousands'
       }
     },
     fill: {
-      opacity: 1
+      opacity: 1,
+      type:'gradient'
     },
     labels:{
       colors:['#000000']
+    },
+    markers: {
+      size: 5,
     },
     tooltip: {
       style:{
         color:'#000000'
       },
-     
       y: {
         formatter: function (val:any) {
-          return "$ " + val + " thousands"
+          return val + "Count"
         }
       }
     }
   }
 
 useEffect(()=>{
-  setTodo(tasks.filter((t:Task) => t.completed === false))
-},[tasks])
+  setTodo(tasks.filter((t:Task) => t.completed === false || t.isRejected === 'pending'))
+  setAllOrders(tasks.filter((t:Task)=> t.isOrder === true && t.isRejected === 'pending').length)
+  setAllRejections(tasks.filter((t:Task)=> t.isOrder === true && t.isRejected === true).length)
+  setTempSeries([
+    {name: 'Fullfilled',
+      type: 'line',
+      data:[...thisFullfilledByMonthCount]
+    }, {
+      name: 'Rejections',
+      type: 'line',
+      data: [...thisRejectionsByMonthCount]
+    }, {
+      name: 'Orders',
+      type: 'line',
+      data: [...thisOrdersByMonthCount]
+    }, {
+    name: 'Income',
+      type: 'column',
+      data: [...moneyByMonth]
+    }])
+},[tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,moneyByMonth])
 
   return (
     <Layout title="Dashboard">
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
-              <Dashboard.ProfilePanel invoices={invoices.length}  emails={unseenEmails.length} earnings={3200} tasks={todo.length}/>
-              <Dashboard.MonthlyEarningPanel series={[12]} all={3456} percentage={12}   />
+              <Dashboard.ProfilePanel invoices={invoices.length}  emails={unseenEmails.length} earnings={yearlyMoney * 1000} tasks={todo.length}/>
+              <Dashboard.MonthlyEarningPanel series={[upFromLastMonth]} all={moneyByMonth[new Date().getDay() + 1] * 1000} percentage={upFromLastMonth}   />
             </div>
             <div className="dashboard__right-panel">
-              <Dashboard.Widget title="Orders" count={56} icon={openbox} />
-              <Dashboard.Widget title="Rejections" count={12} icon={error} />
-              <Dashboard.Widget title="Income" count={32656} icon={income} />
+              <Dashboard.Widget title="Orders" count={allOrders as number} icon={openbox} />
+              <Dashboard.Widget title="Rejections" count={allRejections as number} icon={error} />
+              <Dashboard.Widget title="Income" count={totalMoney as number} icon={income} />
 
               <Chart
                 options={options}
-                series={series}
+                series={tempSeries}
                 type="bar"
                 width="650"
                 />

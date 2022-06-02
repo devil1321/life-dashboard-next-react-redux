@@ -17,7 +17,8 @@ const Field:React.FC<FieldProps> = ({label,type,name,value,onChange,onChangeCust
         <label htmlFor="">{label}</label>
         <input required type={type} name={name} value={value} onChange={(e)=>{
           if(onChange){
-            onChange(e.target.name,e.target.value)
+       
+              onChange(e.target.name,e.target.value)
           }
           if(onChangeCustom){
             onChangeCustom(e.target.value)

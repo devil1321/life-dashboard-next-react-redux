@@ -82,9 +82,13 @@
             border-bottom: 1px solid transparent;
             border-radius: 25px;
             color:white;
-            &:hover,&:focus,&:active{
+            &:hover{
                 outline: none;
                 border-bottom: 1px solid $strong-green;
+            }
+            &:focus,&:active {
+                outline: none;
+                border-bottom: 1px solid $item !important;
             }
         }
     }

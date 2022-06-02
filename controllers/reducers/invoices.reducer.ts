@@ -21,9 +21,11 @@ const initData:InvoicesFormDataParams = {
     fields:[],
     invoices:[],
     invoice:'',
-    earnings:0,
-    monthlyEarnings:0,
-    percentFromLastMonth:0,
+    moneyByMonth:[],
+    totalMoney:0,
+    yearlyMoney:0,
+    upFromLastMonth:0,
+    yearlyMoneyByMonth:[]
 }
 export default (state = initData, action:any) =>{
     switch(action.type){
@@ -60,6 +62,19 @@ export default (state = initData, action:any) =>{
             return {
                 ...state,
                 invoices:action.invoices
+            }
+        case InvoicesTypes.COUNT_MONEY_AND_UP: 
+            return {
+                ...state,
+                moneyByMonth:action.moneyByMonth,
+                yearlyMoney:action.yearlyMoney,
+                upFromLastMonth:action.upFromLastMonth,
+                totalMoney:action.totalMoney,
+            }
+        case InvoicesTypes.COUNT_MONEY_YEARLY_BY_MONTH: 
+            return {
+                ...state,
+                yearlyMoneyByMonth:action.yearlyMoneyByMonth
             }
         default:
             return {
