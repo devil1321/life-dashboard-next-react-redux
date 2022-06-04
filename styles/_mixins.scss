@@ -54,7 +54,7 @@ $breakpoints-down:("small":"39.9375em", "sm-med":"33.75em","medium-sm":"63em","m
     position:absolute;
     top:40px;
     left:-100px;
-    z-index: 3;
+    z-index: 1000;
     border-radius: 15px;
     box-shadow: 0px 0px 2px white;
     &.--open{

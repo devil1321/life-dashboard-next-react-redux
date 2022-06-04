@@ -83,8 +83,8 @@ const EmailsPage = () => {
       },2000)
       setIsLoad(true)
     }
-    if(tempContacts.length === 0){
-      setTempContacts(userDetails?.contacts)
+    if(userDetails !== null){
+      setTempContacts([...userDetails.contacts])
     }
     comesFromLeft('.email-contact-item')
     if(emails.length > 1 && !isSet){

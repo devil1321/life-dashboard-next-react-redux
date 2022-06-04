@@ -269,44 +269,67 @@ export const traceChanges = (id:string) => (dispatch:Dispatch<any>) => {
       });
 }
 
-export const filterAllRejectionsAndOrdersMonthly = () => (dispatch:Dispatch<any>) => {
-    const { user } = store.getState().user
-    const { tasks } = store.getState().todo.tasks
-    const startYear = new Date(user.createdAt).getFullYear()
-    const endYear = new Date().getFullYear()  
+export const filterAllRejectionsAndOrdersMonthly = (startYear:number,endYear:number) => (dispatch:Dispatch<any>) => {
+    const { tasks } = store.getState().todo
     const allOrders = tasks.filter((o:Task) => o.isOrder === true && o.isRejected === 'pending')
-    const allFullfiled = tasks.filter((o:Task) => o.isOrder === true && o.isRejected === false)
+    const allFullfilled = tasks.filter((o:Task) => o.isOrder === true && o.isRejected === false)
     const allRejections = tasks.filter((o:Task) => o.isOrder === true && o.isRejected === true)
-    let allOrdersMonthlyArr:number[]  = []
-    let allRejectionsMonthlyArr:number[]  = []
-    let allFullfilledMonthlyArr:number[]  = []
-    for(let y = startYear; y <= endYear; y++){
-        let month = 0
-        for(let month = 0; month <= 11; month++){
-            const startDate = new Date(y,month,1);
-            const endDate = new Date(y,month,31);
-        const thisMonthOrders = allOrders.filter((o:Task) => {
+  
+    let orders = []
+    let rejections = []
+    let fullFilled = []
+    for(let i = 0; i <= 11; i++){
+        const startDate = new Date(startYear,i,1)
+        const endDate = new Date(startYear,i,31)
+        const thisMonthFullfilled = allFullfilled.filter((o:Task) => {
             const date = new Date(o.date);
+            if(o.isRejected === false){
                 return (date >= startDate && date <= endDate);
-            });
+            }
+        });
+
         const thisMonthRejections = allRejections.filter((o:Task) => {
             const date = new Date(o.date);
+            if(o.isRejected === true){
                 return (date >= startDate && date <= endDate);
-            });
-        const thisMonthFullfilled = allFullfiled.filter((o:Task) => {
+            }
+        });
+        const thisMonthlyOrders = allOrders.filter((o:Task) => {
             const date = new Date(o.date);
+            if(o.isRejected === 'pending'){
                 return (date >= startDate && date <= endDate);
-            });
-            allOrdersMonthlyArr.push(thisMonthOrders.length)
-            allRejectionsMonthlyArr.push(thisMonthRejections.length)
-            allFullfilledMonthlyArr.push(thisMonthFullfilled.length)
-        }
+            }
+        })
+    
+
+    if(thisMonthlyOrders.length > 0){
+        orders.push([startDate.getTime(),thisMonthlyOrders.length])
+        
+    }else{
+        orders.push([startDate.getTime(),0])
     }
+        
+    if(thisMonthRejections.length > 0){
+        rejections.push([startDate.getTime(),thisMonthRejections.length])
+        
+    }else{
+        rejections.push([startDate.getTime(),0])
+    }
+        
+    if(thisMonthFullfilled.length > 0){
+        fullFilled.push([startDate.getTime(),thisMonthFullfilled.length])
+        
+    }else{
+        fullFilled.push([startDate.getTime(),0])
+    }
+    
+    }
+       
     dispatch({
         type:TodoTypes.SET_YEARLY_BY_MONTH_REJECTIONS_AND_ORDERS,
-        allOrdersMonthlyArr:allOrdersMonthlyArr,
-        allRejectionsMonthlyArr:allRejectionsMonthlyArr,
-        allFullfilledMonthlyArr:allFullfilledMonthlyArr
+        allOrdersDailyArr:orders,
+        allRejectionsDailyArr:rejections,
+        allFullfilledDailyArr:fullFilled
     })
 }
 
@@ -343,6 +366,7 @@ export const filterMonthly = () => (dispatch:Dispatch<any>) => {
                 return (date >= startDate && date <= endDate);
             }
         });
+        
         thisFullfilledByMonthCount.push(thisMonthFullfilled.length)
         thisRejectionsByMonthCount.push(thisMonthRejections.length)
         thisOrdersByMonthCount.push(thisMonthlyOrders.length)

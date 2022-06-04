@@ -1,0 +1,52 @@
+.statistics{
+    padding:20px;
+    position: relative;
+    top:70px;
+    left:0px;
+    background-color: $background;
+    min-height:100vh;
+    &__widgets{
+        margin:10px 0px;
+        @include createFlex(row,space-between,center,null);
+        .small-widget{
+            width: 24%;
+        }
+    }
+    &__nav{
+        @include createFlex(row,space-between,center,null);
+        button{
+            cursor: pointer;
+            padding:10px 20px;
+            border-radius:25px;
+            border:0px;
+            width: 48%;
+            font-weight: bold;
+            color:white;
+            background: linear-gradient(45deg,$strong-green,yellowgreen);
+            &:hover{
+                 background: linear-gradient(45deg,yellowgreen,$strong-green);
+            }
+        }
+    }
+    &__chart{
+        position:absolute;
+        top:0px;
+        left:0px;
+        opacity:0;
+        transition:all 0.5s ease-in-out;
+        width:100%;
+        &.--visible{
+            opacity:1;
+            visibility:visible;
+        }
+        &.--hidden{
+            opacity:0;
+            visibility:hidden;
+        }
+    }
+    &__chart-wrapper{
+        position: relative;
+        top:0px;
+        left:0px;
+    }
+}

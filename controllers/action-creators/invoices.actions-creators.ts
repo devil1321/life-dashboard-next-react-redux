@@ -58,7 +58,6 @@ export const setInvoices = (id:string) => (dispatch:Dispatch<any>) => {
                 }).toString(CryptoJS.enc.Utf8);
                 return i
             })
-            console.log(invoices)
 
             dispatch({
                 type:InvoicesTypes.SET_INVOICES,
@@ -157,7 +156,6 @@ export const countMoneyAndUp = () => (dispatch:Dispatch<any>) => {
             const date = new Date(i.date);
             return (date >= startDate && date <= endDate);
         });
-        console.log(thisMonthInvoices)
         thisMonthInvoices.forEach((i:Invoice)=>{
             if(i.money !== undefined && i.money !== null && i.money > 0)
                 money+=i.money
@@ -195,13 +193,9 @@ export const countMoneyAndUp = () => (dispatch:Dispatch<any>) => {
 }
 
 
-export const countMoneyYearlyByMonth = () => (dispatch:Dispatch<any>) => {
-    const { user } = store.getState().user
+export const countMoneyYearlyByMonth = (startYear:number,endYear:number) => (dispatch:Dispatch<any>) => {
     const invoices = store.getState().invoices.invoices
-    const startYear = new Date(user.createdAt).getFullYear()
-    const endYear = new Date().getFullYear()
-
-    let yearlyMoneyByMonth:number[]  = []
+    let yearlyMoneyByMonth:any[] = []
     for(let y = startYear; y <= endYear; y++){
      for(let m = 0; m <= 11; m++){
          let money:number = 0
@@ -215,7 +209,11 @@ export const countMoneyYearlyByMonth = () => (dispatch:Dispatch<any>) => {
              if(i.money !== undefined && i.money !== null && i.money > 0)
                  money+=i.money
          })
-            yearlyMoneyByMonth.push(money / 1000)
+        if(money > 0){
+            yearlyMoneyByMonth.push([startDate,money / 1000])
+        }else{
+            yearlyMoneyByMonth.push([startDate,0])
+            }
         }
     }
    

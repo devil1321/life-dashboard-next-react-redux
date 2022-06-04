@@ -79,6 +79,10 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
         userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
         invoicesActions.countMoneyAndUp()
         todoActions.filterMonthly()
+        const startYear = new Date(Number(user.metadata.createdAt)).getFullYear()
+        const endYear = new Date().getFullYear()
+        todoActions.filterAllRejectionsAndOrdersMonthly(startYear,endYear)
+        invoicesActions.countMoneyYearlyByMonth(startYear,endYear)
       }
       setTimeout(()=>{
         setLoading(false)

@@ -70,6 +70,7 @@ const DashboardPage:NextPage = () => {
       show: true,
       width:[5,5,5,0],
       colors: ['#66DA26','#ffa500','#2E93fA','#FF0000'],
+      curve: 'smooth',
 
     },
     xaxis: {
@@ -97,7 +98,11 @@ const DashboardPage:NextPage = () => {
       },
       y: {
         formatter: function (val:any) {
-          return val + "Count"
+          if(val % 1 != 0){
+            return val + " K"
+          }else{
+            return val + ' Count'
+          }
         }
       }
     }
@@ -124,6 +129,7 @@ useEffect(()=>{
       type: 'column',
       data: [...moneyByMonth]
     }])
+
 },[tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,moneyByMonth])
 
   return (
@@ -131,13 +137,13 @@ useEffect(()=>{
         <div className="dashboard">
           <div className="dashboard__main-group">
             <div className="dashboard__left-panel">
-              <Dashboard.ProfilePanel invoices={invoices.length}  emails={unseenEmails.length} earnings={yearlyMoney * 1000} tasks={todo.length}/>
-              <Dashboard.MonthlyEarningPanel series={[upFromLastMonth]} all={moneyByMonth[new Date().getDay() + 1] * 1000} percentage={upFromLastMonth}   />
+              <Dashboard.ProfilePanel invoices={invoices.length}  emails={unseenEmails.length} earnings={yearlyMoney * 1000 > 1000 ? yearlyMoney * 1000 + ' K' : yearlyMoney * 1000}  tasks={todo.length}/>
+              <Dashboard.MonthlyEarningPanel series={[upFromLastMonth]} all={moneyByMonth[new Date().getMonth()] * 1000 > 1000 ? moneyByMonth[new Date().getMonth()]  * 1000 + " K" : moneyByMonth[new Date().getMonth()]  * 1000 } percentage={upFromLastMonth}   />
             </div>
             <div className="dashboard__right-panel">
               <Dashboard.Widget title="Orders" count={allOrders as number} icon={openbox} />
               <Dashboard.Widget title="Rejections" count={allRejections as number} icon={error} />
-              <Dashboard.Widget title="Income" count={totalMoney as number} icon={income} />
+              <Dashboard.Widget title="Income" count={totalMoney > 1000 ? totalMoney + ' K' : totalMoney} icon={income} />
 
               <Chart
                 options={options}
@@ -147,7 +153,6 @@ useEffect(()=>{
                 />
               <div className="dashboard__emails">
                 {unseenEmails.length > 0 && unseenEmails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
-                
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 .search{
+    @include createFlex(row,flex-end,center,null);
     button{
         cursor: pointer;
         height:39px;
@@ -25,7 +26,7 @@
     }
     input{
         position: relative;
-        top:1px;
+        top:0px;
         left:0px;
         padding:0px 10px;
         height:39px;

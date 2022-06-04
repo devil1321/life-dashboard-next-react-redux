@@ -6,7 +6,7 @@ interface ProfilePanelProps{
     invoices:number;
     tasks:number;
     emails:number;
-    earnings:number;
+    earnings:number | string;
 }
 
 const ProfilePanel:React.FC<ProfilePanelProps> = ({invoices,earnings,emails,tasks}) => {

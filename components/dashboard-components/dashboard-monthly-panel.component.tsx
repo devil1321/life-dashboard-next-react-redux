@@ -5,7 +5,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface MonthlyEarningProps{
     series:number[]
-    all:number;
+    all:number | string;
     percentage:number;
 }
 

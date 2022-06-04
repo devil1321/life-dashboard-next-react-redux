@@ -3,7 +3,7 @@ import React from 'react'
 
 interface SmalLWidgetProps{
     title:string;
-    count:number
+    count:number | string;
     icon:any;
 }
 

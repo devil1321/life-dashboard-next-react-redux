@@ -10,9 +10,9 @@ interface TodoState {
     thisOrdersByMonthCount:number[],
     thisRejectionsByMonthCount:number[] 
     thisFullfilledByMonthCount:number[]
-    allOrdersMonthlyArr:number[],
-    allRejectionsMonthlyArr:number[]
-    allFullfilledMonthlyArr:number[]
+    allOrdersDailyArr:Array<Array<number>>
+    allRejectionsDailyArr:Array<Array<number>>
+    allFullfilledDailyArr:Array<Array<number>>
 }
 
 const initData:TodoState = {
@@ -21,9 +21,9 @@ const initData:TodoState = {
     thisOrdersByMonthCount:[],
     thisRejectionsByMonthCount:[],
     thisFullfilledByMonthCount:[],
-    allOrdersMonthlyArr:[],
-    allRejectionsMonthlyArr:[],
-    allFullfilledMonthlyArr:[],
+    allOrdersDailyArr:[],
+    allRejectionsDailyArr:[],
+    allFullfilledDailyArr:[],
     task:{
         isOrder:false,
         userId:'',
@@ -152,9 +152,9 @@ export default (state = initData, action:any) =>{
         case TodoTypes.SET_YEARLY_BY_MONTH_REJECTIONS_AND_ORDERS: 
             return {
                 ...state,
-                allOrdersMonthlyArr:action.allOrdersMonthlyArr,
-                allRejectionsMonthlyArr:action.allRejectionsMonthlyArr,
-                allFullfilledMonthlyArr:action.allFullfilledMonthlyArr,
+                allOrdersDailyArr:action.allOrdersDailyArr,
+                allRejectionsDailyArr:action.allRejectionsDailyArr,
+                allFullfilledDailyArr:action.allFullfilledDailyArr
             }
    
         default:
