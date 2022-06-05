@@ -13,10 +13,10 @@ const Languages:React.FC<LanguagesMenuProps> = ({innerRef,handleMenu}) => {
     <div className="navbar__languages" >
         <FontAwesomeIcon icon={faFlag}  onClick={()=>handleMenu(innerRef)}/>
         <div className="navbar__languages-menu --close-modifier" ref={innerRef}>
-            <h3 className="navbar__languages-item">EN</h3>
-            <h3 className="navbar__languages-item">US</h3>
-            <h3 className="navbar__languages-item">PL</h3>
-            <h3 className="navbar__languages-item">GE</h3>
+            <h3 onClick={()=>handleMenu(innerRef)} className="navbar__languages-item">EN</h3>
+            <h3 onClick={()=>handleMenu(innerRef)} className="navbar__languages-item">US</h3>
+            <h3 onClick={()=>handleMenu(innerRef)} className="navbar__languages-item">PL</h3>
+            <h3 onClick={()=>handleMenu(innerRef)} className="navbar__languages-item">GE</h3>
         </div>
     </div>
   )
