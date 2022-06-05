@@ -33,13 +33,17 @@ const Profile:React.FC<ProfileProps> = ({innerRef,handleMenu}) => {
                 <p onClick={()=>handleMenu(innerRef)} className="navbar__profile-menu-item">Statistics</p>
             </Link>
             <Link href="/settings" >
-                <p onClick={()=>handleMenu(innerRef)}  className="navbar__profile-menu-item">Settings</p>
+                <p onClick={()=>handleMenu(innerRef)} className="navbar__profile-menu-item">Settings</p>
             </Link>
             <Link href="#" >
-                <p onClick={()=>handleMenu(innerRef)}  className="navbar__profile-menu-item" onClick={()=>UI.handleLock(true)}>Lock screen</p>
+                <p  className="navbar__profile-menu-item" onClick={()=>{
+                    handleMenu(innerRef)
+                    UI.handleLock(true)}}>Lock screen</p>
             </Link>
             <Link href="#" >
-                <p onClick={()=>handleMenu(innerRef)} className="navbar__profile-menu-item" onClick={()=>userActions.logoutUser()}>Log Out</p>
+                <p className="navbar__profile-menu-item" onClick={()=>{
+                    handleMenu(innerRef)
+                    userActions.logoutUser()}}>Log Out</p>
             </Link>
         </div>
     </div>
