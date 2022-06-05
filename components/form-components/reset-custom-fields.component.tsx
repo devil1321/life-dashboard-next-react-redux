@@ -11,13 +11,11 @@ const ResetCustomFields = () => {
   const userActions = bindActionCreators(UsersActions,dispatch)
 
   const handleResetFields = () =>{
-    const customField = document.querySelector('.invoices__custom-fields') as HTMLDivElement
-    customField.innerHTML = ""
     userActions.updateUserInvoiceFields(id,[])
   }
 
   return (
-    <button className="invoices__custom-field-btn invoices__green-btn" onClick={()=>handleResetFields()}>Reset Fields</button>
+    <button type="button" className="invoices__custom-field-btn invoices__green-btn" onClick={()=>handleResetFields()}>Reset Fields</button>
   )
 }
 

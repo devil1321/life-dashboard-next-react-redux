@@ -66,7 +66,7 @@ const InvoicesPage:NextPage = () => {
             ease: "power2.inOut",
           }
         })
-        tl.to('.invoices__inner',{maxHeight:'100vh',duration:0})
+        tl.to('.invoices__inner',{maxHeight:'100%',duration:0})
     }
 
     const comesOut = (el:string | HTMLDivElement) => {
@@ -235,7 +235,7 @@ const InvoicesPage:NextPage = () => {
                     </div>}
               </div>
             </div>
-            <div className="invoices__pdf-viewer">
+            <div className="invoices__pdf-viewer" style={isCustomInvoice ? {top:'-10px'} : {top:"60px"}}>
             {!isInvoice 
                   ? <button className="invoices__green-btn" onClick={()=>{
                        setIsInvoice(true)

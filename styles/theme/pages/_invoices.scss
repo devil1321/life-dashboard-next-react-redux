@@ -45,7 +45,7 @@
         }
     }
     &__inner{
-        height:100vh;
+        height:100% !important;
         margin-bottom: 20px;
         @include createFlex(row,space-between,flex-start,null);
         transition: all 0.3s ease-in-out;
@@ -54,6 +54,7 @@
         box-sizing: border-box;
         padding-top: 20px;
         overflow-x: hidden;
+        min-height:fit-content;
         width: 0%;
         max-width: 100%;
     }
@@ -74,7 +75,7 @@
             left:0px;
             opacity:0;
         }
-        input,.invoices__input-file{
+        input,textarea,.invoices__input-file{
             background-color: $item;
             padding:10px;
             width: 100%;
@@ -92,7 +93,11 @@
             }
         }
     }
+    textarea{
+        height:20px;
+    }
     &__custom{
+        @include createFlex(row,flex-start,center,wrap);
         button{
            margin-top:20px;
            margin-right:10px;
@@ -113,6 +118,7 @@
         cursor: pointer;
         padding:5px;
         position: absolute;
+        z-index: 10;
         top:70px;
         left:0px;
         background-color: $item;
@@ -170,6 +176,9 @@
     }
     &__empty{
         height:80vh;
+        width: 100%;
+        max-width: 100%;
+        transition:all 1s ease-in-out forwards;
         @include createFlex(row,center,center,null);
     }
 }

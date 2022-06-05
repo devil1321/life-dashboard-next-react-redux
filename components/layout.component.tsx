@@ -83,6 +83,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
         const endYear = new Date().getFullYear()
         todoActions.filterAllRejectionsAndOrdersMonthly(startYear,endYear)
         invoicesActions.countMoneyYearlyByMonth(startYear,endYear)
+        invoicesActions.setFields(userDetails.invoice_fields)
       }
       setTimeout(()=>{
         setLoading(false)

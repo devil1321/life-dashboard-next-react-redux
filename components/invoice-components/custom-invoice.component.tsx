@@ -1,7 +1,6 @@
 import React,{ useState } from 'react'
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { Field, InvoicesFormDataParams, UserDetails } from '../../interfaces';
-
+import { Field, InvoicesFormDataParams, UserDetails, ExtendFormData } from '../../interfaces';
 const styles = StyleSheet.create({
     page: {
         padding:'0px 20px'
@@ -39,15 +38,16 @@ const styles = StyleSheet.create({
   
   
   interface CustomInvoicePDFProps  {
-    formData:InvoicesFormDataParams['formData'];
+    formData:InvoicesFormDataParams['formData'] & ExtendFormData;
     fields:Field[]
     userDetails:UserDetails;
   }
 
   const CustomInvoicePDF:React.FC<CustomInvoicePDFProps> = ({formData,fields,userDetails}) => {
 
+
     const { invoiceNR, firstName, lastName, adress, zip, city, company } = formData
-    const { name, surname, company:userCompany, nip:userNip, invoiceFields  } = userDetails
+    const { name, surname, company:userCompany, nip:userNip } = userDetails
 
     return(
         <Document>
@@ -76,9 +76,11 @@ const styles = StyleSheet.create({
                 <Text>Invoice</Text>
             </View>
             <View>
-                {invoiceFields.length > 0 
-                ? invoiceFields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field.text}</Text>)
-                : fields.map((field:any,index:number) => <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{field?.text}</Text>)}
+                {fields.map((field:Field,index:number) => {
+                    const keys:string[] = Object.keys(formData)
+                    const key = keys[index + 13] as string
+                    return <Text key={index} style={field.isHeading ? styles.largeHeading : null}>{formData[key]}</Text>
+                })}
             </View>
             <View>
                 <Text style={styles.signature}>{"Employer\'s signature"}</Text>

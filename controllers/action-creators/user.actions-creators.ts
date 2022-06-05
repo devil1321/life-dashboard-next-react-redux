@@ -75,7 +75,7 @@ const firebaseConfig = {
                 lock_screen_password:'',
                 last_chat_recipient:'',
                 contacts:[],
-                invoiceFields:[],
+                invoice_fields:[],
             })
             dispatch({
                 type:UserTypes.LOGIN_USER,
@@ -203,7 +203,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
           type:UserTypes.UPADTE_INVOICE_FIELDS,
           userDetails:{
               ...userDetails,
-              invoiceFields:fields
+              invoice_fields:fields
           }
       })
 

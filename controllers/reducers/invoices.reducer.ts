@@ -34,7 +34,17 @@ export default (state = initData, action:any) =>{
                 ...state,
                 invoices:action.invoices
             }
+        case InvoicesTypes.SET_FIELD: 
+            return {
+                ...state,
+                fields:action.fields
+            }
         case InvoicesTypes.SET_FIELDS: 
+            return {
+                ...state,
+                fields:action.fields
+            }
+        case InvoicesTypes.RESET_FIELDS: 
             return {
                 ...state,
                 fields:action.fields

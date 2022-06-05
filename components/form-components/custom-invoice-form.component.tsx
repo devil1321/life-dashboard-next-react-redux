@@ -14,7 +14,6 @@ const CustomForm:React.FC<CustomFormProps> = ({customFormFn}) => {
 
   const dispatch = useDispatch()
   const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
-  const { invoiceFields } = useSelector((state:State) => state.user.userDetails)
   const { formData } = useSelector((state:State) => state.invoices)
   const { userDetails } = useSelector((state:State) => state.user)
 
@@ -37,12 +36,11 @@ const CustomForm:React.FC<CustomFormProps> = ({customFormFn}) => {
       <Form.Field type="text" label="NIP" name="nip" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="First Name" name="firstNam" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="Last Name" name="lastName" onChange={invoicesActions.handleFormData} />
+      <Form.Field type="text" label="Company" name="company" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="Adress" name="adress" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="Zip Code" name="zipCode" onChange={invoicesActions.handleFormData} />
       <Form.Field type="text" label="City" name="city" onChange={invoicesActions.handleFormData} />
-      {invoiceFields.length > 0 && invoiceFields.map((field:any,index:number) => <Form.Field key={index} type="text" label={field.name} name={field.name} onChange={invoicesActions.handleFormData} />)}
       <Form.CustomMenu />
-      <Form.SaveBtn />
    </form>
   )
 }

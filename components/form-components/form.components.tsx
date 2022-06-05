@@ -8,9 +8,11 @@ import InvoiceForm from './invoice-form.component'
 import SaveCustomFields from './save-custom-fieds.component'
 import SettingsForm from './settings-form.component'
 import ResetCustomFields from './reset-custom-fields.component'
+import Textarea from './textarea-field.comoponent'
 
 const Form = {
     Field,
+    Textarea,
     File,
     CustomMenu,
     AddCustomFieldBtn,

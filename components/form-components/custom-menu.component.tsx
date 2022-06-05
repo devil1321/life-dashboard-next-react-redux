@@ -1,15 +1,17 @@
 import React, { useState, useRef, MutableRefObject } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from '../../controllers/reducers'
 import { bindActionCreators } from 'redux'
 import * as InvoicesActions from '../../controllers/action-creators/invoices.actions-creators'
 import Form from './form.components'
 
-const CusomMenu = ({}) => {
+const CustomMenu = ({}) => {
 
     const [isMenuField,setIsMenuField] = useState<boolean>(false)
     const [isHeading,setIsHeading] = useState<boolean>(false)
-    const [fieldText,setFieldText] = useState<string>('')
     const [fieldName,setFieldName] = useState<string>('')
+
+    const { fields } = useSelector((state:State) => state.invoices)
 
     const dispatch = useDispatch()
     const invoicesActions = bindActionCreators(InvoicesActions,dispatch)
@@ -29,26 +31,16 @@ const CusomMenu = ({}) => {
      }
    }
 
-   const addCustomField = (e:any,name:string,text:string) => {
+   const addCustomField = (e:any,name:string) => {
     e.preventDefault()
-    const customField = document.querySelector('.invoices__custom-fields') as HTMLDivElement
-    const field = document.createElement('div')
-          field.classList.add('invoices__field')
-    const fieldElements = `
-                      <label>${name}:</label>
-                      <input name="${name}" value="${text}">
-                   `
-    field.innerHTML = fieldElements 
+   
     const customFieldInstance = {
       name:name,
       isHeading:isHeading,
-      text:text
     }
-    if(customFieldInstance.name !== '' && customFieldInstance.text !== ''){
-      customField?.append(field)
+    if(customFieldInstance.name !== ''){
       invoicesActions.setField(customFieldInstance)
       setFieldName('')
-      setFieldText('')
   }
 }
 
@@ -58,10 +50,9 @@ const CusomMenu = ({}) => {
 
     <h2 className="invoices__field invoices__heading">Custom Fields</h2>
     <div className="invoices__custom-fields">
-    
+      {fields.length > 0 && fields.reverse().map((field:any,index:number) => <Form.Textarea key={index} label={field.name} name={field.name} onChange={invoicesActions.handleFormData} />)}
     </div>
      <Form.Field type="text" label="Field Name" name="field-text" value={fieldName} onChangeCustom={setFieldName}/>
-     <Form.Field type="text" label="Field Text" name="field-name" value={fieldText} onChangeCustom={setFieldText}/>
     <div className="invoices__field invoices__custom">
         <button onClick={(e)=>handleFieldMenu(e)}>Field Type</button>
         {isMenuField && 
@@ -75,13 +66,14 @@ const CusomMenu = ({}) => {
               handleFieldMenu(e)
               }}>Text</p>
           </div>}
-          <Form.AddCustomFieldBtn fn={addCustomField} fieldName={fieldName} fieldText={fieldText}/>
+          <Form.AddCustomFieldBtn fn={addCustomField} fieldName={fieldName} />
           <Form.SaveCustomFields />
           <Form.ResetCustomFields />
+          <Form.SaveBtn />
         </div>
       </React.Fragment>
 
   )
 }
 
-export default CusomMenu
+export default CustomMenu

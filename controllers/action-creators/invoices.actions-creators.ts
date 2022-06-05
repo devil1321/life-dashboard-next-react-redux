@@ -28,8 +28,21 @@ export const setField = (field:Field) => (dispatch:Dispatch<any>) => {
     const fields = store.getState().invoices.fields
     fields.push(field)
     dispatch({
+        type:InvoicesTypes.SET_FIELD,
+        fields:fields,
+    })
+}
+
+export const setFields = (fields:Field[]) => (dispatch:Dispatch<any>) => {
+    dispatch({
         type:InvoicesTypes.SET_FIELDS,
         fields:fields,
+    })
+}
+export const resetFields = () => (dispatch:Dispatch<any>) => {
+    dispatch({
+        type:InvoicesTypes.RESET_FIELDS,
+        fields:[],
     })
 }
 

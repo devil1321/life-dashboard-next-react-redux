@@ -35,6 +35,7 @@ const handleSubmit = (e:any) => {
      <Form.Field type="text" label="NIP" name="nip" onChange={invoicesActions.handleFormData} />
      <Form.Field type="text" label="First Name" name="firstName" onChange={invoicesActions.handleFormData} />
      <Form.Field type="text" label="Last Name" name="lastName" onChange={invoicesActions.handleFormData} />
+     <Form.Field type="text" label="Company" name="company" onChange={invoicesActions.handleFormData} />
      <Form.Field type="text" label="Adress" name="adress" onChange={invoicesActions.handleFormData} />
      <Form.Field type="text" label="Zip Code" name="zipCode" onChange={invoicesActions.handleFormData} />
      <Form.Field type="text" label="City" name="city" onChange={invoicesActions.handleFormData} />

@@ -27,7 +27,7 @@ export interface WheatherProps {
            main:string;
        }[]
     }
-export interface InvoicesFormDataParams {
+export interface InvoicesFormDataParams{
     formData:{
         file:any;
         company?:string;
@@ -51,6 +51,10 @@ export interface InvoicesFormDataParams {
     yearlyMoney:number,
     upFromLastMonth:number,
     yearlyMoneyByMonth:number[]
+}
+
+export interface ExtendFormData{
+    [key:string]:string;
 }
 
 export interface Field {

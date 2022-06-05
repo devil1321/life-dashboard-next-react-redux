@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface AddBtnProps{
-    fn:(e:any,fieldName:string,fieldText:string)=>void;
+    fn:(e:any,fieldName:string)=>void;
     fieldName:string;
-    fieldText:string;
 }
 
-const AddBtn:React.FC<AddBtnProps> = ({fn,fieldName,fieldText}) => {
+const AddBtn:React.FC<AddBtnProps> = ({fn,fieldName}) => {
+
   return (
-    <button onClick = {(e)=>fn(e,fieldName,fieldText)} className="invoices__custom-field-btn invoices__green-btn">Add Custom Field</button>
+    <button type="button" onClick = {(e)=>{
+      fn(e,fieldName)
+    }} className="invoices__custom-field-btn invoices__green-btn">Add Custom Field</button>
   )
 }
 
