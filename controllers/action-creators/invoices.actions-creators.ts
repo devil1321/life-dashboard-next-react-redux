@@ -162,7 +162,7 @@ export const countMoneyAndUp = () => (dispatch:Dispatch<any>) => {
         })
         moneyByMonth.push(money / 1000)
     }
-    const allMoneyArr = invoices.map((i:Invoice)=> i.money)
+    const allMoneyArr = invoices.map((i:Invoice) => i.money)
     if(allMoneyArr.length > 0){
         var totalMoney:number = allMoneyArr.reduce((p:number,c:number) => p += c )
     }else{

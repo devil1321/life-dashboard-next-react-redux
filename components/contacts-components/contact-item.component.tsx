@@ -17,7 +17,7 @@ interface ContactItemProps{
 const Item:React.FC<ContactItemProps> = ({contact}) => {
 
   const router = useRouter()
-  const { id, email, name, surname, phoneNumber, photoURL } = contact
+  const { id, email, name, surname, phoneNumber, photoURL, company } = contact
   const { userDetails } = useSelector((state:State) => state.user)
 
   const dispatch = useDispatch()
@@ -37,6 +37,7 @@ const Item:React.FC<ContactItemProps> = ({contact}) => {
           <p>{email} </p>
         </div>
         {phoneNumber?.length > 0 && <h3>Phone: {phoneNumber}</h3>}
+        {company?.length > 0 && <h3>{company}</h3>}
         <div className="contact-item__controls">
             <button onClick={()=>{
                 userActions.updateUserContacts(userDetails?.id,contact)

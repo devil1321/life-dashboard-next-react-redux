@@ -17,6 +17,53 @@
     @include createFlex(row,space-between,center,null);
     &__search{
         width: 300px;
+        position:relative;
+        top:0px;
+        left:0px;
+    }
+    &__matches{
+        position:absolute;
+        top:65px;
+        left:0px;
+        width: 330px;
+        padding:5px;
+        border-radius: 15px;
+        border:1px solid $light-green;
+        background-color: $item;
+        overflow-y: scroll;
+        animation:fadeIn 0.5s ease-in-out forwards;
+        
+    }
+    &__search-item{
+        cursor: pointer;
+        margin:10px 0px;
+        padding:0px 10px;
+        background-color: $item;
+        border-radius: 15px;
+        @include createFlex(row, flex-start,center,null);
+        &:hover{
+            background-color: $light-green;
+        }
+        button{
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: 10px;
+            height:39px;
+            padding:0px 10px;
+            border-radius: 25px;
+            border:0px;
+            font-weight: bold;
+            color:white;
+            @include createIsomorphicConvex(black,$neon-green);
+            background:linear-gradient(45deg,$neon-green,yellowgreen);
+            &:hover{
+                background:linear-gradient(45deg,yellowgreen, $neon-green);
+            }
+            &:active{
+                outline: none;
+                border:0px;
+            }
+        }
     }
     &__field{
         padding:0px 10px;
@@ -101,6 +148,9 @@
         border-radius: 15px;
         padding:10px;
         @include createFlex(row, flex-start,center,null);
+        &:hover{
+            background-color: $light-green;
+        }
         img{
             width:30px;
             margin-right: 8px;
@@ -113,9 +163,7 @@
         h3:last-of-type,p{
             font-size:pxToRem(12);
         }
-        &:hover{
-            background-color: $light-green;
-        }
+      
     }
     &__profile{
         @include pos-relative();

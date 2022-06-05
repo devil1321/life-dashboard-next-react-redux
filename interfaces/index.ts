@@ -79,6 +79,7 @@ export interface Contact {
     surname:string;
     phoneNumber:string;
     photoURL:string;
+    company:string,
   }
 
 export interface Message {

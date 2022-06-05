@@ -24,7 +24,7 @@ const ContactItem:React.FC<ContactItemProps> = ({contact,isUnknown}) => {
 
 
   if(contact){
-    var { id, name, surname, email, phoneNumber, photoURL } = contact
+    var { name, surname, email, phoneNumber, photoURL } = contact
   }
 
   const handleUnseen = () =>{
