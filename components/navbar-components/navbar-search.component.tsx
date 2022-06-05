@@ -49,7 +49,7 @@ const Search = () => {
             {matches.length > 0 && 
                 <div className="navbar__matches">
                     {matches.map((m:ContactType) => 
-                    <div className="navbar__search-item">
+                    <div key={m.id} className="navbar__search-item">
                         {m.name && m.surname && <h3>{m.name} {m.surname}</h3>}
                         <p>{m.email}</p>
                         <button onClick={()=>userActions.updateUserContacts(userDetails?.id,m)}>Save</button>
