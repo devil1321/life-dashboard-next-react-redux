@@ -4,11 +4,25 @@
     top:70px;
     left:0px;
     @include createFlex(row,space-between,flex-start,null);
+    @include breakpoint-down(medium){
+        @include createFlex(row,center,flex-start,wrap); 
+    }
     &__left-panel{
         width:60%;
         margin-right: 20px;
+        @include breakpoint-down(medium){
+            width: 100%;
+            margin:0px;
+        }
     }
     &__right-panel{
         width:40%;
+        @include breakpoint-down(medium){
+            width:100%;
+            @include createFlex(row,center,flex-start,wrap);
+            & > div{
+                width:50%;
+            }
+        }
     }
 }

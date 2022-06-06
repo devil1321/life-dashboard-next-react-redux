@@ -11,7 +11,9 @@
     margin:0px auto;
     animation:fadeInRight 1s ease-in-out forwards;
     @include breakpoint-down(medium){
-      height: 350px;
+      height: 310px;
+      margin-top:20px;
+      width:45%;
      }
    
     @include breakpoint-down-l(medium-sm){

@@ -20,19 +20,17 @@
         color:$white;
         animation:fadeInRight 1s ease-in-out forwards;
         @include breakpoint-down(medium){
-            width:85%;
+            width:80%;
             left:0%;
-            margin:$m-md-l auto;
-            padding:$p-md-l  $p-md-l $p-v-l;
+            height:200px;
+            margin:20px auto;
+            padding:60px  $p-md-l 50px;
           }
         @media (max-device-width:390px){
             padding:$p-md-l $p-md-l 80px;
 
         }
-        @include breakpoint-down-l(medium){
-            padding:$p-md-l $p-md-l 80px;
-
-        }
+      
         
         
         img {
@@ -44,6 +42,9 @@
             display: block;
             margin: -60px auto;
             width: 20%;
+            @include breakpoint-down(medium){
+                top:-20px;
+            }
         }
        
     }

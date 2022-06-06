@@ -33,6 +33,10 @@
         overflow: hidden;
         border-radius: 100%;
         border:3px solid white;
+        @include breakpoint-down(medium){
+            width: 100px;
+            height:100px;
+        }
         img{
             width: 100%;
         }

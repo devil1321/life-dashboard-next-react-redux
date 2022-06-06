@@ -1,6 +1,7 @@
 #apexchartsbasicxcolumn .apexcharts-tooltip {
     color: #000000;
   }
+
   .apexcharts-menu {
     color: #000000;
   }
@@ -13,17 +14,38 @@
     min-height:100vh;
     &__main-group{
         @include createFlex(row,flex-start,flex-start,null);
+        @include breakpoint-down(medium){
+            @include createFlex(row,flex-start,flex-start,wrap);
+        }
     }
     &__left-panel{
-       width: 30%;
+       width: 100%;
+       @include breakpoint-down(medium){
+         @include createFlex(row,space-between,flex-start,wrap);
+         & > div{
+             width: 48%;
+             margin:0px;
+             height:350px;
+            &:last-of-type{
+                @include createFlex(column,center,center,wrap);
+            }
+         }
+       }
     }
     &__right-panel{
         box-sizing: border-box;
         padding:0px 50px;
         width: 73%;
         @include createFlex(row,space-between,center,wrap);
+        @include breakpoint-down(medium){
+            width: 100%;
+            padding:0px;
+        }
         & >  div:nth-of-type(4){
             margin-top: 20px;
+            @include breakpoint-down(medium){
+                margin-top:0px;
+            }
         }
     }
    &__emails{

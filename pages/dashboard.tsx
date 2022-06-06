@@ -29,6 +29,7 @@ const DashboardPage:NextPage = () => {
   const [todo,setTodo] = useState<Task[]>([])
   const [allOrders,setAllOrders] = useState<number>(0)
   const [allRejections,setAllRejections] = useState<number>(0)
+  const [windowSize,setWindowSize] = useState<number>(0)
 
   const [tempSeries,setTempSeries] = useState<SeriesOptions[]>([{
       name: 'Orders',
@@ -108,6 +109,14 @@ const DashboardPage:NextPage = () => {
     }
   }
 
+const handleMobile = () => {
+  if(typeof window !== undefined){
+    window.addEventListener('resize',()=>{
+      setWindowSize(window.innerWidth)
+    })
+  }
+}
+
 useEffect(()=>{
   setTodo(tasks.filter((t:Task) => t.completed === false || t.isRejected === 'pending'))
   setAllOrders(tasks.filter((t:Task)=> t.isOrder === true && t.isRejected === 'pending').length)
@@ -129,6 +138,7 @@ useEffect(()=>{
       type: 'column',
       data: [...moneyByMonth]
     }])
+    handleMobile()
 
 },[tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,moneyByMonth])
 
@@ -149,7 +159,7 @@ useEffect(()=>{
                 options={options}
                 series={tempSeries}
                 type="bar"
-                width="650"
+                width={windowSize > 1024 ? "650" : "770px"}
                 />
               <div className="dashboard__emails">
                 {unseenEmails.length > 0 && unseenEmails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}

@@ -4,6 +4,10 @@
     width: 200px;
     border-radius:15px;
     @include createFlex(row,center,center,null);
+    @include breakpoint-down(medium){
+        width: 32%;
+        margin:20px 0px;
+    }
     &__content{
         margin-right: 20px;
         h3{

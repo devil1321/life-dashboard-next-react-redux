@@ -24,6 +24,9 @@
         position: relative;
         top:30px;
         left:8px;
+        @include breakpoint-down(medium){
+            left:0px;
+        }
     }
     button{
         cursor: pointer;
