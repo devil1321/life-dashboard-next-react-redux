@@ -8,6 +8,12 @@
         width: 32%;
         margin:20px 0px;
     }
+    @include breakpoint-down(small){
+        width:100%;
+        margin:5px 0px;
+        @include createFlex(row,flex-start,center,null);
+        padding:10px 20px;
+    }
     &__content{
         margin-right: 20px;
         h3{

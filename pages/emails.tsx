@@ -1,4 +1,4 @@
-import React,{ useEffect,useState } from 'react'
+import React,{ useEffect,useState, useRef,MutableRefObject } from 'react'
 import gsap from 'gsap'
 import Layout from '../components/layout.component'
 import Email from '../components/email-components/email.components'
@@ -24,6 +24,9 @@ const EmailsPage = () => {
 
   const [isLoad,setIsLoad] = useState<boolean>(false)
   const [isSet,setIsSet] = useState<boolean>(false)
+
+  const contactsRef = useRef() as MutableRefObject<HTMLDivElement>
+  const emailsRef = useRef() as MutableRefObject<HTMLDivElement>
 
   const comesFromLeft = (el:string) => {
     gsap.fromTo(el,{x:-400},{x:0, stagger: { 
@@ -72,6 +75,20 @@ const EmailsPage = () => {
         break
     }
   }
+
+  const handleContacts = (ref:any,emailRef:any) => {
+    if(ref.current.classList.contains('--open')){
+      gsap.to(ref.current,{minWidth:'0%',width:'0%',padding:'0px'})
+      gsap.to(emailRef.current,{width:'100%',padding:'20px'})
+      ref.current.classList.remove('--open')
+      ref.current.classList.add('--close')
+    }else{
+      gsap.to(ref.current,{ minWidth: '100%',padding:'20px 0px 20px 20px'})
+      gsap.to(emailRef.current,{ width: '0%',padding:'0px'})
+      ref.current.classList.add('--open')
+      ref.current.classList.remove('--close')
+    }
+  }
  
   useEffect(()=>{
     if(!isLoad){
@@ -83,7 +100,7 @@ const EmailsPage = () => {
       },2000)
       setIsLoad(true)
     }
-    if(userDetails !== null){
+    if(userDetails !== null && !isSet){
       setTempContacts([...userDetails.contacts])
     }
     comesFromLeft('.email-contact-item')
@@ -105,7 +122,7 @@ const EmailsPage = () => {
       }
     }
 
-  },[userDetails,emails,unseenEmails,tempContacts,currentEmails])
+  },[userDetails,emails,unseenEmails])
 
   return (
       <Layout title="Emails">
@@ -119,14 +136,15 @@ const EmailsPage = () => {
               }}>Write Message</button>
               <Search name="Search Contacts" contacts={userDetails?.contacts} setContacts={setTempContacts} />
               <Search name="Search Emails" emails={previousEmails} setEmails={setCurrentEmails} />
+              <button className="emails__write-btn" onClick={()=>handleContacts(contactsRef,emailsRef)}>Show / Hide Contacts</button>
             </div>
             <div className="emails__main">
-              <div className="emails__contacts-wrapper">
-                <div className="emails__contacts">
+              <div className="emails__contacts-wrapper" ref={contactsRef}>
+                <div className="emails__contacts --close" >
                   {tempContacts.length > 0 && tempContacts.map((contact:Contact) => <Email.ContactItem key={contact.id} contact={contact} />)}
                 </div>
               </div>
-              <div className="emails__emails-wrapper">
+              <div className="emails__emails-wrapper" ref={emailsRef}>
                 <div className="emails__emails">
                   {!isPreview && !isContact && emails.includes('loading')
                     ? <Spinner />

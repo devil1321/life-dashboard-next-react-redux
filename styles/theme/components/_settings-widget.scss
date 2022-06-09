@@ -9,6 +9,17 @@
        left:0px;
        width: 101.5%;
        transition: all 0.5s ease-in-out;
+       
+        h3{
+            text-align:center;
+        }
+        p{
+            position: relative;
+            left:-5%;
+            top:0px;
+            width: 110%;
+            @include createFlex(row,space-between,center,null);
+        }
        &:hover{
            transform:translateY(-20px);
            &:before{

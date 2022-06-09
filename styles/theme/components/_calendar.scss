@@ -11,14 +11,27 @@
     margin:0px auto;
     animation:fadeInRight 1s ease-in-out forwards;
     @include breakpoint-down(medium){
-      height: 310px;
-      margin-top:20px;
-      width:45%;
+      height: 310px !important;
+      margin-top:20px !important;
+      width:45% !important;
+     }
+     @include breakpoint-down-l(medium){
+      height: 310px !important;
+      margin-top:20px !important;
+      width:45% !important;
+    }
+     @include breakpoint-down(medium-sm){
+      width:100% !important; 
+    }
+     @include breakpoint-down(small){
+       width:100%;
+       min-width: 100%;
      }
    
     @include breakpoint-down-l(medium-sm){
      height: 330px;
     }
+   
     abbr{
       text-decoration: none !important;
       pointer-events: none;

@@ -152,6 +152,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
  }
 
  export const updateUserProfile = (id:string,user:any) => (dispatch:Dispatch<any>) => {
+     const { contacts } = store.getState().user.userDetails
      if(user !== undefined){
          if(user.inbox_password !== undefined  || user.inbox_password !== '' ){
             var encrypted = CryptoJS.AES.encrypt(user.inbox_password, "Password", {
@@ -166,6 +167,7 @@ export const sendVerification = () => (dispatch:Dispatch<any>) => {
                 userDetails:{
                   id:id,
                   ...user,
+                  contacts:contacts,
                   inbox_password:encrypted
               }
           })

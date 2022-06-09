@@ -42,7 +42,10 @@ const InvoicesPage:NextPage = () => {
     const comesIn = (el:string | HTMLDivElement) => {
     
       const tl = gsap.timeline()
-      
+      if(typeof window !== undefined){
+        if(window.innerWidth > 767){
+
+     
       tl.fromTo('.invoices__field', 
       {
            x: 0,
@@ -67,6 +70,33 @@ const InvoicesPage:NextPage = () => {
           }
         })
         tl.to('.invoices__inner',{maxHeight:'100%',duration:0})
+      }else{
+        tl.fromTo('.invoices__field', 
+        {
+             x: 0,
+        },{
+          x:-550,
+          stagger: { 
+            each: 0.15,
+            from: "start",
+            grid: "auto",
+            ease: "power2.inOut",
+          }})
+          tl.to('.invoices__left-panel',{minWidth:"0%",width:"0%",duration:0});
+          tl.to('.invoices__right-panel',{minWidth:"100%",width:"100%",duration:0})
+          tl.to(el, {width:"0%",minWidth:"0%",duration:0})
+          tl.to(el,{
+            width:"100%",
+            stagger: { 
+              each: 0.15,
+              from: "start",
+              grid: "auto",
+              ease: "power2.inOut",
+            }
+          })
+          tl.to('.invoices__inner',{maxHeight:'100%',duration:0})
+      }
+      }
     }
 
     const comesOut = (el:string | HTMLDivElement) => {
@@ -85,9 +115,17 @@ const InvoicesPage:NextPage = () => {
         },
       });
       setTimeout(()=>{
-        formTL.to('.invoice-item',{minWidth:"100%",duration:0})
-        formTL.to('.invoices__left-panel',{minWidth:"50%",duration:0})
-        formTL.to('.invoices__right-panel',{minWidth:"50%",width:"50%",duration:0})
+        if(typeof window !== undefined){
+          if(window.innerWidth > 767){
+            formTL.to('.invoice-item',{minWidth:"100%",duration:0})
+            formTL.to('.invoices__left-panel',{minWidth:"50%",duration:0})
+            formTL.to('.invoices__right-panel',{minWidth:"50%",width:"50%",duration:0})
+          }else{
+            formTL.to('.invoice-item',{minWidth:"100%",duration:0})
+            formTL.to('.invoices__left-panel',{minWidth:"100%",duration:0})
+            formTL.to('.invoices__right-panel',{minWidth:"100%",width:"100%",duration:0})
+          }
+        }
 
       formTL.fromTo('.invoices__field', 
       {

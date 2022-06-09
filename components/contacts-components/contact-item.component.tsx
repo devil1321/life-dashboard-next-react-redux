@@ -37,7 +37,7 @@ const Item:React.FC<ContactItemProps> = ({contact}) => {
           <p>{email} </p>
         </div>
         {phoneNumber?.length > 0 && <h3>Phone: {phoneNumber}</h3>}
-        {company?.length > 0 && <h3>{company}</h3>}
+        {company?.length > 0 && <h3 className="contact-item__company">{company}</h3>}
         <div className="contact-item__controls">
             <button onClick={()=>{
                 userActions.updateUserContacts(userDetails?.id,contact)

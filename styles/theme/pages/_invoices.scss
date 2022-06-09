@@ -25,6 +25,38 @@
     }
     &__header{
         @include createFlex(row,space-between,center,null);
+        @include breakpoint-down-l(medium-sm){
+            @include createFlex(row,space-between,center,wrap);
+            button{
+                width:100%;
+                margin:5px 0px;
+            }
+            .search{
+                width:100%;
+                @include createFlex(row,space-between,center,wrap);
+                button,input{
+                    margin:5px 0px;
+                    width:100%;
+                    border-radius:25px !important;
+                }
+            }
+        }
+        @include breakpoint-down(small){
+            @include createFlex(row,space-between,center,wrap);
+            button{
+                width:100%;
+                margin:5px 0px;
+            }
+            .search{
+                width:100%;
+                @include createFlex(row,space-between,center,wrap);
+                button,input{
+                    margin:5px 0px;
+                    width:100%;
+                    border-radius:25px !important;
+                }
+            }
+        }
     }
     &__green-btn{
         background:linear-gradient(45deg, $neon-green,yellowgreen);
@@ -49,6 +81,12 @@
         margin-bottom: 20px;
         @include createFlex(row,space-between,flex-start,null);
         transition: all 0.3s ease-in-out;
+        @include breakpoint-down-l(medium-sm){
+            @include createFlex(row,space-between,flex-start,wrap);
+        }
+        @include breakpoint-down(small){
+            @include createFlex(row,space-between,flex-start,wrap);
+        }
     }
     &__left-panel{
         box-sizing: border-box;
@@ -57,6 +95,7 @@
         min-height:fit-content;
         width: 0%;
         max-width: 100%;
+      
     }
     &__field{        
         position:relative;
@@ -156,6 +195,12 @@
         width: 100%;
         overflow-y: scroll;
         height:130vh;
+        @include breakpoint-down-l(medium-sm){
+            width:100%;
+        }
+        @include breakpoint-down(small){
+            width:100%;
+        }
         &::-webkit-scrollbar{
             display: none;
         }

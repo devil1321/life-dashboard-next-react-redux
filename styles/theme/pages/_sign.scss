@@ -6,9 +6,11 @@
         padding:10px 80px;
         border-radius: 10px;
         border:2px solid $strong-green;
-        
         background-color: $item;
         box-shadow:3px 3px 8px black , -3px -3px 8px $strong-green ;
+        @include breakpoint-down(medium){
+            padding:10px 50px;
+        }
     }
     legend{
         margin:0px auto;

@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React,{ useRef, MutableRefObject} from 'react'
 import Sidebar from './sidebar.components'
 import dashboard from '../../animations/icons-json/153-bar-chart-growth.json'
 import tasks from '../../animations/icons-json/120-folder-open-morph.json'
@@ -10,9 +10,11 @@ import contacts from '../../animations/icons-json/112-book-morph.json'
 
 const Main:React.FC = () => {
 
+  const sidebarRef = useRef() as MutableRefObject<HTMLDivElement>
+
   return (
-    <div className="sidebar">
-      <Sidebar.Logo title="Dash" href="/dashboard" />
+    <div className="sidebar --sidebar-close" ref={sidebarRef}>
+      <Sidebar.Logo title="Dash" href="/dashboard" innerRef={sidebarRef} />
       <div className="sidebar__menu">
         <Sidebar.Item src={dashboard} title="Dashboard" href="/dashboard" />
         <Sidebar.Item src={tasks} title="Tasks" href="/tasks" />

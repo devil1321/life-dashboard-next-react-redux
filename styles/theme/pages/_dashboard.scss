@@ -26,11 +26,17 @@
              width: 48%;
              margin:0px;
              height:350px;
-            &:last-of-type{
-                @include createFlex(column,center,center,wrap);
+             &:last-of-type{
+                 @include createFlex(column,center,center,wrap);
+                }
             }
-         }
        }
+       @include breakpoint-down(small){
+            & > div{
+                margin:20px 0px;
+                width:100%;
+            }
+        }
     }
     &__right-panel{
         box-sizing: border-box;
@@ -48,8 +54,26 @@
             }
         }
     }
+    &__mobile-charts{
+        @include breakpoint-down-l(medium){
+            width:100%;
+            @include createFlex(column,center,center,null);
+        }
+        h3{
+            text-align:center
+        }
+        svg{
+            border-radius:15px;
+         
+        }
+    }
    &__emails{
         width: 97.5%;
         @include createFlex(row,space-between,center,wrap);
+    }
+    #lottie{
+        @include breakpoint-down(small){
+            display:none;
+        }   
     }
 }

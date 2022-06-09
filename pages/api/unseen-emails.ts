@@ -18,7 +18,6 @@ if(isGmail){
     host = 'imap-mail.outlook.com'
 }
 
-
 var config = {
     imap: {
         user:mail,

@@ -12,6 +12,9 @@
     }
     h3{
         font-size: pxToRem(14);
+        @include breakpoint-down(small){
+            display:none;
+        }
     }
     p{
         color:lightgray;
@@ -63,4 +66,5 @@
             background:linear-gradient(45deg,red,orange) !important;
         }
     }
+
 }

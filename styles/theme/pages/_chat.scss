@@ -7,6 +7,30 @@
     @include breakpoint-down(medium){
         @include createFlex(row,space-between,flex-start,wrap);
     }
+    .search{
+        @include breakpoint-down-l(medium-sm){
+            @include createFlex(row,center,center,wrap);
+            button,input{
+                margin:5px 0px;
+                min-width:100%;
+                border-radius:25px !important;
+            }
+            input{
+                min-width:97%;
+            }
+        }
+        @include breakpoint-down(small){
+            @include createFlex(row,center,center,wrap);
+            button,input{
+                margin:5px 0px;
+                min-width:100%;
+                border-radius:25px !important;
+            }
+            input{
+                min-width:93%;
+            }
+        }
+    }
     &__left-panel{
         width: 50%;
         margin-right: 20px;

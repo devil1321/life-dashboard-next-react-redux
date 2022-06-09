@@ -37,6 +37,9 @@
             width: 100px;
             height:100px;
         }
+        @include breakpoint-down(small){
+            margin-left: 0px;
+        }
         img{
             width: 100%;
         }

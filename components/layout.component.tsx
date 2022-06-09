@@ -60,14 +60,14 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
       },1000)
     }
     if(isLoad && user && userDetails !== null && !isSet){
-      todoActions.setTasks(userDetails?.id)
-      todoActions.traceChanges(userDetails?.id)
+      todoActions.setTasks(userDetails.id)
+      todoActions.traceChanges(userDetails.id)
       userActions.setEmails(userDetails.email,userDetails.inbox_password)
       userActions.setUnseenEmails(userDetails.email,userDetails.inbox_password)
       contactsActions.setContacts()
       chatActions.setMessages(userDetails.email)
-      invoicesActions.setInvoices(userDetails?.id)
-      invoicesActions.trackInvoices(userDetails?.id)
+      invoicesActions.setInvoices(userDetails.id)
+      invoicesActions.trackInvoices(userDetails.id)
       setIsSet(true)
     }else{
       if(!user && isLoad && !isSet){
@@ -76,7 +76,7 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
     }
     if(isSet){
       if(user && userDetails !== null){
-        userActions.setUnknowContacts(allMessages,userDetails.contacts,contacts,userDetails.email)
+        userActions.setUnknowContacts(allMessages,userDetails?.contacts,contacts,userDetails?.email)
         invoicesActions.countMoneyAndUp()
         todoActions.filterMonthly()
         const startYear = new Date(Number(user?.metadata?.createdAt)).getFullYear()

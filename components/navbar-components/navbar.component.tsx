@@ -3,6 +3,7 @@ import Nav from './navbar.components'
 
 const Navbar:React.FC = () => {
 
+
     const notificationMenuRef = useRef() as MutableRefObject<HTMLDivElement>    
     const languagesRef = useRef() as MutableRefObject<HTMLDivElement>    
     const profileRef = useRef() as MutableRefObject<HTMLDivElement>    
@@ -16,9 +17,9 @@ const Navbar:React.FC = () => {
             element.current.classList.add('--open')
 
         }else{
-            setTimeout(()=>{
+            if(element.current){
                 element.current.style.visibility = 'hidden'
-            },600)
+            }
             element.current.classList.add('--close-modifier')
             element.current.classList.remove('--open')
             element.current.classList.add('--close')

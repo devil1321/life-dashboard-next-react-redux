@@ -5,6 +5,20 @@
     min-height:300vh;
     color:white;
     background-color: $item;
+    @include breakpoint-down(medium-sm){
+        position:fixed;
+        left:0px;
+        top:0px;
+        z-index:2000;
+        width:10%;
+        overflow-x: hidden;
+    }
+    @include breakpoint-down-l(medium-sm){
+        width:8%;
+    }
+    @include breakpoint-down(small){
+        width: 20%;
+    }
     h1{
         margin-left: 20px;
         cursor: pointer;

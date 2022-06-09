@@ -6,6 +6,13 @@
     border-radius: 25px;
     overflow: hidden;
     transform: translateY(600px);
+    @include breakpoint-down(small){
+        overflow-x:scroll;
+    }
+    @include breakpoint-down-l(medium){
+        overflow-x:scroll;
+    }
+
     @include createFlex(row,flex-start,center,null);
  
     &:hover{
@@ -17,13 +24,19 @@
         border-radius: 100%;
         overflow: hidden;
         @include createIsomorphicConvex(black,$neon-green);
+        @include breakpoint-down(small){
+            min-width: 45px;
+            min-height:45px;
+        }
     }
     &__info{
         margin:0px 10px;
         h3,p{
             margin:3px 0px;
             font-size: pxToRem(16);
+            
         }
+       
     }
     h3{
         font-size: pxToRem(14);
@@ -32,6 +45,12 @@
     &__controls{
         margin-left:auto;
         @include createFlex(row,flex-start,center,null);
+        @include breakpoint-down-l(medium){
+            margin-left:300px;
+        }
+        @media (max-device-width:540px) and (max-device-height:720px) and (orientation:portrait){
+            margin-left:300px;
+        }
         button{
             cursor: pointer;
             margin-right: 10px;
@@ -66,5 +85,7 @@
             
         }
     }
-   
+    &__company{
+        margin-left:10px;
+    }
 }

@@ -10,18 +10,35 @@
         background-color: $light-green !important;
     }
     @include createFlex(row,flex-start,center,null);
+    @include breakpoint-down(small){
+        padding-right:0px;
+    }
     &__img{
         margin-right: 20px;
-        width: 45px;
-        height:45px;
+        min-width: 45px;
+        min-height:45px;
+        max-width: 45px;
+        max-height:45px;
+        
         overflow: hidden;
         border-radius:100%;
         @include createIsomorphicConvex(black,$neon-green);
+        @include breakpoint-down(small){
+            display:none;
+        }
         img{
             width: 100%;
         }
     }   
+   
     &__content{
+        @include breakpoint-down(medium){
+           width:100%;
+        }
+        @include breakpoint-down(small){
+            overflow-x:hidden;
+            width:85%;
+        }
         h3,p{
             margin:3px 0px;
         }
@@ -37,6 +54,11 @@
             display:inline-block;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+    }
+    &__date{
+        @include breakpoint-down(medium){
+            display: none;
         }
     }
     & > p {

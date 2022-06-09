@@ -23,13 +23,15 @@ const DashboardPage:NextPage = () => {
 
    
 
-  const { unseenEmails } = useSelector((state:State) => state.user)
+  const { unseenEmails, emails } = useSelector((state:State) => state.user)
   const { invoices,moneyByMonth,yearlyMoney,upFromLastMonth,totalMoney } = useSelector((state:State) => state.invoices)
   const { tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,thisFullfilledByMonthCount } = useSelector((state:State) => state.todo)
   const [todo,setTodo] = useState<Task[]>([])
   const [allOrders,setAllOrders] = useState<number>(0)
   const [allRejections,setAllRejections] = useState<number>(0)
   const [windowSize,setWindowSize] = useState<number>(0)
+
+  const [isLoad,setIsLoad] = useState<boolean>(false)
 
   const [tempSeries,setTempSeries] = useState<SeriesOptions[]>([{
       name: 'Orders',
@@ -53,6 +55,7 @@ const DashboardPage:NextPage = () => {
       background:'#2a3042',
       foreColor: '#ffffff',
     },
+   
     plotOptions: {
       bar: {
         horizontal: false,
@@ -107,9 +110,53 @@ const DashboardPage:NextPage = () => {
         }
       }
     }
+    
   }
 
+  var optionsPolar = {
+    chart: {
+    width: 380,
+    type: 'polarArea',
+    background:'#2a3042',
+    foreColor: '#ffffff',
+     id: "basic-area",
+  },
+  labels: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
+  fill: {
+    opacity: 0.7
+  },
+  colors: [ '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+  '#66994D', '#B366CC'],
+  stroke: {
+    width: 1,
+    colors: [  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+    '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+    '#66994D', '#B366CC']
+  },
+  yaxis: {
+    show: false
+  },
+  legend: {
+    position: 'bottom'
+  },
+  plotOptions: {
+    polarArea: {
+      rings: {
+        strokeWidth: 1
+      },
+      spokes: {
+        strokeWidth: 1
+      },
+    }
+  },
+  };
+
+
 const handleMobile = () => {
+  if(typeof window !== undefined){
+    setWindowSize(window.innerWidth)
+  }
   if(typeof window !== undefined){
     window.addEventListener('resize',()=>{
       setWindowSize(window.innerWidth)
@@ -139,6 +186,9 @@ useEffect(()=>{
       data: [...moneyByMonth]
     }])
     handleMobile()
+    if(!isLoad){
+      setIsLoad(true)
+    }
 
 },[tasks,thisOrdersByMonthCount,thisRejectionsByMonthCount,moneyByMonth])
 
@@ -155,14 +205,35 @@ useEffect(()=>{
               <Dashboard.Widget title="Rejections" count={allRejections as number} icon={error} />
               <Dashboard.Widget title="Income" count={totalMoney > 1000 ? totalMoney + ' K' : totalMoney} icon={income} />
 
-              <Chart
+              {windowSize !== 0 && windowSize > 767
+              ? <Chart
                 options={options}
                 series={tempSeries}
                 type="bar"
-                width={windowSize > 1024 ? "650" : "770px"}
+                width={windowSize !== 0 && windowSize > 1024  ? "650" : windowSize > 768 ? "770" : windowSize < 767 ? '300' : '650' }
                 />
+              : <div className="dashboard__mobile-charts">
+                <h3>Orders</h3>
+                  <Chart
+                    options={optionsPolar}
+                    type="polarArea"
+                    series={[...thisOrdersByMonthCount]}
+                    />
+                  <h3>Fullfilled</h3>
+                  <Chart
+                    options={optionsPolar}
+                    type="polarArea"
+                    series={[...thisFullfilledByMonthCount]}
+                    />
+                  <h3>Rejections</h3>
+                  <Chart
+                    options={optionsPolar}
+                    type="polarArea"
+                    series={[...thisRejectionsByMonthCount]}
+                    />
+                </div>}
               <div className="dashboard__emails">
-                {unseenEmails.length > 0 && unseenEmails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
+                {emails.length > 0 && unseenEmails?.slice(0,3).map((email:any) => <Email.Item isView={true} key={email.id} img="/assets/user.png" email={email} />)}
               </div>
             </div>
           </div>

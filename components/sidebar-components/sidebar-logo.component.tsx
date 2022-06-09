@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import gsap from 'gsap'
 import { Player } from '@lottiefiles/react-lottie-player';
 import logo from '../../animations/icons-json/12-layers.json'
 import Link from 'next/link';
@@ -6,9 +7,10 @@ import Link from 'next/link';
 interface LogoProps{
     title:string;
     href:string;
+    innerRef:any;
 }
 
-const Logo:React.FC<LogoProps> = ({title,href}) => {
+const Logo:React.FC<LogoProps> = ({innerRef,title,href}) => {
 
   const logoRef =  useRef<HTMLDivElement | null>(null)
 
@@ -18,10 +20,67 @@ const Logo:React.FC<LogoProps> = ({title,href}) => {
       ref?.current?.stop()
     },1500)
   }
+
+  const handleSidebar = () =>{
+    if(typeof window !== undefined){
+      if(window.innerWidth <= 400){
+        if(innerRef.current.classList.contains('--sidebar-close')){
+          gsap.to(innerRef.current,{width:'100%'})
+          innerRef.current.classList.remove('--sidebar-close')
+          innerRef.current.classList.add('--sidebar-open')
+        }else{
+          gsap.to(innerRef.current,{width:'20%'})
+          innerRef.current.classList.remove('--sidebar-open')
+          innerRef.current.classList.add('--sidebar-close')
+        }
+      }else if(window.innerWidth < 540){
+        if(innerRef.current.classList.contains('--sidebar-close')){
+          gsap.to(innerRef.current,{width:'100%'})
+          innerRef.current.classList.remove('--sidebar-close')
+          innerRef.current.classList.add('--sidebar-open')
+        }else{
+          gsap.to(innerRef.current,{width:'18%'})
+          innerRef.current.classList.remove('--sidebar-open')
+          innerRef.current.classList.add('--sidebar-close')
+        }
+      }else if(window.innerWidth <= 767){
+        if(innerRef.current.classList.contains('--sidebar-close')){
+          gsap.to(innerRef.current,{width:'100%'})
+          innerRef.current.classList.remove('--sidebar-close')
+          innerRef.current.classList.add('--sidebar-open')
+        }else{
+          gsap.to(innerRef.current,{width:'14%'})
+          innerRef.current.classList.remove('--sidebar-open')
+          innerRef.current.classList.add('--sidebar-close')
+        }
+      }
+      else if(window.innerWidth <= 768){
+        if(innerRef.current.classList.contains('--sidebar-close')){
+          gsap.to(innerRef.current,{width:'30%'})
+          innerRef.current.classList.remove('--sidebar-close')
+          innerRef.current.classList.add('--sidebar-open')
+        }else{
+          gsap.to(innerRef.current,{width:'10%'})
+          innerRef.current.classList.remove('--sidebar-open')
+          innerRef.current.classList.add('--sidebar-close')
+        }
+      }else if(window.innerWidth <= 1000 && window.innerWidth > 768 && window.innerWidth > window.innerHeight){
+        if(innerRef.current.classList.contains('--sidebar-close')){
+          gsap.to(innerRef.current,{width:'30%'})
+          innerRef.current.classList.remove('--sidebar-close')
+          innerRef.current.classList.add('--sidebar-open')
+        }else{
+          gsap.to(innerRef.current,{width:'8%'})
+          innerRef.current.classList.remove('--sidebar-open')
+          innerRef.current.classList.add('--sidebar-close')
+        }
+      }
+    }
+  }
     
   return (
     <div className="sidebar__logo" onMouseEnter={()=>handleIcon(logoRef)}>
-        <span className='sidebar__logo-anim'>
+        <span className='sidebar__logo-anim' onClick={()=>handleSidebar()}>
         <Player
             ref={logoRef}
             loop

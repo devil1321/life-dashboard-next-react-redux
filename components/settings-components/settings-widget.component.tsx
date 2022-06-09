@@ -17,10 +17,10 @@ const Widget = () => {
         </div>
         <div className="settings__main-info">
             <h3>{name} {surname}</h3>
-            <p>{email}</p>
-            {company.length !== 0 && <p>Company: {company}</p>}
-            {employee.length  !== 0 && <p>Employee: {employee}</p>}
-            {phoneNumber !== null && <p>PhoneNumber: {phoneNumber}</p>}
+            <p><span className="font-bold">Email:</span> {email}</p>
+            {company.length !== 0 && <p><span className="font-bold">Company:</span> {company}</p>}
+            {employee.length  !== 0 && <p><span className="font-bold">Employee:</span> {employee}</p>}
+            {phoneNumber !== null && <p><span className="font-bold">PhoneNumber:</span> {phoneNumber}</p>}
         </div>
     </div>
   )

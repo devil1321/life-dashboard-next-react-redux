@@ -40,7 +40,7 @@ const ContactsPage = () => {
       <Layout title="Contacts">
         <div className="contacts">
           <div className="contacts__search">
-            <Search contacts={contacts} setContacts={setTempContacts} />
+            <Search contacts={contacts} setContacts={setTempContacts} name="Search" />
           </div>
           <div className="contacts__contacts">
             {isLoad && tempContacts.map((contact:ContactType) => <Contact.Item  key={contact.id} contact={contact} />)}

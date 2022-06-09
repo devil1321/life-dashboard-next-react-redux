@@ -40,7 +40,7 @@ const Item:React.FC<EmailProps> = ({email,img,isView,handleEmailItemIsPreviewFn}
               <h3>{email && name}</h3>
               <p>{email && subject}</p>
           </div>
-          <p>{email && date?.slice(0,10)} {email && date?.slice(11,19)}</p>
+          <p className="email-item__date">{email && date?.slice(0,10)} {email && date?.slice(11,19)}</p>
           {!isView 
            ? <div className="email-item__close" onClick={()=>setIsEmail(false)}>
             <Player

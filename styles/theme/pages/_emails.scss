@@ -13,9 +13,72 @@
         text-align:right;
         margin-bottom:10px;
         @include createFlex(row,space-between,center,null);
+        .emails__write-btn{
+            &:last-of-type{
+                display: none;
+            }
+        }
+        @include breakpoint-down(medium){
+            @include createFlex(row,space-between,center,wrap);
+            .emails__write-btn{
+                width: 48.5%;
+                order:3;
+                @include breakpoint-down-l(medium-sm){
+                    width:100%;
+                    margin:5px 0px;
+                }
+                @include breakpoint-down(small){
+                    width:100%;
+                }
+                margin:0px;
+                &:last-of-type{
+                    display: block;
+                }
+            }
+            .search{
+                margin:10px 0px;
+                width:49%;
+                @include breakpoint-down-l(medium-sm){
+                    width:100%;
+                    @include createFlex(row,center,center,wrap);
+                }
+                @include breakpoint-down(small){
+                    width:100%;
+                    @include createFlex(row,center,center,wrap);
+                }
+                button{
+                    font-size:pxToRem(12);
+                    min-width: fit-content;
+                    width:85px;
+                    @include breakpoint-down-l(medium-sm){
+                        width:100%;
+                        margin:5px 0px;
+                        border-radius:25px !important;
+                    }
+                    @include breakpoint-down(small){
+                        width:100%;
+                        margin:0px;
+                        border-radius:25px !important;
+                    }
+                }
+                input{
+                    max-width:155px;
+                    @include breakpoint-down-l(medium-sm){
+                        width:100%;
+                        max-width:100%;
+                        border-radius:25px;
+                    }
+                    @include breakpoint-down(small){
+                        width:100%;
+                        max-width:100%;
+                        border-radius:25px;
+                    }
+                }
+            }
+        }
     }
     &__main{
-        @include createFlex(row,space-between,flex-start,null);
+        @include createFlex(row,space-between,flex-start,wrap);
     }
     &__not-connected{
         width:100%;
@@ -30,6 +93,12 @@
         background-color: $item;
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
+        @include breakpoint-down(medium){
+            overflow-x: hidden;
+            min-width:0%;
+            width:0%;
+            padding:0px;
+        }
     }
     &__contacts{
         height:calc(100vh - 150px);
@@ -42,6 +111,10 @@
         padding:20px;
         width: 70%;
         background-color: $item;
+        @include breakpoint-down(medium){
+            width:100%;
+            overflow-x:hidden;
+        }
     }
     &__emails{
         overflow-y: scroll;
@@ -49,10 +122,21 @@
         height:calc(100vh - 150px);
         box-sizing: border-box;
         padding:0px 40px 20px 20px;
+        animation:fadeIn 1s ease-in-out forwards;
         .email{
             margin:10px 0px;
         }
-        animation:fadeIn 1s ease-in-out forwards;
+        @include breakpoint-down(small){
+            overflow-x:scroll;
+            .email-item{
+                min-width:500px;
+                &__img{
+                    @include breakpoint-down(small){
+                        display:block;
+                    }
+                }
+            }
+        }
     }
     &__tab-headings{
         margin-bottom:10px;
@@ -61,6 +145,9 @@
             cursor:pointer;
             margin-right:20px;
             transition:all 0.5s ease-in-out;
+            @include breakpoint-down(small){
+                min-width:fit-content;
+            }
             &.active{
                 color:yellowgreen;
             }

@@ -1,4 +1,23 @@
+.WheatherMainItem {
+  
+      @include breakpoint-down(medium-sm){
+        min-width:112%; 
+      }
+    @include breakpoint-down(small){
+        position:relative;
+        left:-11%;
+        top:0px;
+        min-width:76%;
+        height:100%;
+        
+    }
+}
 .wheatherMainItem {
+      @include breakpoint-down(small){
+            min-width:100%;
+            height:100%;
+            
+        }
     &__main-item-header {
         height: 50px;
         @include createFlex(row, flex-start, center, null);
@@ -26,10 +45,16 @@
             margin:20px auto;
             padding:60px  $p-md-l 50px;
           }
-        @media (max-device-width:390px){
-            padding:$p-md-l $p-md-l 80px;
-
+          
+      @include breakpoint-down(medium-sm){
+        padding-bottom:100px;
+      }
+        @include breakpoint-down(small){
+            min-width:100%;
+            height:100%;
+            
         }
+      
       
         
         
@@ -45,6 +70,10 @@
             @include breakpoint-down(medium){
                 top:-20px;
             }
+            @include breakpoint-down(small){
+                left:90px;
+                top:-30px;
+            }
         }
        
     }
@@ -52,6 +81,9 @@
         margin: $m-sm 0px $m-sm-md;
         h3 {
             margin: 0px;
+            @include breakpoint-down(small){
+                font-size:pxToRem(14);
+            }
         }
         h3:nth-of-type(2) {
             margin: 0px $m-sm;
@@ -74,15 +106,14 @@
             margin-right: $m-v-sm;
             width: $s-25-p;
             background-color: $strong-green;
-            @media (max-device-width:390px){
-                width: 40%;
-    
-            }
             @include breakpoint-down(medium){
                 width: 40%;
             }
             @include breakpoint-down-l(medium){
                 width: 40%;
+            }
+            @include breakpoint-down(small){
+                width:100%;
             }
 
         }

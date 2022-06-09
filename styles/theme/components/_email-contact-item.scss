@@ -4,6 +4,7 @@
     margin-right: 10px;
     border-radius: 25px;
     @include createFlex(row,space-between,center,null);
+    
     &:hover{
             background-color: $light-green !important;
         }

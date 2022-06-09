@@ -27,6 +27,16 @@
         @include breakpoint-down(medium){
             left:0px;
         }
+        @include breakpoint-down(small){
+            left:-6%;
+        }
+    }
+    &__stats{
+        @include breakpoint-down(small){
+            position:relative;
+            left:-5%;
+            top:0px;
+        }
     }
     button{
         cursor: pointer;
