@@ -9,6 +9,18 @@
        left:0px;
        width: 101.5%;
        transition: all 0.5s ease-in-out;
+       @include breakpoint-down(medium){
+            left: -15px;
+            padding: 0px 50px;
+            min-width: 87% !important;
+            max-width: 90% !important;   
+       }
+       @include breakpoint-down(small){
+            padding:50px 30px;
+            left:0px;
+            min-width:100% !important;
+            max-width:100% !important;
+       }
        
         h3{
             text-align:center;
@@ -50,6 +62,12 @@
         border-radius: 100%;
         overflow: hidden;
         border:5px solid white;
+        @include breakpoint-down(medium){
+            width:45px !important;
+            height:45p !important;
+            max-width:45px !important;
+            max-height:45px !important;
+        }
         img{
             width: 100%;
         }

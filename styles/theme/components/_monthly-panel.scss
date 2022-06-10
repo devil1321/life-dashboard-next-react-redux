@@ -28,13 +28,13 @@
             left:0px;
         }
         @include breakpoint-down(small){
-            left:-6%;
+            left:0%;
         }
     }
     &__stats{
         @include breakpoint-down(small){
             position:relative;
-            left:-5%;
+            left:0%;
             top:0px;
         }
     }

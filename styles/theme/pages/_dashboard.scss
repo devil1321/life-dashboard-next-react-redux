@@ -59,6 +59,10 @@
             width:100%;
             @include createFlex(column,center,center,null);
         }
+        @include breakpoint-down(small){
+            width:100%;
+            @include createFlex(column,center,center,null);
+        }
         h3{
             text-align:center
         }

@@ -23,38 +23,7 @@ const Logo:React.FC<LogoProps> = ({innerRef,title,href}) => {
 
   const handleSidebar = () =>{
     if(typeof window !== undefined){
-      if(window.innerWidth <= 400){
-        if(innerRef.current.classList.contains('--sidebar-close')){
-          gsap.to(innerRef.current,{width:'100%'})
-          innerRef.current.classList.remove('--sidebar-close')
-          innerRef.current.classList.add('--sidebar-open')
-        }else{
-          gsap.to(innerRef.current,{width:'20%'})
-          innerRef.current.classList.remove('--sidebar-open')
-          innerRef.current.classList.add('--sidebar-close')
-        }
-      }else if(window.innerWidth < 540){
-        if(innerRef.current.classList.contains('--sidebar-close')){
-          gsap.to(innerRef.current,{width:'100%'})
-          innerRef.current.classList.remove('--sidebar-close')
-          innerRef.current.classList.add('--sidebar-open')
-        }else{
-          gsap.to(innerRef.current,{width:'18%'})
-          innerRef.current.classList.remove('--sidebar-open')
-          innerRef.current.classList.add('--sidebar-close')
-        }
-      }else if(window.innerWidth <= 767){
-        if(innerRef.current.classList.contains('--sidebar-close')){
-          gsap.to(innerRef.current,{width:'100%'})
-          innerRef.current.classList.remove('--sidebar-close')
-          innerRef.current.classList.add('--sidebar-open')
-        }else{
-          gsap.to(innerRef.current,{width:'14%'})
-          innerRef.current.classList.remove('--sidebar-open')
-          innerRef.current.classList.add('--sidebar-close')
-        }
-      }
-      else if(window.innerWidth <= 768){
+      if(window.innerWidth <= 768){
         if(innerRef.current.classList.contains('--sidebar-close')){
           gsap.to(innerRef.current,{width:'30%'})
           innerRef.current.classList.remove('--sidebar-close')

@@ -16,8 +16,32 @@
     @include breakpoint-down-l(medium-sm){
         width:8%;
     }
+   @media (max-device-width:667px) and (orientation:landscape){
+        width:10%;
+    }
     @include breakpoint-down(small){
-        width: 20%;
+        width:0%;
+    }
+    &__close{
+        display: none;
+        @include breakpoint-down(small){
+            display:block;
+            position:absolute;
+            right: 20px;
+            top:20px;
+            span{
+                display:block;
+                width: 35px;
+                border-bottom:4px solid white;
+                transform-origin: 15px 2px;
+                &:first-of-type{
+                    transform:rotate(45deg);
+                }
+                &:last-of-type{
+                    transform:rotate(-45deg);
+                }
+            }
+        }
     }
     h1{
         margin-left: 20px;

@@ -16,6 +16,21 @@
         width: 92%;
         left:8%;
     }
+    @include breakpoint-down(small){
+        width:100%;
+        left:0%;
+    }
+    &__logo{
+        display:none;
+        @include breakpoint-down(small){
+            display:block;
+            position:relative;
+            left:-10%;
+            top:0px;
+        }
+    }
+
+    
     svg{
         cursor: pointer;
         &:hover{

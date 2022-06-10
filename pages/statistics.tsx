@@ -30,6 +30,7 @@ const StatisticsPage:NextPage = () => {
   const [allOrders,setAllOrders] = useState<number>(0)
   const [allRejected,setAllRejected] = useState<number>(0)
   const [allFullfilled,setAllFullfilled] = useState<number>(0)
+  const [windowSize,setWindowSize] = useState<number>(0)
 
   const [monthlytempSeries,setMonthlytTempSeries] = useState<SeriesOptions[]>([{
       name: 'Orders',
@@ -189,7 +190,57 @@ const StatisticsPage:NextPage = () => {
     }
   }
 
+  
+  var optionsPolar = {
+    chart: {
+    width: 380,
+    type: 'polarArea',
+    background:'#2a3042',
+    foreColor: '#ffffff',
+     id: "basic-area",
+  },
+  labels: ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct','Nov','Dec'],
+  fill: {
+    opacity: 0.7
+  },
+  colors: [ '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+  '#66994D', '#B366CC'],
+  stroke: {
+    width: 1,
+    colors: [  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+    '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+    '#66994D', '#B366CC']
+  },
+  yaxis: {
+    show: false
+  },
+  legend: {
+    position: 'bottom'
+  },
+  plotOptions: {
+    polarArea: {
+      rings: {
+        strokeWidth: 1
+      },
+      spokes: {
+        strokeWidth: 1
+      },
+    }
+  },
+  };
+
+  const handleSize = () =>{
+    if(typeof window !== undefined){
+      setWindowSize(window.innerWidth)
+      window.addEventListener('resize',()=>{
+        setWindowSize(window.innerWidth)
+      })
+    }
+  }
+
 useEffect(()=>{
+  handleSize()
   setMonthlytTempSeries([
     {name: 'Fullfilled',
       type: 'line',
@@ -248,15 +299,17 @@ useEffect(()=>{
                 <Dashboard.Widget title="All Income" count={type ? totalMoney +'  K' : yearlyMoney + ' K' } icon={income} />
               </div>
               <div className="statistics__chart-wrapper">
-                  <div className={`statistics__chart ${!type ? '--hidden' : '--visible'}`}>
+                  <div className={`statistics__chart ${!type ? '--hidden' : '--visible'} statistics__yearly`}>
                     <Chart
                       options={yearlyOptions}
                       series={yearlySeries}
                       type="line"
-                      width="100%"
+                      width={windowSize !== 0 && windowSize > 767 ? "100%" : 1000}
+                      height={windowSize > 767 && windowSize === 0 ? 550 : 330}
                       />
                   </div>
-                   <div className={`statistics__chart ${type ? '--hidden' : '--visible'}`}>
+                  {windowSize !== 0 && windowSize > 767
+                   ? <div className={`statistics__chart ${type ? '--hidden' : '--visible'}`}>
                     <Chart
                       options={options}
                       series={monthlytempSeries}
@@ -264,6 +317,28 @@ useEffect(()=>{
                       width="100%"
                       />
                   </div>
+                  : <div className={`statistics__chart ${type ? '--hidden' : '--visible'}`}>
+                    <div className="dashboard__mobile-charts">
+                       <h3>Orders</h3>
+                         <Chart
+                           options={optionsPolar}
+                           type="polarArea"
+                           series={[...thisOrdersByMonthCount]}
+                           />
+                         <h3>Fullfilled</h3>
+                         <Chart
+                           options={optionsPolar}
+                           type="polarArea"
+                           series={[...thisFullfilledByMonthCount]}
+                           />
+                         <h3>Rejections</h3>
+                         <Chart
+                           options={optionsPolar}
+                           type="polarArea"
+                           series={[...thisRejectionsByMonthCount]}
+                           />
+                      </div>
+                  </div>}
                 </div>
           </div>
     </Layout>

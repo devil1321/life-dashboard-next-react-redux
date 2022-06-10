@@ -10,14 +10,47 @@
     top:50px;
     left:0px;
     @include createFlex(row,center,flex-start,null);
+    @include breakpoint-down(medium){
+        @include createFlex(row,center,flex-start,wrap);
+    }
     &__main{
         width: 62%;
+        @include breakpoint-down(medium){
+            order:2;
+            width:100%;
+        }
     }
     &__widget-wrapper{
         width: 38%;
+        @include breakpoint-down(medium){
+            order:1;
+            width:100%;
+            @include createFlex(row,center,center,wrap);
+            & > div{
+                min-width:92%;
+                &:last-of-type{
+                    position:relative;
+                    left:-10px;
+                    top:0px;
+                }
+            }
+        }
+        @include breakpoint-down(small){
+            & > div{
+                min-width:100%;
+                 &:last-of-type{
+                    position:relative;
+                    left:-25px;
+                    top:0px;
+                }
+            }
+        }
     }
     &__form-split{
         @include createFlex(row,flex-start,center,null);
+        @include breakpoint-down(small){
+            display:block;
+        }
         .invoices__field{
             width: 100%;
         }

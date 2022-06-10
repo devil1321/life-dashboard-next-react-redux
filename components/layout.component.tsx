@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Nav from './navbar-components/navbar.components'
 import Sidebar from './sidebar-components/sidebar.components'
@@ -35,6 +35,8 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
 
   const [loading,setLoading] = useState<boolean>(true)
   const router = useRouter()
+  
+  const sidebarRef = useRef(null)
   
   useEffect(()=>{
     // if(isLoad && !user && router.asPath !== '/' && router.asPath !== '/sign-in'){
@@ -112,9 +114,9 @@ const Layout:React.FC<LayoutProps> = ({children,title}) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-           <Sidebar.Main />
+           <Sidebar.Main innerRef={sidebarRef} />
            <div className="container-inner">
-                <Nav.Navbar /> 
+                <Nav.Navbar innerRef={sidebarRef} /> 
                {children}
           </div>
         </div>}

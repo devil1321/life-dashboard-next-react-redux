@@ -44,9 +44,22 @@
             visibility:hidden;
         }
     }
+    &__yearly{
+        @include breakpoint-down(small){
+            transform:rotate(90deg);
+        }
+    }
     &__chart-wrapper{
         position: relative;
         top:0px;
         left:0px;
+    }
+    &__widgets{
+        @include breakpoint-down(small){
+            @include createFlex(row,center,center,wrap);
+            div{
+                width:100% !important;
+            }
+        }
     }
 }
