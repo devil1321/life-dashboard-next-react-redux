@@ -28,7 +28,7 @@ const Main:React.FC<MainProps> = ({innerRef}) => {
       <Sidebar.Logo title="Dash" href="/dashboard" innerRef={sidebarRef} />
       <div className="sidebar__menu">
         <Sidebar.Item innerRef={sidebarRef} src={dashboard} title="Dashboard" href="/dashboard" />
-        <Sidebar.Item innerRef={sidebarRef} src={tasks} title="Tasks" href="/tasks" />
+        <Sidebar.Item innerRef={sidebarRef} src={tasks} title="Tasks" href="/Tasks" />
         <Sidebar.Item innerRef={sidebarRef} src={invoices} title="Invoices" href="/invoices" />
         <Sidebar.Item innerRef={sidebarRef} src={chat} title="Chat" href="/chat" />
         <Sidebar.Item innerRef={sidebarRef} src={email} title="Email" href="/emails" />
